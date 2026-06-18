@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FontResizer } from "@/components/ui/FontResizer";
+import { BusinessesMenu } from "@/components/layout/BusinessesMenu";
 
 export function Header() {
   return (
@@ -33,23 +34,12 @@ export function Header() {
           >
             Browse
           </Link>
-          <Link
-            href="/for-businesses/"
-            className="hidden md:inline-block px-3 py-2 text-base font-semibold text-stone-800 hover:text-black"
-          >
-            Businesses
-          </Link>
+          <BusinessesMenu />
           <Link
             href="/contact/"
             className="hidden sm:inline-block px-3 py-2 text-base font-semibold text-stone-800 hover:text-black"
           >
             Contact
-          </Link>
-          <Link
-            href="/list-business/"
-            className="inline-block px-4 py-2 text-base font-semibold bg-blue-700 text-white rounded-lg hover:bg-blue-800 ml-1"
-          >
-            Post a Listing — $10/mo
           </Link>
           <FontResizer />
         </nav>
