@@ -51,7 +51,8 @@ type Form = {
   province: ProvinceCode | "";
   serviceArea: string;
   cost: string;
-  costUnit: "" | "per-hour" | "per-day" | "per-service" | "per-person" | "per-family" | "estimate";
+  costUnit: "" | "per-hour" | "per-day" | "per-service" | "per-person" | "per-family" | "estimate" | "other";
+  costUnitOther: string; // free-text when costUnit === "other"
   image: string;
   tags: string;
   languages: string[];   // language codes from lib/languages.ts
@@ -122,6 +123,7 @@ export function NewListingForm() {
     serviceArea: "",
     cost: "",
     costUnit: "" as Form["costUnit"],
+    costUnitOther: "",
     image: "",
     tags: "",
     languages: [] as string[],
@@ -236,6 +238,8 @@ export function NewListingForm() {
               ? "per person"
               : form.costUnit === "per-family"
               ? "per family"
+              : form.costUnit === "other"
+              ? form.costUnitOther.trim() || "(custom unit)"
               : "(estimate)"
           }`
         : "";
@@ -741,8 +745,28 @@ export function NewListingForm() {
                 <option value="per-person">Per person</option>
                 <option value="per-family">Per family</option>
                 <option value="estimate">Estimate</option>
+                <option value="other">Other (type your own)</option>
               </select>
             </div>
+            {form.costUnit === "other" && (
+              <div className="sm:col-span-2">
+                <label htmlFor="nfield-costUnitOther" className="block text-base font-bold text-black mb-2">
+                  Type your unit
+                  <span className="ml-2 text-base font-normal text-stone-700">
+                    e.g. "per visit", "per class", "per month"
+                  </span>
+                </label>
+                <input
+                  id="nfield-costUnitOther"
+                  type="text"
+                  maxLength={40}
+                  value={form.costUnitOther}
+                  onChange={onChange("costUnitOther")}
+                  className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                  placeholder="per visit"
+                />
+              </div>
+            )}
           </div>
         </fieldset>
 
@@ -984,6 +1008,8 @@ function PreviewModal({
             ? "/ person"
             : form.costUnit === "per-family"
             ? "/ family"
+            : form.costUnit === "other"
+            ? `/ ${form.costUnitOther.trim() || "unit"}`
             : "(estimate)"
         }`
       : null;
