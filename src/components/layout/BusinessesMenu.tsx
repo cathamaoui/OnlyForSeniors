@@ -53,15 +53,10 @@ export function BusinessesMenu() {
             href="/list-business/login/"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-start gap-3 px-4 py-3 bg-blue-50 hover:bg-blue-100 border-b border-stone-200"
+            className="flex items-center gap-3 px-4 py-3 bg-blue-50 hover:bg-blue-100 border-b border-stone-200"
           >
-            <LogIn className="w-5 h-5 mt-0.5 text-blue-700 shrink-0" />
-            <span>
-              <span className="block font-semibold text-stone-900">Business sign in</span>
-              <span className="block text-base text-stone-700 mt-0.5">
-                Manage your subscription and listings
-              </span>
-            </span>
+            <LogIn className="w-5 h-5 text-blue-700 shrink-0" />
+            <span className="font-semibold text-stone-900">Business sign in</span>
           </Link>
 
           {/* New businesses — learn + sign up */}
@@ -69,29 +64,19 @@ export function BusinessesMenu() {
             href="/for-businesses/"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-start gap-3 px-4 py-3 hover:bg-stone-100 border-b border-stone-200"
+            className="flex items-center gap-3 px-4 py-3 hover:bg-stone-100 border-b border-stone-200"
           >
-            <Briefcase className="w-5 h-5 mt-0.5 text-blue-700 shrink-0" />
-            <span>
-              <span className="block font-semibold text-stone-900">Why list with us</span>
-              <span className="block text-base text-stone-700 mt-0.5">
-                How the directory works for your business
-              </span>
-            </span>
+            <Briefcase className="w-5 h-5 text-blue-700 shrink-0" />
+            <span className="font-semibold text-stone-900">Why list with us</span>
           </Link>
           <Link
             href="/list-business/"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="flex items-start gap-3 px-4 py-3 hover:bg-stone-100"
+            className="flex items-center gap-3 px-4 py-3 hover:bg-stone-100"
           >
-            <FileEdit className="w-5 h-5 mt-0.5 text-blue-700 shrink-0" />
-            <span>
-              <span className="block font-semibold text-stone-900">Post a listing</span>
-              <span className="block text-base text-stone-700 mt-0.5">
-                $10 / month — get listed in 24 hours
-              </span>
-            </span>
+            <FileEdit className="w-5 h-5 text-blue-700 shrink-0" />
+            <span className="font-semibold text-stone-900">Post a listing</span>
           </Link>
         </div>
       )}
