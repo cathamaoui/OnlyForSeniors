@@ -8,3 +8,7 @@ prisma/dev.db
 prisma/dev.db-journal
 .vercel
 .env*
+*.db-url.txt
+db-url.txt
+direct-url.txt
+env-export.sh

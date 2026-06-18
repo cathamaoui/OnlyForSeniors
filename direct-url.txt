@@ -1,1 +1,0 @@
-postgresql://postgres:2026Peaches7351!@db.bfewbfvajrwiulcdtpuw.supabase.co:5432/postgres
