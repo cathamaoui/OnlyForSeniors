@@ -12,3 +12,4 @@ prisma/dev.db-journal
 db-url.txt
 direct-url.txt
 env-export.sh
+out/
