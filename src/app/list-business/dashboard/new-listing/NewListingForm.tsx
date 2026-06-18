@@ -477,10 +477,64 @@ export function NewListingForm() {
         noValidate
         className="bg-white border-2 border-stone-200 rounded-lg p-6 sm:p-8 space-y-7"
       >
+        {/* Step indicator -- purely visual progress, not a multi-page wizard.
+            The user fills the whole form on one page; this just helps them
+            know roughly where they are. */}
+        <nav aria-label="Form progress" className="-mt-1">
+          <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-base">
+            {[
+              { label: "Type",          match: (f: Form) => true },
+              { label: "Name & desc",   match: (f: Form) => f.name.length > 0 || f.description.length > 0 },
+              { label: "Category",      match: (f: Form) => !!f.categorySlug },
+              { label: "Location",      match: (f: Form) => !!f.province && !!f.city },
+              { label: "Schedule",      match: (f: Form) => true /* schedule is optional */ },
+              { label: "Contact & more",match: (f: Form) => !!f.phone && !!f.email },
+            ].map((step, i, arr) => {
+              const done = step.match(form);
+              // Find the first step that is NOT done. That step is the
+              // current "active" step. If all are done, none is active.
+              const firstNotDone = arr.findIndex((s) => !s.match(form));
+              const active = firstNotDone === -1 ? false : firstNotDone === i;
+              return (
+                <li key={step.label} className="inline-flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className={[
+                      "inline-flex items-center justify-center w-7 h-7 rounded-full border-2 text-base font-bold",
+                      done
+                        ? "bg-emerald-700 border-emerald-700 text-white"
+                        : active
+                        ? "bg-blue-700 border-blue-700 text-white"
+                        : "bg-white border-stone-400 text-stone-700",
+                    ].join(" ")}
+                  >
+                    {done ? "✓" : i + 1}
+                  </span>
+                  <span
+                    className={
+                      done || active
+                        ? "font-semibold text-stone-900"
+                        : "text-stone-700"
+                    }
+                  >
+                    {step.label}
+                  </span>
+                  {i < arr.length - 1 && (
+                    <span aria-hidden="true" className="text-stone-400 mx-1">
+                      ›
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
+
         {/* Type */}
         <fieldset>
-          <legend className="text-lg font-display font-bold text-stone-900 mb-3">
-            What are you posting?
+          <legend className="text-lg font-display font-bold text-stone-900 mb-1">
+            What are you posting?{" "}
+            <span className="text-base font-normal text-stone-700">Step 1 of 6</span>
           </legend>
           <div className="grid sm:grid-cols-3 gap-3">
             {(Object.keys(TYPE_LABELS) as ListingType[]).map((t) => {
@@ -517,6 +571,7 @@ export function NewListingForm() {
         {/* Name + tagline -- field label and placeholder change with the
             selected type so the user always knows what they're naming */}
         <div>
+          <p className="text-base font-semibold text-stone-700 -mt-2 mb-1">Step 2 of 6 — Name & description</p>
           <label htmlFor="nfield-name" className="block text-base font-bold text-black mb-2">
             {form.type === "service" && "Service name"}
             {form.type === "event" && "Event name"}
@@ -598,6 +653,7 @@ export function NewListingForm() {
 
         {/* Category + sub */}
         <fieldset className="grid sm:grid-cols-2 gap-4">
+          <p className="text-base font-semibold text-stone-700 sm:col-span-2 -mt-2 -mb-1">Step 3 of 6 — Category</p>
           <div>
             <label htmlFor="nfield-categorySlug" className="block text-base font-bold text-black mb-2">
               Category
@@ -642,6 +698,7 @@ export function NewListingForm() {
 
         {/* Location — province first, then city */}
         <fieldset className="grid sm:grid-cols-3 gap-4">
+          <p className="text-base font-semibold text-stone-700 sm:col-span-3 -mt-2 -mb-1">Step 4 of 6 — Location</p>
           <div>
             <label htmlFor="nfield-province" className="block text-base font-bold text-black mb-2">
               Province
@@ -703,6 +760,7 @@ export function NewListingForm() {
           <legend className="text-base font-bold text-stone-900 px-2 flex items-center gap-2">
             <CalendarClock className="w-5 h-5" /> Schedule &amp; venue
             <span className="text-base font-normal text-stone-700">(all optional)</span>
+            <span className="ml-auto text-base font-normal text-stone-700">Step 5 of 6</span>
           </legend>
           <p className="text-base text-stone-700 -mt-1">
             For events: the date and time of the event. For services: hours you're open. For products: when it becomes available.
@@ -807,6 +865,7 @@ export function NewListingForm() {
             (name + their phone). Keeps the two phone numbers clearly
             distinguished so they don't look like duplicates. */}
         <fieldset className="space-y-4">
+          <p className="text-base font-semibold text-stone-700 -mt-2 -mb-2">Step 6 of 6 — Contact, cost & extras</p>
           <div className="rounded-lg border-4 border-blue-700 bg-blue-50 p-4">
             <label htmlFor="nfield-phone" className="flex items-center gap-2 text-lg font-display font-black text-stone-900 mb-1">
               <Phone className="w-5 h-5 text-blue-700" />
