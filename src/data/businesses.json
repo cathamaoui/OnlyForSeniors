@@ -233,7 +233,39 @@
         { "slug": "senior-dating-sites", "name": "Senior Dating Sites" },
         { "slug": "matchmaking", "name": "Matchmaking Services" },
         { "slug": "social-clubs", "name": "Senior Social Clubs" },
-        { "slug": "companionship-dates", "name": "Companionship & Outings" }
+        { "slug": "companionship-dates", "name": "Companionship & Outings" },
+        { "slug": "romantic-travel", "name": "Romantic Travel for Couples" },
+        { "slug": "friendship-pen-pals", "name": "Friendship & Pen Pals" },
+        { "slug": "second-marriage", "name": "Second-Marriage Resources" }
+      ]
+    },
+    {
+      "slug": "sexual-health",
+      "name": "Sexual Health & Wellness",
+      "icon": "🩺",
+      "color": "#9d174d",
+      "subcategories": [
+        { "slug": "pelvic-floor", "name": "Pelvic Floor Therapy" },
+        { "slug": "menopause", "name": "Menopause Specialists" },
+        { "slug": "ed-clinics", "name": "ED & Men's Health Clinics" },
+        { "slug": "sexual-health-edu", "name": "Sexual Health Educators" },
+        { "slug": "couples-counseling", "name": "Couples & Intimacy Counseling" },
+        { "slug": "sti-testing", "name": "STI Testing & Sexual Health Clinics" }
+      ]
+    },
+    {
+      "slug": "intimate-wellness",
+      "name": "Intimate Wellness & Relationships",
+      "icon": "💕",
+      "color": "#831843",
+      "description": "All-inclusive directory for emotional closeness, dating, and physical wellness in later life.",
+      "subcategories": [
+        { "slug": "love-connection", "name": "Love & Connection" },
+        { "slug": "friendship-clubs", "name": "Friendship Clubs" },
+        { "slug": "intimacy-aids", "name": "Intimacy Aids & Products" },
+        { "slug": "bedroom-safety", "name": "Bedroom Safety & Accessibility" },
+        { "slug": "relationship-coaching", "name": "Relationship Coaching" },
+        { "slug": "mature-wellness", "name": "Mature Wellness" }
       ]
     },
     {
