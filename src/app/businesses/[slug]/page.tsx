@@ -1,319 +1,242 @@
-import { prisma } from "@/lib/db";
-import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import {
-  Phone,
-  Globe,
+  ArrowLeft,
   MapPin,
+  Phone,
   Mail,
+  Globe,
   Star,
   BadgeCheck,
-  Shield,
-  Home,
-  Wifi,
-  Truck,
-  Languages,
+  Clock,
   Tag,
-  ArrowLeft,
 } from "lucide-react";
-import { InquiryForm } from "@/components/business/InquiryForm";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { getBusinessById, getCategoryBySlug, getSubcategory } from "@/lib/businesses";
+import { DetailActions } from "@/components/ui/DetailActions";
 
-export const dynamic = "force-dynamic";
-
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const b = await prisma.business.findUnique({ where: { slug } });
-  return { title: b?.name ?? "Business" };
-}
-
-export default async function BusinessPage({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const business = await prisma.business.findUnique({
-    where: { slug },
-    include: {
-      category: true,
-      subcategory: true,
-      reviews: { include: { user: { select: { name: true } } }, orderBy: { createdAt: "desc" } },
-      hours: { orderBy: { dayOfWeek: "asc" } },
-      images: { orderBy: { order: "asc" } },
-    },
-  });
-  if (!business) notFound();
+  const b = getBusinessById(slug);
+  return {
+    title: b ? `${b.name} — Only For Seniors` : "Listing — Only For Seniors",
+    description: b?.tagline,
+  };
+}
 
-  const avg =
-    business.reviews.length > 0
-      ? business.reviews.reduce((s, r) => s + r.rating, 0) / business.reviews.length
-      : 0;
+export default async function BusinessDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const b = getBusinessById(slug);
+  if (!b) notFound();
+
+  const cat = getCategoryBySlug(b.categorySlug);
+  const sub = getSubcategory(b.subcategorySlug);
 
   return (
-    <div className="yp-paper">
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <Link
-          href="/businesses"
-          className="inline-flex items-center gap-2 text-emerald-800 font-bold
-            hover:text-ember-600 mb-4 min-h-touch"
-        >
-          <ArrowLeft className="w-5 h-5" aria-hidden="true" />
-          Back to directory
-        </Link>
+    <div className="min-h-screen bg-stone-50">
+      <div className="border-b-2 border-black bg-white">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link
+            href={cat ? `/categories/${cat.slug}` : "/businesses"}
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-yp text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-yp-sm hover:bg-yellow-300"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back
+          </Link>
+          <DetailActions />
+        </div>
+      </div>
 
-        {/* Header card */}
-        <ScrollReveal>
-          <div className="card-retro mb-6">
-            <div className="flex items-start gap-4 mb-4">
-              <div className="shrink-0 w-24 h-24 bg-emerald-100 border-2 border-black
-                rounded-chunky flex items-center justify-center text-5xl">
-                {business.logoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={business.logoUrl} alt="" className="w-full h-full object-cover rounded-chunky" />
-                ) : (
-                  "🏬"
+      <div className="max-w-5xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main column */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Image */}
+          <div className="relative aspect-[4/3] bg-stone-100 border-2 border-black rounded-lg overflow-hidden">
+            <Image
+              src={b.image}
+              alt={b.name}
+              fill
+              sizes="(min-width: 1024px) 66vw, 100vw"
+              className="object-cover"
+              priority
+            />
+            {b.isFeatured && (
+              <span className="absolute top-3 left-3 bg-yp text-black text-sm font-bold px-3 py-1.5 rounded border-2 border-black shadow-yp-sm">
+                Featured
+              </span>
+            )}
+          </div>
+
+          {/* Title + meta */}
+          <div className="bg-white border-2 border-black rounded-lg p-6">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-display font-black leading-tight">
+                  {b.name}
+                </h1>
+                {b.tagline && (
+                  <p className="text-lg text-stone-700 mt-1">{b.tagline}</p>
                 )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2 mb-1">
-                  {business.isFeatured && (
-                    <span className="inline-block bg-ember-600 text-white text-xs font-black
-                      uppercase tracking-wider px-2 py-1 rounded-chunky border-2 border-black">
-                      ⭐ Featured
-                    </span>
+                <div className="flex items-center gap-3 mt-2 text-sm flex-wrap">
+                  <span className="flex items-center gap-1 text-stone-600">
+                    <MapPin className="w-4 h-4" />
+                    {b.city}, {b.province}
+                  </span>
+                  {b.priceRange && (
+                    <span className="font-bold text-black">{b.priceRange}</span>
                   )}
-                  {business.isVerified && (
-                    <span className="inline-flex items-center gap-1 bg-emerald-700 text-white
-                      text-xs font-black uppercase tracking-wider px-2 py-1 rounded-chunky
-                      border-2 border-black">
+                  {b.isVerified && (
+                    <span className="flex items-center gap-1 text-emerald-700 font-bold">
                       <BadgeCheck className="w-4 h-4" /> Verified
                     </span>
                   )}
                 </div>
-                <h1 className="font-display font-black text-3xl sm:text-4xl text-emerald-900">
-                  {business.name}
-                </h1>
-                {business.tagline && (
-                  <p className="text-lg text-emerald-800 mt-1">{business.tagline}</p>
-                )}
-                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-emerald-800">
-                  <span className="inline-flex items-center gap-1">
-                    <MapPin className="w-4 h-4" aria-hidden="true" />
-                    {business.city}, {business.province}
-                    {business.serviceArea && business.serviceArea !== business.city &&
-                      ` · ${business.serviceArea}`}
-                  </span>
-                  <Link
-                    href={`/categories/${business.category.slug}`}
-                    className="inline-block bg-cream-200 text-emerald-900 font-bold
-                      px-2 py-0.5 rounded hover:bg-ember-100"
-                  >
-                    {business.category.name}
-                  </Link>
-                  {business.subcategory && (
-                    <span className="text-sm">· {business.subcategory.name}</span>
-                  )}
-                </div>
-                {avg > 0 && (
-                  <div className="mt-2 flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <Star
-                        key={n}
-                        className={`w-5 h-5 ${
-                          n <= Math.round(avg)
-                            ? "fill-ember-500 text-ember-500"
-                            : "text-gray-300"
-                        }`}
-                        aria-hidden="true"
-                      />
-                    ))}
-                    <span className="font-bold text-emerald-900 ml-1">
-                      {avg.toFixed(1)} ({business.reviews.length} reviews)
-                    </span>
-                  </div>
-                )}
               </div>
             </div>
 
-            {/* Quick-action buttons - big, friendly */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
-              {business.phone && (
-                <a
-                  href={`tel:${business.phone}`}
-                  className="btn-ember"
-                >
-                  <Phone className="w-5 h-5" aria-hidden="true" />
-                  Call {business.phone}
-                </a>
-              )}
-              {business.website && (
-                <a
-                  href={business.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline"
-                >
-                  <Globe className="w-5 h-5" aria-hidden="true" />
-                  Visit Website
-                </a>
-              )}
-              <a
-                href="#inquiry"
-                className="btn-primary sm:col-span-2"
-              >
-                <Mail className="w-5 h-5" aria-hidden="true" />
-                Send a Message
-              </a>
-            </div>
-            <span className="instruction">
-              The big orange button calls them right now. The green button opens your email or contact form.
-            </span>
-          </div>
-        </ScrollReveal>
-
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* Main column */}
-          <div className="lg:col-span-2 space-y-6">
-            <ScrollReveal>
-              <div className="card-retro">
-                <h2 className="font-display font-black text-2xl text-emerald-900 mb-3">
-                  About this business
-                </h2>
-                <p className="text-emerald-800 leading-relaxed whitespace-pre-line">
-                  {business.description}
-                </p>
-              </div>
-            </ScrollReveal>
-
-            {/* Accessibility badges */}
-            <ScrollReveal>
-              <div className="card-retro">
-                <h2 className="font-display font-black text-2xl text-emerald-900 mb-3">
-                  Senior-Friendly Features
-                </h2>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {[
-                    { v: business.wheelchairAccess, icon: <Shield className="w-5 h-5" />, label: "Wheelchair Accessible" },
-                    { v: business.seniorDiscount, icon: <Tag className="w-5 h-5" />, label: "Senior Discount Offered" },
-                    { v: business.homeVisits, icon: <Home className="w-5 h-5" />, label: "Home Visits Available" },
-                    { v: business.isMobileService, icon: <Truck className="w-5 h-5" />, label: "Mobile / They Come to You" },
-                    { v: business.isOnlineService, icon: <Wifi className="w-5 h-5" />, label: "Online / Remote Service" },
-                    { v: business.bilingualStaff, icon: <Languages className="w-5 h-5" />, label: "Bilingual Staff" },
-                    { v: business.offersDelivery, icon: <Truck className="w-5 h-5" />, label: "Delivery Available" },
-                  ]
-                    .filter((f) => f.v)
-                    .map((f) => (
-                      <li
-                        key={f.label}
-                        className="flex items-center gap-2 bg-emerald-100 text-emerald-900
-                          font-bold px-3 py-2 rounded-chunky border-2 border-emerald-700"
-                      >
-                        {f.icon}
-                        {f.label}
-                      </li>
-                    ))}
-                </ul>
-                {!business.wheelchairAccess &&
-                  !business.seniorDiscount &&
-                  !business.homeVisits &&
-                  !business.isMobileService &&
-                  !business.isOnlineService &&
-                  !business.bilingualStaff &&
-                  !business.offersDelivery && (
-                    <p className="text-emerald-800 italic">
-                      This business has not yet listed accessibility features. Call them to ask.
-                    </p>
-                  )}
-              </div>
-            </ScrollReveal>
-
-            {/* Reviews */}
-            <ScrollReveal>
-              <div className="card-retro">
-                <h2 className="font-display font-black text-2xl text-emerald-900 mb-3">
-                  Reviews ({business.reviews.length})
-                </h2>
-                {business.reviews.length === 0 ? (
-                  <p className="text-emerald-800 italic">No reviews yet. Be the first!</p>
-                ) : (
-                  <ul className="space-y-4">
-                    {business.reviews.map((r) => (
-                      <li key={r.id} className="border-l-4 border-ember-500 pl-4">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-bold text-emerald-900">{r.user.name}</span>
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((n) => (
-                              <Star
-                                key={n}
-                                className={`w-4 h-4 ${
-                                  n <= r.rating
-                                    ? "fill-ember-500 text-ember-500"
-                                    : "text-gray-300"
-                                }`}
-                                aria-hidden="true"
-                              />
-                            ))}
-                          </div>
-                        </div>
-                        <p className="font-bold text-emerald-900">{r.title}</p>
-                        <p className="text-emerald-800 leading-relaxed">{r.body}</p>
-                      </li>
-                    ))}
-                  </ul>
+            {b.rating !== undefined && (
+              <div className="mt-4 flex items-center gap-2 text-lg">
+                <Star className="w-5 h-5 fill-yp stroke-black" />
+                <span className="font-bold">{b.rating.toFixed(1)}</span>
+                {b.reviewCount !== undefined && (
+                  <span className="text-stone-600">({b.reviewCount} reviews)</span>
                 )}
               </div>
-            </ScrollReveal>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <ScrollReveal>
-              <div className="card-retro">
-                <h2 className="font-display font-black text-2xl text-emerald-900 mb-3">
-                  Hours
-                </h2>
-                <ul className="space-y-1 text-emerald-800">
-                  {DAYS.map((day, idx) => {
-                    const h = business.hours.find((x) => x.dayOfWeek === idx);
-                    return (
-                      <li key={day} className="flex justify-between">
-                        <span className="font-bold">{day}</span>
-                        <span>
-                          {h && !h.isClosed ? `${h.openTime} – ${h.closeTime}` : "Closed"}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </ScrollReveal>
-
-            {business.priceRange && (
-              <ScrollReveal>
-                <div className="card-retro">
-                  <h2 className="font-display font-black text-2xl text-emerald-900 mb-2">
-                    Pricing
-                  </h2>
-                  <p className="text-2xl font-display font-black text-ember-700">
-                    {business.priceRange}
-                  </p>
-                </div>
-              </ScrollReveal>
             )}
 
-            <ScrollReveal>
-              <div id="inquiry" className="card-retro">
-                <h2 className="font-display font-black text-2xl text-emerald-900 mb-3">
-                  Send a Message
-                </h2>
-                <InquiryForm businessId={business.id} businessName={business.name} />
+            {b.tags && b.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-4">
+                {b.tags.map((t) => (
+                  <span
+                    key={t}
+                    className="flex items-center gap-1 text-sm px-3 py-1 bg-stone-100 border-2 border-black rounded"
+                  >
+                    <Tag className="w-3 h-3" /> {t}
+                  </span>
+                ))}
               </div>
-            </ScrollReveal>
+            )}
+
+            <div className="mt-6">
+              <h2 className="font-display font-bold text-lg mb-2">About this listing</h2>
+              <p className="text-stone-800 leading-relaxed whitespace-pre-line">{b.description}</p>
+            </div>
+
+            {cat && (
+              <div className="mt-6 pt-4 border-t-2 border-stone-200 text-sm text-stone-600">
+                Listed in:{" "}
+                <Link href={`/categories/${cat.slug}`} className="font-bold hover:underline">
+                  {cat.name}
+                </Link>
+                {sub && (
+                  <>
+                    {" › "}
+                    <Link
+                      href={`/categories/${cat.slug}/${sub.subcategory.slug}`}
+                      className="hover:underline"
+                    >
+                      {sub.subcategory.name}
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Inquiry form */}
+          <div className="bg-white border-2 border-black rounded-lg p-6">
+            <h2 className="text-xl font-display font-bold mb-3">Send a message</h2>
+            <form className="space-y-3">
+              <input
+                type="text"
+                placeholder="Your name"
+                className="w-full px-3 py-2 border-2 border-black rounded"
+              />
+              <input
+                type="email"
+                placeholder="Your email"
+                className="w-full px-3 py-2 border-2 border-black rounded"
+              />
+              <textarea
+                placeholder="Your message"
+                rows={4}
+                className="w-full px-3 py-2 border-2 border-black rounded"
+              />
+              <button
+                type="button"
+                className="w-full sm:w-auto px-6 py-3 bg-black text-yp border-2 border-black font-display font-bold hover:bg-stone-900"
+              >
+                Send Inquiry
+              </button>
+            </form>
           </div>
         </div>
+
+        {/* Sidebar */}
+        <aside className="space-y-4">
+          <div className="bg-white border-2 border-black rounded-lg p-4 space-y-3">
+            {b.phone && (
+              <a
+                href={`tel:${b.phone.replace(/\D/g, "")}`}
+                className="flex items-center gap-3 p-3 bg-yp border-2 border-black rounded font-bold text-lg hover:bg-yellow-300"
+              >
+                <Phone className="w-5 h-5" /> {b.phone}
+              </a>
+            )}
+            {b.email && (
+              <a
+                href={`mailto:${b.email}`}
+                className="flex items-center gap-3 p-3 border-2 border-black rounded hover:bg-stone-50"
+              >
+                <Mail className="w-5 h-5" /> <span className="text-sm">{b.email}</span>
+              </a>
+            )}
+            {b.website && (
+              <a
+                href={b.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3 border-2 border-black rounded hover:bg-stone-50"
+              >
+                <Globe className="w-5 h-5" /> <span className="text-sm">Visit website</span>
+              </a>
+            )}
+
+            {(b.address || b.postalCode) && (
+              <div className="flex items-start gap-3 p-3 border-2 border-black rounded">
+                <MapPin className="w-5 h-5 mt-0.5" />
+                <div className="text-sm">
+                  {b.address && <p>{b.address}</p>}
+                  <p>
+                    {b.city}, {b.province} {b.postalCode}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {b.hours && (
+              <div className="flex items-center gap-3 p-3 border-2 border-black rounded">
+                <Clock className="w-5 h-5" />
+                <span className="text-sm">{b.hours}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="bg-yellow-100 border-2 border-black rounded-lg p-4 text-sm">
+            <p className="font-bold mb-1">Safety tip</p>
+            <p className="text-stone-800">
+              Always verify a business before sending money or personal information.
+              If something feels off, ask a friend or family member for advice.
+            </p>
+          </div>
+        </aside>
       </div>
     </div>
   );

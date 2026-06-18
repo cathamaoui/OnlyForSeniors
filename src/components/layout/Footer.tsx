@@ -1,67 +1,45 @@
 import Link from "next/link";
+import { getAllCategories } from "@/lib/businesses";
 
 export function Footer() {
+  const cats = getAllCategories();
   return (
-    <footer className="bg-black text-yp-500 mt-16 border-t-4 border-black">
-      <div className="max-w-7xl mx-auto px-4 py-12 grid gap-8 md:grid-cols-4">
+    <footer className="border-t-2 border-black bg-black text-yp mt-12">
+      <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-3xl" aria-hidden="true">📖</span>
-            <span className="font-display text-2xl">
-              Only For Seniors
-            </span>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-yp text-black font-display font-black flex items-center justify-center rounded">
+              YP
+            </div>
+            <span className="font-display font-bold">Only For Seniors</span>
           </div>
-          <p className="text-yp-100 leading-relaxed">
-            Canada&apos;s friendly directory built for the 65+ community.
-            Trusted businesses. Easy to use. Right at your fingertips.
+          <p className="text-sm mt-2 opacity-90">
+            Canada's senior marketplace. No ads. No spam. Just the people who can help.
           </p>
         </div>
-
         <div>
-          <h3 className="font-display text-xl mb-3 text-yp-500 border-b border-yp-700 pb-2">
-            Browse
-          </h3>
-          <ul className="space-y-2 text-yp-100">
-            <li><Link href="/categories" className="hover:text-white hover:underline">All Sections</Link></li>
-            <li><Link href="/businesses" className="hover:text-white hover:underline">Find a Business</Link></li>
-            <li><Link href="/search" className="hover:text-white hover:underline">Search Directory</Link></li>
-            <li><Link href="/how-it-works" className="hover:text-white hover:underline">How It Works</Link></li>
+          <h4 className="font-display font-bold mb-2">Browse</h4>
+          <ul className="space-y-1 text-sm">
+            {cats.slice(0, 5).map((c) => (
+              <li key={c.slug}>
+                <Link href={`/categories/${c.slug}`} className="hover:underline">
+                  {c.icon} {c.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
-
         <div>
-          <h3 className="font-display text-xl mb-3 text-yp-500 border-b border-yp-700 pb-2">
-            For Business Owners
-          </h3>
-          <ul className="space-y-2 text-yp-100">
-            <li><Link href="/list-business" className="hover:text-white hover:underline">List Your Business</Link></li>
-            <li><Link href="/pricing" className="hover:text-white hover:underline">$10/Month Plan</Link></li>
-            <li><Link href="/business/login" className="hover:text-white hover:underline">Owner Login</Link></li>
-            <li><Link href="/help" className="hover:text-white hover:underline">Help &amp; Support</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="font-display text-xl mb-3 text-yp-500 border-b border-yp-700 pb-2">
-            Contact
-          </h3>
-          <ul className="space-y-2 text-yp-100">
-            <li>📞 1-800-555-0199</li>
-            <li>✉️ hello@onlyforseniors.ca</li>
-            <li>📍 Toronto, Ontario</li>
+          <h4 className="font-display font-bold mb-2">For Business Owners</h4>
+          <ul className="space-y-1 text-sm">
+            <li><Link href="/list-business" className="hover:underline">Post a Listing</Link></li>
+            <li><Link href="/pricing" className="hover:underline">Pricing</Link></li>
+            <li><Link href="/how-it-works" className="hover:underline">How It Works</Link></li>
           </ul>
         </div>
       </div>
-
-      <div className="border-t border-yp-700">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-yp-100">
-          <p>© {new Date().getFullYear()} Only For Seniors. All rights reserved.</p>
-          <div className="flex gap-4">
-            <Link href="/privacy" className="hover:text-white hover:underline">Privacy</Link>
-            <Link href="/terms" className="hover:text-white hover:underline">Terms</Link>
-            <Link href="/accessibility" className="hover:text-white hover:underline">Accessibility</Link>
-          </div>
-        </div>
+      <div className="border-t border-yp/30 text-center text-xs py-3 opacity-80">
+        © {new Date().getFullYear()} Only For Seniors · Made with care in Canada
       </div>
     </footer>
   );

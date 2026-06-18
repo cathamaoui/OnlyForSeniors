@@ -1,151 +1,92 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Star, MapPin, Phone, BadgeCheck } from "lucide-react";
+import { MapPin, Star, BadgeCheck } from "lucide-react";
+import { Business, getCategoryBySlug, getSubcategory } from "@/lib/businesses";
+import { SaveButton } from "./SaveButton";
 
-interface BusinessCardProps {
-  slug: string;
-  name: string;
-  tagline?: string | null;
-  city: string;
-  province: string;
-  categoryName: string;
-  rating?: number;
-  reviewCount?: number;
-  isVerified?: boolean;
-  isFeatured?: boolean;
-  priceRange?: string | null;
-  phone?: string | null;
-  logoUrl?: string | null;
-}
+type Props = {
+  business: Business;
+};
 
-/**
- * Yellow-Pages style business listing card.
- * Mimics the classic format: company name, services listed, BIG phone number.
- */
-export function BusinessCard({
-  slug,
-  name,
-  tagline,
-  city,
-  province,
-  categoryName,
-  rating,
-  reviewCount,
-  isVerified,
-  isFeatured,
-  priceRange,
-  phone,
-  logoUrl,
-}: BusinessCardProps) {
+export function BusinessCard({ business }: Props) {
+  const sub = getSubcategory(business.subcategorySlug);
+
   return (
     <Link
-      href={`/businesses/${slug}`}
-      className="group relative block bg-paper border-2 border-black
-        transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5
-        shadow-yp hover:shadow-yp-lg"
+      href={`/businesses/${business.id}`}
+      className="group flex flex-col bg-white border-2 border-black rounded-lg overflow-hidden transition-shadow hover:shadow-yp-lg"
     >
-      {/* Featured display-ad strip */}
-      {isFeatured && (
-        <div
-          className="px-2 py-1 bg-black text-yp-500 text-xs uppercase tracking-widest
-            text-center border-b-2 border-black font-bold"
-        >
-          ⭐ Featured Display Listing
-        </div>
-      )}
+      {/* Image */}
+      <div className="relative aspect-[4/3] bg-stone-100 border-b-2 border-black">
+        <Image
+          src={business.image}
+          alt={business.name}
+          fill
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+          className="object-cover"
+        />
+        {business.isFeatured && (
+          <span className="absolute top-2 left-2 bg-yp text-black text-xs font-bold px-2 py-1 rounded border border-black">
+            Featured
+          </span>
+        )}
+        <SaveButton />
+      </div>
 
-      <div className="p-4">
-        {/* Company name + verified badge */}
-        <div className="flex items-start gap-3 mb-2">
-          <div
-            className="shrink-0 w-12 h-12 bg-yp-500 border-2 border-black
-              flex items-center justify-center overflow-hidden"
-          >
-            {logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={logoUrl} alt="" className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-2xl" aria-hidden="true">🏬</span>
-            )}
-          </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="font-display text-xl text-black leading-tight
-              flex items-center gap-1 flex-wrap">
-              {name}
-              {isVerified && (
-                <BadgeCheck
-                  className="w-5 h-5 text-black shrink-0"
-                  aria-label="Verified business"
-                />
-              )}
-            </h3>
-            {tagline && (
-              <p className="text-black text-sm leading-snug mt-0.5 line-clamp-2">
-                {tagline}
-              </p>
-            )}
-          </div>
+      {/* Content */}
+      <div className="flex-1 p-4 flex flex-col gap-2">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-display text-lg leading-tight group-hover:underline line-clamp-2">
+            {business.name}
+          </h3>
+          {business.isVerified && (
+            <BadgeCheck className="w-5 h-5 text-emerald-700 flex-shrink-0" aria-label="Verified" />
+          )}
         </div>
 
-        {/* Location bar */}
-        <div className="bg-yp-500 border border-black px-2 py-1 mb-2 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm">
-          <span className="inline-flex items-center gap-1 font-bold text-black">
-            <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
-            {city}, {province}
-          </span>
-          <span className="text-black/50">·</span>
-          <span className="font-bold text-black uppercase tracking-wide text-xs">
-            {categoryName}
-          </span>
-          {priceRange && (
+        {business.tagline && (
+          <p className="text-sm text-stone-700 line-clamp-2">{business.tagline}</p>
+        )}
+
+        <div className="flex items-center gap-1 text-xs text-stone-600 flex-wrap">
+          <MapPin className="w-3.5 h-3.5" />
+          <span>{business.city}, {business.province}</span>
+          {sub && (
             <>
-              <span className="text-black/50">·</span>
-              <span className="font-bold text-black">{priceRange}</span>
+              <span>·</span>
+              <span>{sub.subcategory.name}</span>
             </>
           )}
         </div>
 
-        {/* BIG phone number - the focal point of a YP listing */}
-        {phone && (
-          <div
-            className="bg-black text-yp-500 px-3 py-2 border-2 border-black
-              font-display text-2xl tracking-wider text-center"
-          >
-            <Phone className="w-5 h-5 inline mr-2 -mt-0.5" aria-hidden="true" />
-            {phone}
-          </div>
-        )}
-
-        {/* Reviews line */}
-        {rating !== undefined && rating > 0 && (
-          <div className="mt-2 flex items-center gap-1 text-sm">
-            {[1, 2, 3, 4, 5].map((n) => (
-              <Star
-                key={n}
-                className={`w-4 h-4 ${
-                  n <= Math.round(rating) ? "fill-black text-black" : "text-black/20"
-                }`}
-                aria-hidden="true"
-              />
-            ))}
-            <span className="font-bold ml-1 text-black">{rating.toFixed(1)}</span>
-            {reviewCount !== undefined && (
-              <span className="text-black/60">({reviewCount} reviews)</span>
+        {business.rating !== undefined && (
+          <div className="flex items-center gap-1 text-sm">
+            <Star className="w-4 h-4 fill-yp stroke-black" />
+            <span className="font-semibold">{business.rating.toFixed(1)}</span>
+            {business.reviewCount !== undefined && (
+              <span className="text-stone-600">({business.reviewCount})</span>
             )}
           </div>
         )}
 
-        {/* Footer */}
-        <div className="mt-3 pt-2 border-t border-black/20 flex items-center justify-between">
-          <span className="text-xs uppercase tracking-wider text-black font-bold">
-            See Full Listing
-          </span>
-          <span
-            className="text-black text-lg transition-transform group-hover:translate-x-1"
-            aria-hidden="true"
-          >
-            →
-          </span>
-        </div>
+        {business.priceRange && (
+          <div className="text-base font-display font-bold text-black">
+            {business.priceRange}
+          </div>
+        )}
+
+        {business.tags && business.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-1">
+            {business.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-2 py-0.5 bg-stone-100 border border-stone-300 rounded"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </Link>
   );

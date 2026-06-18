@@ -2,38 +2,42 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import {
-  getCategoryBySlug,
-  getBusinessesByCategory,
+  getSubcategory,
+  getBusinessesBySubcategory,
 } from "@/lib/businesses";
 import { BusinessCard } from "@/components/ui/BusinessCard";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const cat = getCategoryBySlug(slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; subslug: string }>;
+}) {
+  const { subslug } = await params;
+  const found = getSubcategory(subslug);
   return {
-    title: cat ? `${cat.name} — Only For Seniors` : "Category — Only For Seniors",
-    description: cat ? `Browse ${cat.name} on Only For Seniors.` : undefined,
+    title: found ? `${found.subcategory.name} — Only For Seniors` : "Subcategory — Only For Seniors",
   };
 }
 
 type Search = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export default async function CategoryPage({
+export default async function SubcategoryPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; subslug: string }>;
   searchParams: Search;
 }) {
-  const { slug } = await params;
-  const cat = getCategoryBySlug(slug);
-  if (!cat) notFound();
+  const { slug, subslug } = await params;
+  const found = getSubcategory(subslug);
+  if (!found) notFound();
+  const { category, subcategory } = found;
 
   const sp = await searchParams;
   const sortRaw = Array.isArray(sp.sort) ? sp.sort[0] : sp.sort;
   const sort = sortRaw === "oldest" ? "oldest" : "newest";
 
-  const all = getBusinessesByCategory(slug);
+  const all = getBusinessesBySubcategory(subslug);
   const sorted = [...all].sort((a, b) => {
     const ad = a.dateAdded ? Date.parse(a.dateAdded) : 0;
     const bd = b.dateAdded ? Date.parse(b.dateAdded) : 0;
@@ -42,64 +46,36 @@ export default async function CategoryPage({
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Top bar */}
       <div className="border-b-2 border-black bg-white">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
-            href="/categories"
+            href={`/categories/${slug}`}
             className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-yp text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-yp-sm hover:bg-yellow-300"
           >
-            <ArrowLeft className="w-4 h-4" /> All Categories
+            <ArrowLeft className="w-4 h-4" /> {category.name}
           </Link>
           <h1 className="text-xl md:text-2xl font-display font-bold truncate">
-            {cat.icon} {cat.name}
+            {category.icon} {subcategory.name}
           </h1>
           <div className="w-24" />
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
-        {/* Subcategory chips */}
-        {cat.subcategories.length > 0 && (
-          <div className="bg-white border-2 border-black rounded-lg p-4">
-            <h2 className="font-display font-bold text-sm uppercase tracking-wide mb-3 text-stone-600">
-              Browse by sub-category
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href={`/categories/${cat.slug}`}
-                className="px-3 py-2 text-sm bg-black text-yp border-2 border-black font-bold"
-              >
-                All
-              </Link>
-              {cat.subcategories.map((sub) => (
-                <Link
-                  key={sub.slug}
-                  href={`/categories/${cat.slug}/${sub.slug}`}
-                  className="px-3 py-2 text-sm bg-white text-black border-2 border-black hover:bg-yp"
-                >
-                  {sub.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Sort + count */}
         <div className="flex items-center justify-between flex-wrap gap-2">
           <p className="text-stone-700">
-            <span className="font-bold">{sorted.length}</span> listing{sorted.length === 1 ? "" : "s"} in this category
+            <span className="font-bold">{sorted.length}</span> listing{sorted.length === 1 ? "" : "s"} in {subcategory.name}
           </p>
           <div className="flex items-center gap-2 text-sm">
             <span className="text-stone-600">Sort:</span>
             <Link
-              href={`/categories/${cat.slug}?sort=newest`}
+              href={`/categories/${slug}/${subslug}?sort=newest`}
               className={`px-3 py-1.5 border-2 border-black ${sort === "newest" ? "bg-black text-yp font-bold" : "bg-white hover:bg-yp"}`}
             >
               Newest
             </Link>
             <Link
-              href={`/categories/${cat.slug}?sort=oldest`}
+              href={`/categories/${slug}/${subslug}?sort=oldest`}
               className={`px-3 py-1.5 border-2 border-black ${sort === "oldest" ? "bg-black text-yp font-bold" : "bg-white hover:bg-yp"}`}
             >
               Oldest
@@ -107,11 +83,9 @@ export default async function CategoryPage({
           </div>
         </div>
 
-        {/* Grid */}
         {sorted.length === 0 ? (
           <div className="bg-white border-2 border-black rounded-lg p-12 text-center">
-            <p className="text-lg text-stone-600">No listings in this category yet.</p>
-            <p className="text-sm text-stone-500 mt-2">Be the first to add one!</p>
+            <p className="text-lg text-stone-600">No listings in this sub-category yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

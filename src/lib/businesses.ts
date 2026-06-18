@@ -1,0 +1,153 @@
+import data from "@/data/businesses.json";
+
+export type Subcategory = {
+  slug: string;
+  name: string;
+  description?: string;
+};
+
+export type Category = {
+  slug: string;
+  name: string;
+  icon: string;
+  color: string;
+  subcategories: Subcategory[];
+  /** If true, posting to this category requires a fee (per day). */
+  paidPosting?: boolean;
+  /** Fee in CAD per day for a listing in this category. */
+  postingFeePerDay?: number;
+};
+
+export type Business = {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  image: string;
+  phone?: string;
+  email?: string;
+  website?: string;
+  address?: string;
+  city: string;
+  province: string;
+  postalCode?: string;
+  categorySlug: string;
+  subcategorySlug: string;
+  priceRange?: string;
+  isFeatured?: boolean;
+  isVerified?: boolean;
+  rating?: number;
+  reviewCount?: number;
+  tags?: string[];
+  hours?: string;
+  /** ISO date string for when the business was added. Used to drive the "What's New" feed. */
+  dateAdded?: string;
+};
+
+const typedData = data as { categories: Category[]; businesses: Business[] };
+
+export function getAllCategories(): Category[] {
+  return typedData.categories;
+}
+
+export function getCategoryBySlug(slug: string): Category | undefined {
+  return typedData.categories.find((c) => c.slug === slug);
+}
+
+export function getSubcategory(slug: string): { category: Category; subcategory: Subcategory } | undefined {
+  for (const cat of typedData.categories) {
+    const sub = cat.subcategories.find((s) => s.slug === slug);
+    if (sub) return { category: cat, subcategory: sub };
+  }
+  return undefined;
+}
+
+export function getAllBusinesses(): Business[] {
+  return typedData.businesses;
+}
+
+export function getBusinessById(id: string): Business | undefined {
+  return typedData.businesses.find((b) => b.id === id);
+}
+
+export function getBusinessesByCategory(categorySlug: string): Business[] {
+  return typedData.businesses.filter((b) => b.categorySlug === categorySlug);
+}
+
+export function getBusinessesBySubcategory(subcategorySlug: string): Business[] {
+  return typedData.businesses.filter((b) => b.subcategorySlug === subcategorySlug);
+}
+
+export function getFeaturedBusinesses(): Business[] {
+  return typedData.businesses.filter((b) => b.isFeatured);
+}
+
+/**
+ * Returns businesses added within the past `hours` hours, newest first.
+ * Used to power the "What's New" news feed.
+ */
+export function getRecentBusinesses(hours = 24, limit = 20): Business[] {
+  const cutoff = Date.now() - hours * 60 * 60 * 1000;
+  return [...typedData.businesses]
+    .filter((b) => {
+      if (!b.dateAdded) return false;
+      const t = Date.parse(b.dateAdded);
+      return Number.isFinite(t) && t >= cutoff;
+    })
+    .sort((a, b) => Date.parse(b.dateAdded!) - Date.parse(a.dateAdded!))
+    .slice(0, limit);
+}
+
+/**
+ * Returns a flat list of all subcategories across all categories
+ * with their business counts — used to build the Kijiji-style sidebar.
+ */
+export function getAllSubcategoriesWithCounts(): Array<{
+  category: Category;
+  subcategory: Subcategory;
+  count: number;
+}> {
+  const result: Array<{ category: Category; subcategory: Subcategory; count: number }> = [];
+  for (const cat of typedData.categories) {
+    for (const sub of cat.subcategories) {
+      const count = typedData.businesses.filter((b) => b.subcategorySlug === sub.slug).length;
+      result.push({ category: cat, subcategory: sub, count });
+    }
+  }
+  return result;
+}
+
+/**
+ * Returns category-level counts (one row per category with total businesses).
+ */
+export function getCategoryCounts(): Array<{ category: Category; count: number }> {
+  return typedData.categories.map((cat) => ({
+    category: cat,
+    count: typedData.businesses.filter((b) => b.categorySlug === cat.slug).length,
+  }));
+}
+
+export const CANADIAN_PROVINCES = [
+  { code: "AB", name: "Alberta" },
+  { code: "BC", name: "British Columbia" },
+  { code: "MB", name: "Manitoba" },
+  { code: "NB", name: "New Brunswick" },
+  { code: "NL", name: "Newfoundland and Labrador" },
+  { code: "NS", name: "Nova Scotia" },
+  { code: "NT", name: "Northwest Territories" },
+  { code: "NU", name: "Nunavut" },
+  { code: "ON", name: "Ontario" },
+  { code: "PE", name: "Prince Edward Island" },
+  { code: "QC", name: "Quebec" },
+  { code: "SK", name: "Saskatchewan" },
+  { code: "YT", name: "Yukon" },
+];
+
+export function formatLocation(city: string, province: string): string {
+  return `${city}, ${province}`;
+}
+
+export function formatPriceRange(price?: string): string | null {
+  if (!price) return null;
+  return price;
+}

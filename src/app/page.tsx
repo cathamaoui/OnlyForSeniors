@@ -1,288 +1,279 @@
 import Link from "next/link";
-import { prisma } from "@/lib/db";
-import { CategoryCard } from "@/components/ui/CategoryCard";
-import { Button } from "@/components/ui/Button";
-import { YPBook } from "@/components/brand/YPBook";
+import { Search, MapPin, ChevronRight, Star, BadgeCheck, Newspaper, Heart, Phone, Briefcase } from "lucide-react";
 import {
-  Phone,
-  Shield,
-  Heart,
-  Star,
-  ArrowRight,
-  BookOpen,
-  PhoneCall,
-  CheckCircle2,
-} from "lucide-react";
+  getAllCategories,
+  getAllBusinesses,
+  getRecentBusinesses,
+  getCategoryCounts,
+} from "@/lib/businesses";
+import { BusinessCard } from "@/components/ui/BusinessCard";
 
-export const dynamic = "force-dynamic";
+export const metadata = {
+  title: "Only For Seniors — Canada's Senior Marketplace",
+  description: "Find trusted businesses, services, and products for Canadian seniors. No ads. Just the people who can help.",
+};
 
-export default async function HomePage() {
-  const categories = await prisma.category.findMany({
-    orderBy: { order: "asc" },
-    include: {
-      _count: { select: { businesses: true } },
-    },
-  });
+export default function HomePage() {
+  const allCats = getAllCategories();
+  const businesses = getAllBusinesses();
+  const recent = getRecentBusinesses(24, 8);
+  const featured = businesses.filter((b) => b.isFeatured);
+  const catCounts = getCategoryCounts();
+  const totalListings = businesses.length;
 
-  // Map for the YPBook component
-  const ypCategories = categories.map((c) => ({
-    id: c.id,
-    slug: c.slug,
-    name: c.name,
-    description: c.description,
-    icon: c.icon,
-    color: c.color,
-    businessCount: c._count.businesses,
-  }));
+  // News + Featured + then everything else, deduped
+  const news = recent.filter((b) => !b.isFeatured).slice(0, 4);
+  const featuredOnly = featured.slice(0, 8);
+  const allCards = businesses.filter((b) => !featured.includes(b));
 
   return (
-    <div className="yp-paper">
-      {/* ============== HERO ============== */}
-      <section className="bg-yp-500 border-b-4 border-black">
-        <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
-          <div className="max-w-4xl">
-            <div className="inline-block bg-black text-yp-500 px-3 py-1.5
-              border-2 border-black uppercase tracking-widest text-sm mb-6">
-              📞 The Real Yellow Pages · For Canadians 65+
+    <div className="min-h-screen bg-stone-50">
+      {/* Top bar */}
+      <header className="border-b-2 border-black bg-white">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-yp border-2 border-black rounded flex items-center justify-center font-display font-black text-black">
+              YP
             </div>
-
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-black leading-[1.1] mb-4">
-              Let your fingers
-              <br />
-              do the walking.
-            </h1>
-
-            <p className="text-lg lg:text-xl text-black leading-relaxed mb-8 max-w-2xl">
-              The friendly Canadian directory for seniors 65+ —
-              home care, transportation, health, shopping, and everything in between.
-              Same book you remember. Now it fits in your pocket.
-            </p>
-
-            <div className="flex flex-wrap gap-3">
-              <Button
-                href="#directory"
-                variant="primary"
-                instruction="Open the directory below — search or tap a coloured tab"
-              >
-                <BookOpen className="w-5 h-5" aria-hidden="true" />
-                Open the Book
-              </Button>
-              <Button
-                href="/list-business"
-                variant="outline"
-                instruction="Business owners — get listed for $10/month"
-              >
-                List Your Business
-              </Button>
-            </div>
-
-            {/* Trust badges */}
-            <div className="mt-8 grid grid-cols-3 gap-2 max-w-2xl">
-              <div className="bg-black text-yp-500 text-center py-2 px-1 border-2 border-black">
-                <Shield className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
-                <p className="text-xs uppercase">Verified</p>
-              </div>
-              <div className="bg-black text-yp-500 text-center py-2 px-1 border-2 border-black">
-                <Heart className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
-                <p className="text-xs uppercase">Senior-First</p>
-              </div>
-              <div className="bg-black text-yp-500 text-center py-2 px-1 border-2 border-black">
-                <Star className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
-                <p className="text-xs uppercase">Trusted</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============== THE YP BOOK (with side tabs, big search, page-flip + sound) ============== */}
-      <section
-        id="directory"
-        className="max-w-6xl mx-auto px-4 py-12 sm:py-16 scroll-mt-24"
-      >
-        <div>
-          <div className="text-center mb-8">
-            <div className="inline-block bg-black text-yp-500 px-3 py-1.5
-              border-2 border-black uppercase tracking-widest text-sm mb-3">
-              Open the Book
-            </div>
-            <h2 className="font-display text-3xl sm:text-4xl text-black mb-3">
-              Search or tap a tab
-            </h2>
-            <p className="text-lg text-black max-w-2xl mx-auto">
-              Search the whole directory, or tap a coloured tab on the left to
-              jump to a section. Listen for the page-turn sound — just like the
-              old Yellow Pages.
-            </p>
-          </div>
-        </div>
-
-        <YPBook categories={ypCategories} />
-      </section>
-
-      {/* ============== ALL SECTIONS (grid for deep browsing) ============== */}
-      <section className="max-w-7xl mx-auto px-4 py-12 sm:py-16 border-t-4 border-black">
-        <div>
-          <div className="text-center mb-8">
-            <h2 className="font-display text-3xl sm:text-4xl text-black mb-3">
-              Or browse every section
-            </h2>
-            <p className="text-lg text-black">
-              A complete list of every category in the book.
-            </p>
-          </div>
-        </div>
-
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((c, i) => (
             <div>
-              <CategoryCard
-                slug={c.slug}
-                name={c.name}
-                description={c.description}
-                icon={c.icon}
-                color={c.color}
-                businessCount={c._count.businesses}
+              <p className="font-display font-bold text-lg leading-none">Only For Seniors</p>
+              <p className="text-xs text-stone-600">Canada's senior marketplace</p>
+            </div>
+          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/categories"
+              className="hidden sm:inline-block px-3 py-2 text-sm font-bold border-2 border-black hover:bg-yp"
+            >
+              Browse
+            </Link>
+            <Link
+              href="/list-business"
+              className="inline-block px-3 py-2 text-sm font-bold bg-black text-yp border-2 border-black"
+            >
+              Post a Listing
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero / Search */}
+      <section className="border-b-2 border-black bg-yp">
+        <div className="max-w-6xl mx-auto px-4 py-8 md:py-10">
+          <h1 className="text-3xl md:text-5xl font-display font-black leading-tight">
+            Trusted services<br />
+            <span className="inline-block bg-black text-yp px-3 py-1 mt-1">for Canadian seniors.</span>
+          </h1>
+          <p className="mt-3 text-base md:text-lg max-w-2xl">
+            No ads. No spam. Just verified businesses, real reviews, and people who care.
+          </p>
+
+          <form action="/search" method="GET" className="mt-6 flex flex-col sm:flex-row gap-2 max-w-3xl">
+            <div className="flex-1 flex items-center bg-white border-2 border-black rounded-lg px-3">
+              <Search className="w-5 h-5 text-stone-600" />
+              <input
+                type="text"
+                name="q"
+                placeholder="What are you looking for? e.g. 'ride to doctor', 'grocery delivery'"
+                className="flex-1 min-w-touch px-3 py-3 text-lg outline-none"
+                aria-label="Search"
               />
             </div>
-          ))}
-        </div>
-      </section>
+            <button
+              type="submit"
+              className="px-6 py-3 bg-black text-yp border-2 border-black rounded-lg font-display font-bold text-lg hover:bg-stone-900 min-h-touch"
+            >
+              Search
+            </button>
+          </form>
 
-      {/* ============== HOW IT WORKS ============== */}
-      <section className="bg-yp-500 border-y-4 border-black">
-        <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-          <div>
-            <h2 className="font-display text-3xl sm:text-4xl text-black text-center mb-10">
-              How to Use the Book
-            </h2>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                step: "1",
-                title: "Search or tap a tab",
-                body: "Use the big search bar at the top of the book, or tap any coloured tab on the left side.",
-                icon: "🔍",
-              },
-              {
-                step: "2",
-                title: "Pick a listing",
-                body: "Each entry shows who they are, where they are, and their big phone number. Look for the ✓ Verified stamp.",
-                icon: "📖",
-              },
-              {
-                step: "3",
-                title: "Pick up the phone",
-                body: "Tap the big black button to call them right now. That&apos;s all there is to it.",
-                icon: "📞",
-              },
-            ].map((s, i) => (
-              <div>
-                <div className="yp-card text-center h-full">
-                  <div className="text-5xl mb-3" aria-hidden="true">{s.icon}</div>
-                  <div className="inline-block bg-black text-yp-500 text-2xl w-12 h-12
-                    border-2 border-black mb-3 leading-[3rem] font-bold">
-                    {s.step}
-                  </div>
-                  <h3 className="font-display text-2xl text-black mb-2">
-                    {s.title}
-                  </h3>
-                  <p className="text-black leading-relaxed">
-                    {s.body}
-                  </p>
-                </div>
-              </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <span className="text-sm font-bold text-black">Popular:</span>
+            {["Personal Care", "House Cleaning", "Rides", "Snow Removal", "Physiotherapy", "Pharmacy Delivery"].map((tag) => (
+              <Link
+                key={tag}
+                href={`/search?q=${encodeURIComponent(tag)}`}
+                className="text-sm px-3 py-1 bg-white border-2 border-black rounded-full hover:bg-yellow-300"
+              >
+                {tag}
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============== CTA — Business owners ============== */}
-      <section className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-        <div>
-          <div className="relative yp-card bg-paper">
-            <div className="relative grid gap-8 lg:grid-cols-2 items-center">
-              <div>
-                <span className="inline-block bg-black text-yp-500 px-3 py-1.5
-                  border-2 border-black uppercase tracking-widest text-sm mb-4">
-                  For Business Owners
-                </span>
-                <h2 className="font-display text-3xl sm:text-4xl text-black mb-4">
-                  Get your name in the book. Only $10/month.
+      <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
+        {/* Sidebar — All categories (Kijiji-style flat list) */}
+        <aside className="space-y-4">
+          <div className="bg-white border-2 border-black rounded-lg overflow-hidden">
+            <div className="bg-black text-yp px-4 py-2 font-display font-bold uppercase tracking-wide text-sm">
+              All Categories
+            </div>
+            <ul>
+              {allCats.map((cat) => {
+                const count = catCounts.find((c) => c.category.slug === cat.slug)?.count ?? 0;
+                return (
+                  <li key={cat.slug}>
+                    <Link
+                      href={`/categories/${cat.slug}`}
+                      className="flex items-center justify-between gap-2 px-4 py-3 border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
+                    >
+                      <span className="flex items-center gap-2 text-sm">
+                        <span aria-hidden>{cat.icon}</span>
+                        <span className="line-clamp-1">{cat.name}</span>
+                      </span>
+                      <span className="text-xs text-stone-500">({count})</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Help line */}
+          <div className="bg-emerald-700 text-white border-2 border-black rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Phone className="w-4 h-4" />
+              <h3 className="font-display font-bold uppercase tracking-wide text-sm">Need help?</h3>
+            </div>
+            <p className="text-sm mb-2">Call our free senior help line.</p>
+            <a href="tel:1-855-555-0123" className="block text-2xl font-display font-black underline">
+              1-855-555-0123
+            </a>
+            <p className="text-xs mt-1">Mon–Fri 8am–8pm ET</p>
+          </div>
+        </aside>
+
+        {/* Main */}
+        <main className="space-y-8">
+          {/* What's New (Past 24 Hours) */}
+          {news.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="flex items-center gap-2 text-xl md:text-2xl font-display font-black">
+                  <Newspaper className="w-6 h-6 text-blue-700" />
+                  What's New (Past 24 Hours)
                 </h2>
-                <p className="text-lg text-black leading-relaxed mb-6">
-                  Reach thousands of Canadian seniors. No contracts. Cancel anytime.
-                </p>
-                <ul className="space-y-2 mb-6 text-black text-lg">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
-                    Your own listing with photos, hours, and contact info
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
-                    Get found by seniors searching in your area
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
-                    Customer reviews build your reputation
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
-                    Verified badge so seniors know they can trust you
-                  </li>
-                </ul>
-                <Button href="/list-business" variant="primary" instruction="Start your $10/month listing">
-                  Get Listed Today
-                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                </Button>
+                <Link
+                  href="/categories/news"
+                  className="text-sm font-bold text-blue-700 hover:underline flex items-center gap-1"
+                >
+                  See all <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {news.map((b) => (
+                  <BusinessCard key={b.id} business={b} />
+                ))}
+              </div>
+            </section>
+          )}
 
-              {/* "YP" badge card — no more bad mascot! */}
-              <div className="flex justify-center">
-                <div className="bg-black text-yp-500 border-4 border-black p-8 max-w-sm
-                  shadow-yp-lg text-center">
-                  <p className="text-7xl font-display font-black mb-2">YP</p>
-                  <p className="text-2xl font-display uppercase tracking-widest mb-1">
-                    Directory
-                  </p>
-                  <p className="text-yp-300 text-sm">
-                    OnlyForSeniors.ca
-                  </p>
-                  <div className="mt-6 pt-6 border-t-2 border-yp-700">
-                    <p className="text-4xl font-display font-black">$10</p>
-                    <p className="text-yp-300 uppercase tracking-wider text-sm">
-                      per month
-                    </p>
-                  </div>
-                </div>
+          {/* Featured */}
+          {featuredOnly.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="flex items-center gap-2 text-xl md:text-2xl font-display font-black">
+                  <Star className="w-6 h-6 fill-yp stroke-black" />
+                  Featured Listings
+                </h2>
+                <span className="text-sm text-stone-600">{totalListings} total listings</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {featuredOnly.map((b) => (
+                  <BusinessCard key={b.id} business={b} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* All listings */}
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="flex items-center gap-2 text-xl md:text-2xl font-display font-black">
+                <Briefcase className="w-6 h-6" />
+                All Listings
+              </h2>
+              <Link
+                href="/businesses"
+                className="text-sm font-bold hover:underline flex items-center gap-1"
+              >
+                Browse all <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+            {allCards.length === 0 ? (
+              <div className="bg-white border-2 border-black rounded-lg p-12 text-center text-stone-600">
+                No more listings to show.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {allCards.map((b) => (
+                  <BusinessCard key={b.id} business={b} />
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Why this is different */}
+          <section className="bg-white border-2 border-black rounded-lg p-6">
+            <h2 className="text-xl md:text-2xl font-display font-black mb-3">
+              Why Only For Seniors?
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <BadgeCheck className="w-6 h-6 text-emerald-700" />
+                <h3 className="font-bold mt-1">Verified Businesses</h3>
+                <p className="text-sm text-stone-700">Every business is reviewed before being listed.</p>
+              </div>
+              <div>
+                <Heart className="w-6 h-6 text-rose-700" />
+                <h3 className="font-bold mt-1">No Ads, Ever</h3>
+                <p className="text-sm text-stone-700">We never show ads. We never sell your data.</p>
+              </div>
+              <div>
+                <MapPin className="w-6 h-6 text-blue-700" />
+                <h3 className="font-bold mt-1">Local to You</h3>
+                <p className="text-sm text-stone-700">Filter by city and province across Canada.</p>
               </div>
             </div>
+          </section>
+        </main>
+      </div>
+
+      {/* Footer */}
+      <footer className="border-t-2 border-black bg-black text-yp mt-12">
+        <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-yp text-black font-display font-black flex items-center justify-center rounded">YP</div>
+              <span className="font-display font-bold">Only For Seniors</span>
+            </div>
+            <p className="text-sm mt-2 opacity-90">Canada's senior marketplace. No ads. No spam. Just the people who can help.</p>
+          </div>
+          <div>
+            <h4 className="font-display font-bold mb-2">Browse</h4>
+            <ul className="space-y-1 text-sm">
+              {allCats.slice(0, 5).map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/categories/${c.slug}`} className="hover:underline">{c.icon} {c.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-display font-bold mb-2">For Business Owners</h4>
+            <ul className="space-y-1 text-sm">
+              <li><Link href="/list-business" className="hover:underline">Post a Listing</Link></li>
+              <li><Link href="/pricing" className="hover:underline">Pricing</Link></li>
+              <li><Link href="/how-it-works" className="hover:underline">How It Works</Link></li>
+              <li><Link href="/contact" className="hover:underline">Contact</Link></li>
+            </ul>
           </div>
         </div>
-      </section>
-
-      {/* ============== CALL ASSISTANCE STRIP ============== */}
-      <section className="bg-black text-yp-500 border-y-4 border-black">
-        <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="bg-yp-500 text-black border-2 border-yp-500 w-14 h-14 flex items-center justify-center">
-              <PhoneCall className="w-7 h-7" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-2xl">Prefer to talk to a person?</p>
-              <p>Call our friendly Canadian team — we&apos;ll help you find what you need.</p>
-            </div>
-          </div>
-          <a
-            href="tel:1-800-555-0199"
-            className="btn-yp-outline !bg-yp-500 !text-black"
-          >
-            1-800-555-0199
-          </a>
+        <div className="border-t border-yp/30 text-center text-xs py-3 opacity-80">
+          © {new Date().getFullYear()} Only For Seniors · Made with care in Canada
         </div>
-      </section>
+      </footer>
     </div>
   );
 }

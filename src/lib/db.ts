@@ -1,13 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+// Database is intentionally disabled. The site uses static JSON in src/data/businesses.json.
+// This stub keeps the prisma import out of the build.
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
-
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-  });
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+export const prisma = undefined as never;

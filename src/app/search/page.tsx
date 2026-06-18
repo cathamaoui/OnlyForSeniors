@@ -1,136 +1,102 @@
-import { prisma } from "@/lib/db";
-import { BusinessCard } from "@/components/ui/BusinessCard";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import Link from "next/link";
-
-export const dynamic = "force-dynamic";
+import { ArrowLeft, Search } from "lucide-react";
+import { getAllBusinesses, getAllCategories } from "@/lib/businesses";
+import { BusinessCard } from "@/components/ui/BusinessCard";
 
 export const metadata = {
-  title: "Search",
-  description: "Search senior-friendly businesses across Canada.",
+  title: "Search — Only For Seniors",
+  description: "Search listings on Only For Seniors.",
 };
+
+type Search = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; province?: string }>;
+  searchParams: Search;
 }) {
-  const { q, province } = await searchParams;
-  const query = q?.trim() ?? "";
+  const sp = await searchParams;
+  const q = (Array.isArray(sp.q) ? sp.q[0] : sp.q ?? "").trim();
 
-  const results = await prisma.business.findMany({
-    where: {
-      isPublished: true,
-      ...(province ? { province } : {}),
-      ...(query
-        ? {
-            OR: [
-              { name: { contains: query } },
-              { tagline: { contains: query } },
-              { description: { contains: query } },
-              { city: { contains: query } },
-              { category: { name: { contains: query } } },
-              { subcategory: { name: { contains: query } } },
-            ],
-          }
-        : {}),
-    },
-    include: {
-      category: true,
-      reviews: { select: { rating: true } },
-    },
-    take: 50,
-  });
+  const all = getAllBusinesses();
+  const cats = getAllCategories();
+
+  const matches = q
+    ? all.filter((b) =>
+        [b.name, b.tagline, b.description, b.city, b.province, ...(b.tags ?? [])]
+          .join(" ")
+          .toLowerCase()
+          .includes(q.toLowerCase())
+      )
+    : all;
 
   return (
-    <div className="yp-paper">
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        <h1 className="font-display font-black text-3xl sm:text-4xl text-emerald-900 mb-2">
-          {query ? `Results for &quot;${query}&quot;` : "Search the Directory"}
-        </h1>
-        <p className="text-lg text-emerald-800 mb-6">
-          {results.length} match{results.length === 1 ? "" : "es"}.
-        </p>
+    <div className="min-h-screen bg-stone-50">
+      <div className="border-b-2 border-black bg-white">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-yp text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-yp-sm hover:bg-yellow-300"
+          >
+            <ArrowLeft className="w-4 h-4" /> Home
+          </Link>
+          <h1 className="text-xl md:text-2xl font-display font-bold">Search</h1>
+          <div className="w-24" />
+        </div>
+      </div>
 
-        <form action="/search" method="get" className="card-retro mb-8" role="search">
-          <label htmlFor="search-q" className="field-label">
-            What are you looking for?
-          </label>
-          <div className="flex flex-col sm:flex-row gap-3">
+      <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
+        <form action="/search" method="GET" className="flex flex-col sm:flex-row gap-2">
+          <div className="flex-1 flex items-center bg-white border-2 border-black rounded-lg px-3">
+            <Search className="w-5 h-5 text-stone-600" />
             <input
-              id="search-q"
+              type="text"
               name="q"
-              type="search"
-              defaultValue={query}
-              className="field-input flex-1"
-              placeholder="e.g. snow removal, ride to doctor, grocery delivery"
+              defaultValue={q}
+              placeholder="Search listings..."
+              className="flex-1 min-h-touch px-3 py-3 text-lg outline-none"
+              autoFocus
             />
-            <select
-              name="province"
-              defaultValue={province ?? ""}
-              className="field-input sm:w-48"
-            >
-              <option value="">All of Canada</option>
-              <option value="ON">Ontario</option>
-              <option value="BC">British Columbia</option>
-              <option value="AB">Alberta</option>
-              <option value="QC">Quebec</option>
-              <option value="MB">Manitoba</option>
-              <option value="SK">Saskatchewan</option>
-              <option value="NS">Nova Scotia</option>
-              <option value="NB">New Brunswick</option>
-              <option value="PE">PEI</option>
-              <option value="NL">Newfoundland</option>
-            </select>
-            <button type="submit" className="btn-primary">
-              Search
-            </button>
           </div>
-          <span className="instruction">
-            Tip: be specific — try &quot;wheelchair-accessible dentist&quot; or &quot;home snow removal&quot;.
-          </span>
+          <button
+            type="submit"
+            className="px-6 py-3 bg-black text-yp border-2 border-black rounded-lg font-display font-bold text-lg hover:bg-stone-900"
+          >
+            Search
+          </button>
         </form>
 
-        {results.length === 0 ? (
-          <div className="card-retro text-center">
-            <p className="text-2xl font-display font-black text-emerald-900 mb-2">
-              No matches.
-            </p>
-            <p className="text-emerald-800 mb-4">
-              Try different words, or browse our{" "}
-              <Link href="/categories" className="text-ember-600 font-bold underline">
-                categories
-              </Link>
-              .
-            </p>
+        <p className="text-stone-700">
+          {q ? (
+            <>
+              <span className="font-bold">{matches.length}</span> result{matches.length === 1 ? "" : "s"} for "<strong>{q}</strong>"
+            </>
+          ) : (
+            <>Showing all {matches.length} listings. Try searching for "physiotherapy", "snow removal", "pharmacy"…</>
+          )}
+        </p>
+
+        {matches.length === 0 ? (
+          <div className="bg-white border-2 border-black rounded-lg p-12 text-center text-stone-600">
+            <p className="text-lg">No listings match your search.</p>
+            <p className="text-sm mt-2">Try a different word, or browse a category.</p>
+            <div className="flex flex-wrap justify-center gap-2 mt-4">
+              {cats.slice(0, 6).map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/categories/${c.slug}`}
+                  className="px-3 py-2 text-sm bg-yp border-2 border-black hover:bg-yellow-300"
+                >
+                  {c.icon} {c.name}
+                </Link>
+              ))}
+            </div>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((b, i) => {
-              const avg =
-                b.reviews.length > 0
-                  ? b.reviews.reduce((s, r) => s + r.rating, 0) / b.reviews.length
-                  : undefined;
-              return (
-                <ScrollReveal key={b.id} delay={i * 0.03}>
-                  <BusinessCard
-                    slug={b.slug}
-                    name={b.name}
-                    tagline={b.tagline}
-                    city={b.city}
-                    province={b.province}
-                    categoryName={b.category.name}
-                    rating={avg}
-                    reviewCount={b.reviews.length}
-                    isVerified={b.isVerified}
-                    isFeatured={b.isFeatured}
-                    priceRange={b.priceRange}
-                    phone={b.phone}
-                    logoUrl={b.logoUrl}
-                  />
-                </ScrollReveal>
-              );
-            })}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {matches.map((b) => (
+              <BusinessCard key={b.id} business={b} />
+            ))}
           </div>
         )}
       </div>

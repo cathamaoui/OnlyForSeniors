@@ -1,87 +1,40 @@
-import { prisma } from "@/lib/db";
-import { ListBusinessForm } from "@/components/business/ListBusinessForm";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
-import { Check } from "lucide-react";
-
-export const dynamic = "force-dynamic";
+import Link from "next/link";
+import { ArrowLeft, Mail } from "lucide-react";
 
 export const metadata = {
-  title: "List Your Business — $10/month",
-  description: "Join the Only For Seniors directory. Reach Canadian seniors for just $10/month.",
+  title: "Post a Listing — Only For Seniors",
+  description: "Post your business on Only For Seniors.",
 };
 
-export default async function ListBusinessPage() {
-  const categories = await prisma.category.findMany({
-    orderBy: { order: "asc" },
-    include: { subcategories: { orderBy: { name: "asc" } } },
-  });
-
+export default function ListBusinessPage() {
   return (
-    <div className="yp-paper">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <ScrollReveal>
-          <div className="text-center mb-10">
-            <span className="inline-block bg-ember-600 text-white font-black uppercase
-              tracking-wider text-sm px-3 py-1.5 rounded-chunky border-2 border-black mb-3">
-              For Business Owners
-            </span>
-            <h1 className="font-display font-black text-4xl sm:text-5xl text-emerald-900 mb-4">
-              List your business for $10/month
-            </h1>
-            <p className="text-xl text-emerald-800 max-w-2xl mx-auto">
-              Reach thousands of Canadian seniors looking for trusted services.
-              No contracts. Cancel anytime.
-            </p>
-          </div>
-        </ScrollReveal>
+    <div className="min-h-screen bg-stone-50">
+      <div className="border-b-2 border-black bg-white">
+        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-yp text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-yp-sm hover:bg-yellow-300"
+          >
+            <ArrowLeft className="w-4 h-4" /> Home
+          </Link>
+          <h1 className="text-xl font-display font-bold">Post a Listing</h1>
+          <div className="w-24" />
+        </div>
+      </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          <ScrollReveal>
-            <div className="card-retro h-full">
-              <h2 className="font-display font-black text-2xl text-emerald-900 mb-4">
-                What you get
-              </h2>
-              <ul className="space-y-3 text-lg">
-                {[
-                  "Custom business profile with photos, hours, and contact info",
-                  "Get discovered through our colour-coded category directory",
-                  "Direct contact from seniors in your area via message or phone",
-                  "Senior-friendly badge to build trust",
-                  "Customer reviews to grow your reputation",
-                  "Featured listing upgrades available",
-                  "Mobile-friendly — seniors use phones and tablets",
-                ].map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <span className="shrink-0 bg-emerald-700 text-white rounded-full w-7 h-7 flex items-center justify-center mt-0.5">
-                      <Check className="w-4 h-4" />
-                    </span>
-                    <span className="text-emerald-900">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6 bg-cream-200 border-2 border-black rounded-chunky p-4">
-                <p className="font-display font-black text-2xl text-emerald-900">
-                  $10 CAD / month
-                </p>
-                <p className="text-emerald-800">
-                  Billed monthly. Securely processed by Stripe. Cancel anytime.
-                </p>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal>
-            <div className="card-retro">
-              <h2 className="font-display font-black text-2xl text-emerald-900 mb-4">
-                Sign up &amp; create your listing
-              </h2>
-              <ListBusinessForm categories={categories.map(c => ({
-                id: c.id,
-                name: c.name,
-                subcategories: c.subcategories.map(s => ({ id: s.id, name: s.name })),
-              }))} />
-            </div>
-          </ScrollReveal>
+      <div className="max-w-3xl mx-auto px-4 py-12">
+        <div className="bg-white border-2 border-black rounded-lg p-8">
+          <h2 className="text-2xl font-display font-black mb-3">Coming soon</h2>
+          <p className="text-stone-700 mb-4">
+            Self-serve posting is launching shortly. In the meantime, send us an email with your
+            business details and we'll add you to the directory for free during our launch period.
+          </p>
+          <a
+            href="mailto:hello@onlyforseniors.ca"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-black text-yp border-2 border-black font-display font-bold hover:bg-stone-900"
+          >
+            <Mail className="w-5 h-5" /> hello@onlyforseniors.ca
+          </a>
         </div>
       </div>
     </div>
