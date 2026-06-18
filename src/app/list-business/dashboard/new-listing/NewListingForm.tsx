@@ -19,6 +19,7 @@ import {
   Sparkles,
   Star,
   Tag as TagIcon,
+  Users,
   X,
 } from "lucide-react";
 import { getAllCategories } from "@/lib/businesses";
@@ -50,11 +51,12 @@ type Form = {
   province: ProvinceCode | "";
   serviceArea: string;
   cost: string;
-  costUnit: "" | "per-hour" | "per-day" | "per-service" | "estimate";
+  costUnit: "" | "per-hour" | "per-day" | "per-service" | "per-person" | "per-family" | "estimate";
   image: string;
   tags: string;
   languages: string[];   // language codes from lib/languages.ts
   otherLanguage: string; // free-text or selected from the "other" list
+  expectedAttendees: string; // only for events: max number of attendees
 };
 
 type Errors = Partial<Record<keyof Form | "agreed", string>>;
@@ -124,6 +126,7 @@ export function NewListingForm() {
     tags: "",
     languages: [] as string[],
     otherLanguage: "",
+    expectedAttendees: "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof Form | "agreed", boolean>>>({});
@@ -229,6 +232,10 @@ export function NewListingForm() {
               ? "per day"
               : form.costUnit === "per-service"
               ? "per service"
+              : form.costUnit === "per-person"
+              ? "per person"
+              : form.costUnit === "per-family"
+              ? "per family"
               : "(estimate)"
           }`
         : "";
@@ -241,7 +248,12 @@ export function NewListingForm() {
             .filter(Boolean)
             .join(", ")}`
         : "";
-    const fullDescription = form.description.trim() + costLine + languageLine;
+    const attendeesLine =
+      form.type === "event" && form.expectedAttendees
+        ? `\n\nExpected attendees: up to ${form.expectedAttendees}`
+        : "";
+    const fullDescription =
+      form.description.trim() + costLine + languageLine + attendeesLine;
 
     const listing: UserListing = {
       id,
@@ -526,7 +538,7 @@ export function NewListingForm() {
             <select
               id="nfield-province"
               value={form.province}
-              onChange={onChange("province")}
+              onChange={onProvinceChange}
               className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
             >
               <option value="">Choose…</option>
@@ -726,11 +738,38 @@ export function NewListingForm() {
                 <option value="per-hour">Per hour</option>
                 <option value="per-day">Per day</option>
                 <option value="per-service">Per service</option>
+                <option value="per-person">Per person</option>
+                <option value="per-family">Per family</option>
                 <option value="estimate">Estimate</option>
               </select>
             </div>
           </div>
         </fieldset>
+
+        {/* Expected attendees — only relevant for events */}
+        {form.type === "event" && (
+          <div>
+            <label htmlFor="nfield-expectedAttendees" className="block text-base font-bold text-black mb-2">
+              Expected attendees (optional)
+              <span className="ml-2 text-base font-normal text-stone-700">
+                max number of seniors you can host
+              </span>
+            </label>
+            <input
+              id="nfield-expectedAttendees"
+              type="number"
+              min={1}
+              max={1000}
+              value={form.expectedAttendees}
+              onChange={onChange("expectedAttendees")}
+              className="w-full max-w-xs min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+              placeholder="e.g. 20"
+            />
+            <p className="mt-1 text-base text-stone-700">
+              Helps families know if there is still space.
+            </p>
+          </div>
+        )}
 
         {/* Languages spoken — multi-select dropdown */}
         <fieldset>
@@ -941,6 +980,10 @@ function PreviewModal({
             ? "/ day"
             : form.costUnit === "per-service"
             ? "/ service"
+            : form.costUnit === "per-person"
+            ? "/ person"
+            : form.costUnit === "per-family"
+            ? "/ family"
             : "(estimate)"
         }`
       : null;
@@ -1068,6 +1111,16 @@ function PreviewModal({
                   <p className="text-base text-stone-800">
                     <span className="font-bold">Speaks: </span>
                     {languageChips.join(", ")}
+                  </p>
+                </div>
+              )}
+              {form.type === "event" && form.expectedAttendees && (
+                <div className="flex items-start gap-2 pt-2 border-t border-stone-200">
+                  <Users className="w-4 h-4 mt-0.5 text-blue-700 shrink-0" />
+                  <p className="text-base text-stone-800">
+                    <span className="font-bold">Up to </span>
+                    {form.expectedAttendees}
+                    <span className="font-bold"> attendees</span>
                   </p>
                 </div>
               )}
