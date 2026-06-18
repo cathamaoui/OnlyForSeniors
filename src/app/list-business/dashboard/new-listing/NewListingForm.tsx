@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
+  Accessibility,
   ArrowLeft,
   ArrowRight,
   Check,
@@ -60,7 +61,21 @@ type Form = {
   tags: string;
   languages: string[];   // language codes from lib/languages.ts
   otherLanguage: string; // free-text or selected from the "other" list
-  expectedAttendees: string; // only for events: max number of attendees
+  // Capacity (events only): "unlimited" or "limited-N" where N is a number
+  capacityMode: "" | "unlimited" | "limited";
+  capacityLimit: string; // only used when capacityMode === "limited"
+  // Accessibility options (events and services)
+  accessibility: {
+    wheelchairAccessible: boolean;
+    hearingLoop: boolean;
+    elevator: boolean;
+    accessibleParking: boolean;
+    accessibleWashroom: boolean;
+    serviceAnimalsWelcome: boolean;
+    largePrintMaterials: boolean;
+    quietSpace: boolean;
+  };
+  accessibilityNotes: string; // free-text "other"
 };
 
 type Errors = Partial<Record<keyof Form | "agreed", string>>;
@@ -131,7 +146,19 @@ export function NewListingForm() {
     tags: "",
     languages: [] as string[],
     otherLanguage: "",
-    expectedAttendees: "",
+    capacityMode: "" as Form["capacityMode"],
+    capacityLimit: "",
+    accessibility: {
+      wheelchairAccessible: false,
+      hearingLoop: false,
+      elevator: false,
+      accessibleParking: false,
+      accessibleWashroom: false,
+      serviceAnimalsWelcome: false,
+      largePrintMaterials: false,
+      quietSpace: false,
+    },
+    accessibilityNotes: "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof Form | "agreed", boolean>>>({});
@@ -256,12 +283,42 @@ export function NewListingForm() {
             .filter(Boolean)
             .join(", ")}`
         : "";
-    const attendeesLine =
-      form.type === "event" && form.expectedAttendees
-        ? `\n\nExpected attendees: up to ${form.expectedAttendees}`
+    const capacityLine =
+      form.type === "event" && form.capacityMode === "unlimited"
+        ? "\n\nCapacity: unlimited — anyone can attend."
+        : form.type === "event" && form.capacityMode === "limited" && form.capacityLimit
+        ? `\n\nCapacity: limited to ${form.capacityLimit} guest${form.capacityLimit === "1" ? "" : "s"}.`
         : "";
+
+    const accessLabels: Array<[keyof Form["accessibility"], string]> = [
+      ["wheelchairAccessible", "Wheelchair accessible"],
+      ["hearingLoop", "Hearing loop"],
+      ["elevator", "Elevator on site"],
+      ["accessibleParking", "Accessible parking"],
+      ["accessibleWashroom", "Accessible washroom"],
+      ["serviceAnimalsWelcome", "Service animals welcome"],
+      ["largePrintMaterials", "Large-print materials"],
+      ["quietSpace", "Quiet space available"],
+    ];
+    const pickedAccess = accessLabels
+      .filter(([k]) => form.accessibility[k])
+      .map(([, l]) => l);
+    const accessibilityLine =
+      pickedAccess.length > 0 || form.accessibilityNotes.trim()
+        ? `\n\nAccessibility: ${[
+            ...pickedAccess,
+            form.accessibilityNotes.trim(),
+          ]
+            .filter(Boolean)
+            .join("; ")}.`
+        : "";
+
     const fullDescription =
-      form.description.trim() + costLine + languageLine + attendeesLine;
+      form.description.trim() +
+      costLine +
+      languageLine +
+      capacityLine +
+      accessibilityLine;
 
     const listing: UserListing = {
       id,
@@ -774,29 +831,123 @@ export function NewListingForm() {
           </div>
         </fieldset>
 
-        {/* Expected attendees — only relevant for events */}
+        {/* Capacity — only relevant for events. User picks "Unlimited"
+            or "Limited to" with a number of guests. */}
         {form.type === "event" && (
-          <div>
-            <label htmlFor="nfield-expectedAttendees" className="block text-base font-bold text-black mb-2">
-              Expected attendees (optional)
-              <span className="ml-2 text-base font-normal text-stone-700">
-                max number of seniors you can host
-              </span>
-            </label>
-            <input
-              id="nfield-expectedAttendees"
-              type="number"
-              min={1}
-              max={1000}
-              value={form.expectedAttendees}
-              onChange={onChange("expectedAttendees")}
-              className="w-full max-w-xs min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
-              placeholder="e.g. 20"
-            />
-            <p className="mt-1 text-base text-stone-700">
-              Helps families know if there is still space.
+          <fieldset className="rounded-lg border-2 border-stone-200 bg-white p-4 space-y-3">
+            <legend className="text-base font-bold text-stone-900 px-2">
+              Space Limited to
+            </legend>
+            <p className="text-base text-stone-700 -mt-1">
+              Tell families if there's a cap on how many guests can attend.
             </p>
-          </div>
+            <div className="flex flex-wrap gap-4">
+              <label className="inline-flex items-center gap-2 min-h-touch cursor-pointer">
+                <input
+                  type="radio"
+                  name="capacityMode"
+                  value="unlimited"
+                  checked={form.capacityMode === "unlimited"}
+                  onChange={() =>
+                    setForm((prev) => ({ ...prev, capacityMode: "unlimited", capacityLimit: "" }))
+                  }
+                  className="w-5 h-5"
+                />
+                <span className="text-base font-semibold text-stone-900">
+                  Unlimited — anyone can come
+                </span>
+              </label>
+              <label className="inline-flex items-center gap-2 min-h-touch cursor-pointer">
+                <input
+                  type="radio"
+                  name="capacityMode"
+                  value="limited"
+                  checked={form.capacityMode === "limited"}
+                  onChange={() => setForm((prev) => ({ ...prev, capacityMode: "limited" }))}
+                  className="w-5 h-5"
+                />
+                <span className="text-base font-semibold text-stone-900">Limited to</span>
+                {form.capacityMode === "limited" && (
+                  <input
+                    id="nfield-capacityLimit"
+                    type="number"
+                    min={1}
+                    max={1000}
+                    value={form.capacityLimit}
+                    onChange={onChange("capacityLimit")}
+                    className="ml-1 w-28 min-h-touch px-3 py-2 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                    placeholder="e.g. 20"
+                    aria-label="Maximum number of guests"
+                  />
+                )}
+                {form.capacityMode === "limited" && (
+                  <span className="text-base text-stone-700">guests</span>
+                )}
+              </label>
+            </div>
+          </fieldset>
+        )}
+
+        {/* Accessibility — for both events and in-person services.
+            Common access checkboxes + a free-text "Other" notes field. */}
+        {(form.type === "event" || form.type === "service") && (
+          <fieldset className="rounded-lg border-2 border-stone-200 bg-white p-4 space-y-4">
+            <legend className="text-base font-bold text-stone-900 px-2 flex items-center gap-2">
+              <Accessibility className="w-5 h-5" /> Accessibility
+            </legend>
+            <p className="text-base text-stone-700 -mt-1">
+              Check everything that's true. Helps families with mobility, hearing, vision, or sensory needs decide if this is right for them.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {([
+                ["wheelchairAccessible", "Wheelchair accessible"],
+                ["hearingLoop", "Hearing loop / assistive listening"],
+                ["elevator", "Elevator on site"],
+                ["accessibleParking", "Accessible parking"],
+                ["accessibleWashroom", "Accessible washroom"],
+                ["serviceAnimalsWelcome", "Service animals welcome"],
+                ["largePrintMaterials", "Large-print materials available"],
+                ["quietSpace", "Quiet space available"],
+              ] as const).map(([key, label]) => (
+                <label
+                  key={key}
+                  className={[
+                    "flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors",
+                    form.accessibility[key]
+                      ? "border-blue-700 bg-blue-50"
+                      : "border-stone-200 bg-white hover:bg-stone-50",
+                  ].join(" ")}
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.accessibility[key]}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        accessibility: { ...prev.accessibility, [key]: e.target.checked },
+                      }))
+                    }
+                    className="w-5 h-5 shrink-0"
+                  />
+                  <span className="text-base font-semibold text-stone-900">{label}</span>
+                </label>
+              ))}
+            </div>
+            <div>
+              <label htmlFor="nfield-accessibilityNotes" className="block text-base font-bold text-black mb-2">
+                Other accessibility notes <span className="font-normal text-stone-700">(optional)</span>
+              </label>
+              <textarea
+                id="nfield-accessibilityNotes"
+                rows={3}
+                maxLength={300}
+                value={form.accessibilityNotes}
+                onChange={onChange("accessibilityNotes")}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                placeholder="e.g. Sign-language interpreter on request, scent-free environment, step-free entrance at the side door."
+              />
+            </div>
+          </fieldset>
         )}
 
         {/* Languages spoken — clickable chips. The list of languages is
@@ -1106,6 +1257,20 @@ function PreviewModal({
     form.otherLanguage,
   ].filter(Boolean);
 
+  const accessLabels: Array<[keyof Form["accessibility"], string]> = [
+    ["wheelchairAccessible", "Wheelchair accessible"],
+    ["hearingLoop", "Hearing loop"],
+    ["elevator", "Elevator on site"],
+    ["accessibleParking", "Accessible parking"],
+    ["accessibleWashroom", "Accessible washroom"],
+    ["serviceAnimalsWelcome", "Service animals welcome"],
+    ["largePrintMaterials", "Large-print materials"],
+    ["quietSpace", "Quiet space available"],
+  ];
+  const pickedAccess = accessLabels
+    .filter(([k]) => form.accessibility[k])
+    .map(([, l]) => l);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -1228,13 +1393,24 @@ function PreviewModal({
                   </p>
                 </div>
               )}
-              {form.type === "event" && form.expectedAttendees && (
+              {form.type === "event" && (form.capacityMode === "unlimited" || (form.capacityMode === "limited" && form.capacityLimit)) && (
                 <div className="flex items-start gap-2 pt-2 border-t border-stone-200">
                   <Users className="w-4 h-4 mt-0.5 text-blue-700 shrink-0" />
                   <p className="text-base text-stone-800">
-                    <span className="font-bold">Up to </span>
-                    {form.expectedAttendees}
-                    <span className="font-bold"> attendees</span>
+                    {form.capacityMode === "unlimited" ? (
+                      <><span className="font-bold">Capacity:</span> unlimited</>
+                    ) : (
+                      <><span className="font-bold">Capacity:</span> limited to {form.capacityLimit} guest{form.capacityLimit === "1" ? "" : "s"}</>
+                    )}
+                  </p>
+                </div>
+              )}
+              {(pickedAccess.length > 0 || form.accessibilityNotes.trim()) && (
+                <div className="flex items-start gap-2 pt-2 border-t border-stone-200">
+                  <Accessibility className="w-4 h-4 mt-0.5 text-blue-700 shrink-0" />
+                  <p className="text-base text-stone-800">
+                    <span className="font-bold">Accessibility: </span>
+                    {[...pickedAccess, form.accessibilityNotes.trim()].filter(Boolean).join("; ")}
                   </p>
                 </div>
               )}
