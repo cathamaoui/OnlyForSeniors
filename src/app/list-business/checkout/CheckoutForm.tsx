@@ -484,30 +484,33 @@ export function CheckoutForm() {
                     </span>
                   </label>
 
-                  {/* Auto-renews notice — appears on every checked add-on so
-                      the buyer is never surprised. Bolded for visibility. */}
-                  {checked && (
-                    <div className="px-4 pb-4 pl-12 -mt-1">
-                      <p className="flex items-start gap-2 text-base font-bold text-stone-900">
-                        <RefreshCw
-                          className="w-4 h-4 mt-1 shrink-0 text-blue-700"
-                          strokeWidth={2.5}
-                          aria-hidden="true"
-                        />
-                        <span>
-                          {a.interval === "weekly" && "Auto-renews every week on the same day. Cancel any time."}
-                          {a.interval === "monthly" && "Auto-renews every month on the same day. Cancel any time."}
-                          {a.interval === "per-event" && a.dateLabel?.toLowerCase().includes("sale")
-                            ? "Auto-renews the same sale each month. Cancel any time."
-                            : a.interval === "per-event" && (a.dateLabel?.toLowerCase().includes("class") || a.dateLabel?.toLowerCase().includes("workshop"))
-                            ? "Auto-renews the same class each month. Cancel any time."
-                            : a.interval === "per-event"
-                            ? "Auto-renews the same event each month. Cancel any time."
-                            : ""}
-                        </span>
-                      </p>
-                    </div>
-                  )}
+                  {/* Auto-renews notice — always visible so the buyer knows
+                      how this add-on will be billed. Bolder when checked. */}
+                  <div className="px-4 pb-4 pl-12 -mt-1">
+                    <p
+                      className={[
+                        "flex items-start gap-2 text-base",
+                        checked ? "font-bold text-stone-900" : "font-semibold text-stone-800",
+                      ].join(" ")}
+                    >
+                      <RefreshCw
+                        className={`w-4 h-4 mt-1 shrink-0 ${checked ? "text-blue-700" : "text-stone-700"}`}
+                        strokeWidth={2.5}
+                        aria-hidden="true"
+                      />
+                      <span>
+                        {a.interval === "weekly" && "Auto-renews every week on the same day. Cancel any time."}
+                        {a.interval === "monthly" && "Auto-renews every month on the same day. Cancel any time."}
+                        {a.interval === "per-event" && a.dateLabel?.toLowerCase().includes("sale")
+                          ? "Auto-renews the same sale each month. Cancel any time."
+                          : a.interval === "per-event" && (a.dateLabel?.toLowerCase().includes("class") || a.dateLabel?.toLowerCase().includes("workshop"))
+                          ? "Auto-renews the same class each month. Cancel any time."
+                          : a.interval === "per-event"
+                          ? "Auto-renews the same event each month. Cancel any time."
+                          : ""}
+                      </span>
+                    </p>
+                  </div>
 
                   {/* Date picker for date-required add-ons */}
                   {checked && a.dateRequired && (

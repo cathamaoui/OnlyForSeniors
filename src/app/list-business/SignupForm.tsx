@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Eye, EyeOff, ShieldCheck } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, RotateCcw, ShieldCheck } from "lucide-react";
 import {
   loadSignup,
   saveSignup,
   markStep,
+  clearSignup,
   type Account,
 } from "@/lib/signup";
 
@@ -246,12 +247,35 @@ export function SignupForm() {
       </div>
 
       <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-        <Link
-          href="/"
-          className="inline-flex items-center justify-center min-h-touch px-5 py-3 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100"
-        >
-          Cancel
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center min-h-touch px-5 py-3 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100"
+          >
+            Cancel
+          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm("Start over? This will erase your account info and any progress on this device.")) {
+                clearSignup();
+                setForm({
+                  businessName: "",
+                  contactName: "",
+                  email: "",
+                  phone: "",
+                  password: "",
+                });
+                setErrors({});
+                setTouched({});
+                if (typeof window !== "undefined") window.location.reload();
+              }
+            }}
+            className="inline-flex items-center justify-center gap-2 min-h-touch px-5 py-3 text-base font-semibold text-red-700 bg-white border-2 border-red-700 rounded-lg hover:bg-red-50"
+          >
+            <RotateCcw className="w-4 h-4" /> Start over
+          </button>
+        </div>
         <button
           type="submit"
           className="inline-flex items-center justify-center gap-2 min-h-touch px-7 py-3 text-lg font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800"

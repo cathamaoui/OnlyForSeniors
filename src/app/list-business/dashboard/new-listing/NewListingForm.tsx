@@ -42,13 +42,13 @@ type Form = {
   categorySlug: string;
   subcategorySlug: string;
   phone: string;
+  contactName: string;
   contactPhone: string;
   email: string;
   website: string;
   city: string;
   province: ProvinceCode | "";
   serviceArea: string;
-  priceRange: "" | "$" | "$$" | "$$$" | "$$$$" | "Free";
   cost: string;
   costUnit: "" | "per-hour" | "per-day" | "per-service" | "estimate";
   image: string;
@@ -111,13 +111,13 @@ export function NewListingForm() {
     categorySlug: "",
     subcategorySlug: "",
     phone: "",
+    contactName: "",
     contactPhone: "",
     email: "",
     website: "",
     city: "",
     province: "",
     serviceArea: "",
-    priceRange: "",
     cost: "",
     costUnit: "" as Form["costUnit"],
     image: "",
@@ -132,6 +132,7 @@ export function NewListingForm() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<{ id: string; name: string } | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [provinceChangeNote, setProvinceChangeNote] = useState<string | null>(null);
 
   useEffect(() => {
     const s = loadSignup();
@@ -164,6 +165,25 @@ export function NewListingForm() {
       setForm(next);
       if (touched[k]) setErrors(validate(next, agreedGuidelines && agreedContact));
     };
+
+  /** Changing the province means the current city is likely wrong. Clear it
+   *  so the user is forced to pick a city that actually belongs to the new
+   *  province. The on-screen datalist will only show cities for the new
+   *  province, so re-typing takes one click. */
+  const onProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newProvince = e.target.value as ProvinceCode | "";
+    const oldProvince = form.province;
+    const knownCities = newProvince ? citiesFor(newProvince) : [];
+    const cityStillValid = knownCities.includes(form.city);
+    if (oldProvince && newProvince && oldProvince !== newProvince && form.city && !cityStillValid) {
+      // Friendly explainer in a tiny inline notice — gone after 4s
+      setProvinceChangeNote(
+        `We cleared your city because "${form.city}" is in ${PROVINCES.find((p) => p.code === oldProvince)?.name ?? oldProvince}, not ${PROVINCES.find((p) => p.code === newProvince)?.name ?? newProvince}.`
+      );
+      setTimeout(() => setProvinceChangeNote(null), 6000);
+    }
+    setForm((prev) => ({ ...prev, province: newProvince, city: cityStillValid ? prev.city : "" }));
+  };
 
   const onBlur = (k: keyof Form) => () => {
     setTouched((t) => ({ ...t, [k]: true }));
@@ -240,7 +260,6 @@ export function NewListingForm() {
       city: form.city.trim(),
       province: (form.province as string) || "ON",
       postalCode: "",
-      priceRange: form.priceRange || undefined,
       isFeatured: false,
       isVerified: false,
       rating: undefined,
@@ -372,10 +391,13 @@ export function NewListingForm() {
           </div>
         </fieldset>
 
-        {/* Name + tagline */}
+        {/* Name + tagline -- field label and placeholder change with the
+            selected type so the user always knows what they're naming */}
         <div>
           <label htmlFor="nfield-name" className="block text-base font-bold text-black mb-2">
-            Listing name
+            {form.type === "service" && "Service name"}
+            {form.type === "event" && "Event name"}
+            {form.type === "product" && "Product name"}
           </label>
           <input
             id="nfield-name"
@@ -385,7 +407,13 @@ export function NewListingForm() {
             onBlur={onBlur("name")}
             aria-invalid={Boolean(errFor("name"))}
             className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
-            placeholder="e.g. Mobile Dental Hygiene by Lisa"
+            placeholder={
+              form.type === "service"
+                ? "e.g. Mobile Dental Hygiene by Lisa"
+                : form.type === "event"
+                ? "e.g. Spring Open House at Moncton Library"
+                : "e.g. Easy-Open Jar Opener — 3-pack"
+            }
           />
           {errFor("name") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("name")}</p>}
         </div>
@@ -394,7 +422,9 @@ export function NewListingForm() {
           <label htmlFor="nfield-tagline" className="block text-base font-bold text-black mb-2">
             Tagline
             <span className="ml-2 text-base font-normal text-stone-700">
-              one short sentence that sells the service
+              {form.type === "service" && "one short sentence that sells the service"}
+              {form.type === "event" && "when, where, and why seniors should come"}
+              {form.type === "product" && "what it is and why seniors (or their families) need it"}
             </span>
           </label>
           <input
@@ -560,11 +590,16 @@ export function NewListingForm() {
           </p>
         </div>
 
-        {/* Contact */}
-        <fieldset className="grid sm:grid-cols-2 gap-4">
+        {/* Contact -- business phone (required) + optional contact person
+            (name + their phone). Keeps the two phone numbers clearly
+            distinguished so they don't look like duplicates. */}
+        <fieldset className="space-y-4">
           <div>
             <label htmlFor="nfield-phone" className="block text-base font-bold text-black mb-2">
-              Phone
+              Business phone
+              <span className="ml-2 text-base font-normal text-stone-700">
+                the main number seniors will call
+              </span>
             </label>
             <input
               id="nfield-phone"
@@ -579,22 +614,40 @@ export function NewListingForm() {
             />
             {errFor("phone") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("phone")}</p>}
           </div>
-          <div>
-            <label htmlFor="nfield-contactPhone" className="block text-base font-bold text-black mb-2">
-              Contact phone (optional)
-              <span className="ml-2 text-base font-normal text-stone-700">
-                alternate or direct line
-              </span>
-            </label>
-            <input
-              id="nfield-contactPhone"
-              type="tel"
-              autoComplete="tel-national"
-              value={form.contactPhone}
-              onChange={onChange("contactPhone")}
-              className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
-              placeholder="e.g. cell or after-hours number"
-            />
+          <div className="rounded-lg border-2 border-stone-200 bg-stone-50 p-4 space-y-4">
+            <p className="text-base font-semibold text-stone-900">
+              Secondary contact <span className="font-normal text-stone-700">(optional — leave blank to skip)</span>
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="nfield-contactName" className="block text-base font-bold text-black mb-2">
+                  Contact name
+                </label>
+                <input
+                  id="nfield-contactName"
+                  type="text"
+                  autoComplete="name"
+                  value={form.contactName}
+                  onChange={onChange("contactName")}
+                  className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                  placeholder="e.g. Lisa Chen, Manager"
+                />
+              </div>
+              <div>
+                <label htmlFor="nfield-contactPhone" className="block text-base font-bold text-black mb-2">
+                  Contact phone
+                </label>
+                <input
+                  id="nfield-contactPhone"
+                  type="tel"
+                  autoComplete="tel-national"
+                  value={form.contactPhone}
+                  onChange={onChange("contactPhone")}
+                  className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                  placeholder="(416) 555-0143"
+                />
+              </div>
+            </div>
           </div>
         </fieldset>
         <div>
@@ -628,24 +681,6 @@ export function NewListingForm() {
               className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
               placeholder="https://yourbusiness.ca"
             />
-          </div>
-          <div>
-            <label htmlFor="nfield-priceRange" className="block text-base font-bold text-black mb-2">
-              Price range (optional)
-            </label>
-            <select
-              id="nfield-priceRange"
-              value={form.priceRange}
-              onChange={onChange("priceRange")}
-              className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
-            >
-              <option value="">Not applicable</option>
-              <option value="Free">Free</option>
-              <option value="$">$ — Budget</option>
-              <option value="$$">$$ — Moderate</option>
-              <option value="$$$">$$$ — Premium</option>
-              <option value="$$$$">$$$$ — Luxury</option>
-            </select>
           </div>
         </div>
 
@@ -697,42 +732,31 @@ export function NewListingForm() {
           </div>
         </fieldset>
 
-        {/* Languages spoken — multi-select chips + "other" dropdown */}
+        {/* Languages spoken — multi-select dropdown */}
         <fieldset>
           <legend className="text-base font-bold text-stone-900 mb-1 flex items-center gap-2">
             <Languages className="w-5 h-5" /> Languages spoken
           </legend>
           <p className="text-base text-stone-700 mb-3">
-            Tap any language you can serve seniors in. Helps families find you.
+            Hold <kbd className="px-1.5 py-0.5 text-base font-bold bg-stone-100 border border-stone-500 rounded">Ctrl</kbd> (or <kbd className="px-1.5 py-0.5 text-base font-bold bg-stone-100 border border-stone-500 rounded">⌘</kbd> on Mac) to pick more than one. Helps families find you.
           </p>
-          <div className="flex flex-wrap gap-2">
-            {LANGUAGES.map((l) => {
-              const active = form.languages.includes(l.code);
-              return (
-                <button
-                  key={l.code}
-                  type="button"
-                  onClick={() => {
-                    setForm((prev) => ({
-                      ...prev,
-                      languages: active
-                        ? prev.languages.filter((c) => c !== l.code)
-                        : [...prev.languages, l.code],
-                    }));
-                  }}
-                  aria-pressed={active}
-                  className={[
-                    "min-h-touch px-3 py-2 text-base font-semibold border-2 rounded-lg transition-colors",
-                    active
-                      ? "bg-blue-700 text-white border-blue-700"
-                      : "bg-white text-stone-800 border-stone-500 hover:bg-stone-100",
-                  ].join(" ")}
-                >
-                  {l.name}
-                </button>
-              );
-            })}
-          </div>
+          <select
+            id="nfield-languages"
+            multiple
+            size={Math.min(8, LANGUAGES.length)}
+            value={form.languages}
+            onChange={(e) => {
+              const codes = Array.from(e.target.selectedOptions).map((o) => o.value);
+              setForm((prev) => ({ ...prev, languages: codes }));
+            }}
+            className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+          >
+            {LANGUAGES.map((l) => (
+              <option key={l.code} value={l.code} className="py-1">
+                {l.name}
+              </option>
+            ))}
+          </select>
           <div className="mt-4">
             <label htmlFor="nfield-otherLanguage" className="block text-base font-bold text-black mb-2">
               Other language (optional)
@@ -1010,11 +1034,6 @@ function PreviewModal({
                 </p>
               )}
               <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-stone-200">
-                {form.priceRange && (
-                  <span className="text-base font-bold text-stone-900">
-                    {form.priceRange}
-                  </span>
-                )}
                 {costLabel && (
                   <span className="text-base font-bold text-blue-700">
                     {costLabel}

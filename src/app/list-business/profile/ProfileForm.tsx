@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getAllCategories } from "@/lib/businesses";
 import { PROVINCES, type ProvinceCode } from "@/lib/canadaTax";
+import { citiesFor } from "@/lib/canadaCities";
 import { loadSignup, saveSignup, markStep, type BusinessProfile } from "@/lib/signup";
 
 type Errors = Partial<Record<keyof BusinessProfile, string>>;
@@ -64,6 +65,19 @@ export function ProfileForm() {
       setForm(next);
       if (touched[k]) setErrors(validate(next));
     };
+
+  /** When the province changes, the current city is likely wrong for the
+   *  new province. Clear it unless it's still in the new province's list. */
+  const onProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newProvince = e.target.value as ProvinceCode | "";
+    const knownCities = newProvince ? citiesFor(newProvince) : [];
+    const stillValid = knownCities.includes(form.city);
+    setForm((prev) => ({
+      ...prev,
+      province: newProvince,
+      city: stillValid ? prev.city : "",
+    }));
+  };
 
   const onBlur = (k: keyof BusinessProfile) => () => {
     setTouched((t) => ({ ...t, [k]: true }));
@@ -130,23 +144,6 @@ export function ProfileForm() {
             {errFor("street") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("street")}</p>}
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
-            <div className="sm:col-span-2">
-              <label htmlFor="pfield-city" className="block text-base font-bold text-black mb-2">
-                City
-              </label>
-              <input
-                id="pfield-city"
-                type="text"
-                autoComplete="address-level2"
-                value={form.city}
-                onChange={onChange("city")}
-                onBlur={onBlur("city")}
-                aria-invalid={Boolean(errFor("city"))}
-                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
-                placeholder="Toronto"
-              />
-              {errFor("city") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("city")}</p>}
-            </div>
             <div>
               <label htmlFor="pfield-province" className="block text-base font-bold text-black mb-2">
                 Province
@@ -154,7 +151,7 @@ export function ProfileForm() {
               <select
                 id="pfield-province"
                 value={form.province}
-                onChange={onChange("province")}
+                onChange={onProvinceChange}
                 onBlur={onBlur("province")}
                 aria-invalid={Boolean(errFor("province"))}
                 className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
@@ -167,6 +164,40 @@ export function ProfileForm() {
                 ))}
               </select>
               {errFor("province") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("province")}</p>}
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="pfield-city" className="block text-base font-bold text-black mb-2">
+                City
+                <span className="ml-2 text-base font-normal text-stone-700">
+                  {form.province
+                    ? `${citiesFor(form.province as ProvinceCode).length} popular cities in ${
+                        PROVINCES.find((p) => p.code === form.province)?.name ?? form.province
+                      }`
+                    : "Pick a province first to see popular cities"}
+                </span>
+              </label>
+              <input
+                id="pfield-city"
+                type="text"
+                autoComplete="address-level2"
+                list="profile-cities-datalist"
+                value={form.city}
+                onChange={onChange("city")}
+                onBlur={onBlur("city")}
+                aria-invalid={Boolean(errFor("city"))}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                placeholder={
+                  form.province
+                    ? "Pick from the list or type your city"
+                    : "Pick a province first"
+                }
+              />
+              <datalist id="profile-cities-datalist">
+                {citiesFor((form.province as ProvinceCode) ?? "ON").map((c) => (
+                  <option key={c} value={c} />
+                ))}
+              </datalist>
+              {errFor("city") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("city")}</p>}
             </div>
           </div>
           <div>

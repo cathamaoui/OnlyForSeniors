@@ -43,6 +43,8 @@ import {
   buildPurchase,
   todayIso,
 } from "@/lib/addons";
+import { listAllBoosts } from "@/lib/boosts";
+import { BoostCenter } from "./BoostCenter";
 
 function fmtDate(d: Date): string {
   return d.toLocaleDateString("en-CA", {
@@ -61,6 +63,7 @@ export function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const [data, setData] = useState<ReturnType<typeof loadSignup> | null>(null);
   const [userListings, setUserListings] = useState<UserListing[]>([]);
+  const [boostCards, setBoostCards] = useState<ReturnType<typeof listAllBoosts> | null>(null);
 
   useEffect(() => {
     const s = loadSignup();
@@ -69,7 +72,9 @@ export function Dashboard() {
       return;
     }
     setData(s);
-    setUserListings(getUserListingsFor(s.account?.email));
+    const listings = getUserListingsFor(s.account?.email);
+    setUserListings(listings);
+    setBoostCards(listAllBoosts(normaliseAddonList(s.checkout?.addons ?? [])));
     setMounted(true);
   }, [router]);
 
@@ -413,6 +418,9 @@ export function Dashboard() {
           </div>
         </aside>
       </div>
+
+      {/* Boost Center -- 6 add-on cards, glowing when info is missing */}
+      {boostCards && <BoostCenter cards={boostCards} listings={userListings} />}
 
       {/* Listings section */}
       <section className="bg-white border-2 border-stone-200 rounded-lg p-6 sm:p-8">

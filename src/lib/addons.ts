@@ -36,7 +36,7 @@ export const ADDONS: Addon[] = [
     id: "top-bump",
     title: "Top of Category bump",
     blurb:
-      "Push your listing to the very top of its category search page, Kijiji-style. Buy it any week you need a boost.",
+      "Push your listing to the very top of its category search page. Buy it any week you need a boost.",
     price: 7,
     interval: "weekly",
     highlight: true,

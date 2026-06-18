@@ -77,3 +77,28 @@ export const OTHER_LANGUAGES: string[] = [
 export function languageName(code: string): string {
   return LANGUAGES.find((l) => l.code === code)?.name ?? code;
 }
+
+// --------------------------------------------------------------------
+// All available languages in a single list, used by the new combined
+// multi-select dropdown. Each entry is either a code (from LANGUAGES) or
+// the raw name (from OTHER_LANGUAGES). The `findLanguageLabel` helper
+// resolves either form back to a display string.
+// --------------------------------------------------------------------
+export type LanguageOption = { value: string; label: string; group: "primary" | "other" };
+
+export const ALL_LANGUAGE_OPTIONS: LanguageOption[] = [
+  ...LANGUAGES.map((l) => ({ value: l.code, label: l.name, group: "primary" as const })),
+  ...OTHER_LANGUAGES.map((n) => ({ value: n, label: n, group: "other" as const })),
+];
+
+/** Resolve any value (code, raw name, or free text) to a display label. */
+export function findLanguageLabel(value: string): string {
+  // Primary by code
+  const fromCode = LANGUAGES.find((l) => l.code === value);
+  if (fromCode) return fromCode.name;
+  // Other by exact name
+  if (OTHER_LANGUAGES.includes(value)) return value;
+  // Free text — capitalise first letter for nicer display
+  if (!value) return "";
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
