@@ -34,7 +34,7 @@ export function SearchClient({ businesses, categories }: Props) {
 
   return (
     <>
-      <p className="text-stone-700">
+      <p className="text-base text-stone-800">
         {q ? (
           <>
             <span className="font-bold">{matches.length}</span> result{matches.length === 1 ? "" : "s"} for "<strong>{q}</strong>"
@@ -56,15 +56,15 @@ export function SearchClient({ businesses, categories }: Props) {
       />
 
       {matches.length === 0 ? (
-        <div className="bg-white border-2 border-black rounded-lg p-12 text-center text-stone-600">
+        <div className="bg-white border-2 border-stone-500 rounded-lg p-12 text-center text-stone-800">
           <p className="text-lg">No listings match your search.</p>
-          <p className="text-sm mt-2">Try a different word, or browse a category.</p>
+          <p className="text-base mt-2">Try a different word, or browse a category.</p>
           <div className="flex flex-wrap justify-center gap-2 mt-4">
             {categories.slice(0, 6).map((c) => (
               <Link
                 key={c.slug}
                 href={`/categories/${c.slug}/`}
-                className="px-3 py-2 text-sm bg-white border-2 border-black hover:bg-stone-100"
+                className="px-3 py-2 text-base bg-white border-2 border-black hover:bg-stone-100"
               >
                 {c.icon} {c.name}
               </Link>

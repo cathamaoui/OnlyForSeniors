@@ -55,7 +55,7 @@ export default async function SubcategoryPage({
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href={`/categories/${slug}`}
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-sm hover:bg-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> {category.name}
           </Link>
@@ -75,7 +75,7 @@ export default async function SubcategoryPage({
 
         {sorted.length === 0 ? (
           <div className="bg-white border-2 border-black rounded-lg p-12 text-center">
-            <p className="text-lg text-stone-600">No listings in this sub-category yet.</p>
+            <p className="text-lg text-stone-800">No listings in this sub-category yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

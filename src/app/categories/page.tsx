@@ -25,7 +25,7 @@ export default function CategoriesPage() {
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-sm hover:bg-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
@@ -41,12 +41,12 @@ export default function CategoriesPage() {
           <div className="bg-white border-2 border-black rounded-lg overflow-hidden">
             <div className="bg-blue-700 text-white px-4 py-2 flex items-center gap-2">
               <Newspaper className="w-4 h-4" />
-              <h2 className="font-display font-bold uppercase tracking-wide text-sm">
+              <h2 className="font-display font-bold   text-base">
                 What's New (Past 24h)
               </h2>
             </div>
             {recent.length === 0 ? (
-              <p className="px-4 py-3 text-sm text-stone-600">
+              <p className="px-4 py-3 text-base text-stone-800">
                 No new listings in the last 24 hours.
               </p>
             ) : (
@@ -58,10 +58,10 @@ export default function CategoriesPage() {
                       className="flex items-start justify-between gap-2 px-4 py-3 border-b border-stone-200 last:border-b-0 hover:bg-blue-50"
                     >
                       <div>
-                        <p className="font-semibold text-sm line-clamp-1">{b.name}</p>
-                        <p className="text-xs text-stone-600">{b.city}, {b.province}</p>
+                        <p className="font-semibold text-base line-clamp-1">{b.name}</p>
+                        <p className="text-base text-stone-800">{b.city}, {b.province}</p>
                       </div>
-                      <ChevronRight className="w-4 h-4 mt-1 text-stone-400" />
+                      <ChevronRight className="w-4 h-4 mt-1 text-stone-700" />
                     </Link>
                   </li>
                 ))}
@@ -81,7 +81,7 @@ export default function CategoriesPage() {
                 >
                   <span className="mr-2">{cat.icon}</span>
                   {cat.name}{" "}
-                  <span className="font-normal text-sm opacity-90">({catCount})</span>
+                  <span className="font-normal text-base opacity-90">({catCount})</span>
                 </Link>
                 <ul>
                   {cat.subcategories.map((sub) => {
@@ -90,10 +90,10 @@ export default function CategoriesPage() {
                       <li key={sub.slug}>
                         <Link
                           href={`/categories/${cat.slug}/${sub.slug}`}
-                          className="flex items-center justify-between px-4 py-2 text-sm border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
+                          className="flex items-center justify-between px-4 py-2 text-base border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
                         >
                           <span>{sub.name}</span>
-                          <span className="text-stone-500 text-xs">({subCount})</span>
+                          <span className="text-stone-700 text-base">({subCount})</span>
                         </Link>
                       </li>
                     );
@@ -107,16 +107,16 @@ export default function CategoriesPage() {
           <div className="bg-emerald-700 text-white border-2 border-black rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <Heart className="w-4 h-4" />
-              <h2 className="font-display font-bold uppercase tracking-wide text-sm">
+              <h2 className="font-display font-bold   text-base">
                 Want to Volunteer?
               </h2>
             </div>
-            <p className="text-sm mb-3">
+            <p className="text-base mb-3">
               Give your time, learn new skills, and meet people in your community.
             </p>
             <Link
               href="/categories/volunteer"
-              className="inline-block bg-white text-emerald-700 px-3 py-2 font-bold text-sm border-2 border-black"
+              className="inline-block bg-white text-emerald-700 px-3 py-2 font-bold text-base border-2 border-black"
             >
               Browse volunteer opportunities →
             </Link>
@@ -148,7 +148,7 @@ export default function CategoriesPage() {
                       {cat.icon}
                     </div>
                     <h3 className="font-display font-bold text-lg">{cat.name}</h3>
-                    <p className="text-sm text-stone-600">
+                    <p className="text-base text-stone-800">
                       {cat.subcategories.length} sub-categories · {catCount} listing{catCount === 1 ? "" : "s"}
                     </p>
                   </Link>

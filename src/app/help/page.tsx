@@ -22,14 +22,14 @@ export default function HelpPage() {
             <Phone className="w-12 h-12 text-ember-600 mx-auto mb-2" />
             <h2 className="font-display font-black text-xl text-emerald-900">Call us</h2>
             <p className="text-emerald-800">1-800-555-0199</p>
-            <p className="text-sm text-emerald-700 mt-1">Mon–Fri, 9am–5pm ET</p>
+            <p className="text-base text-emerald-700 mt-1">Mon–Fri, 9am–5pm ET</p>
           </a>
 
           <a href="mailto:hello@onlyforseniors.ca" className="card-retro text-center hover:-translate-y-1 transition-transform">
             <Mail className="w-12 h-12 text-emerald-700 mx-auto mb-2" />
             <h2 className="font-display font-black text-xl text-emerald-900">Email us</h2>
             <p className="text-emerald-800">hello@onlyforseniors.ca</p>
-            <p className="text-sm text-emerald-700 mt-1">We reply within 1 business day</p>
+            <p className="text-base text-emerald-700 mt-1">We reply within 1 business day</p>
           </a>
         </div>
 

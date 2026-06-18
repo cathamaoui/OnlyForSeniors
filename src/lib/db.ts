@@ -1,4 +1,1 @@
-// Database is intentionally disabled. The site uses static JSON in src/data/businesses.json.
-// This stub keeps the prisma import out of the build.
-
-export const prisma = undefined as never;
+// Database is intentionally disabled. The site uses static JSON in src/data/businesses.json. // This stub keeps the prisma import out of the build. export const prisma = undefined as never; 

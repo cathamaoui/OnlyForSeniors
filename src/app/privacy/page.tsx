@@ -23,7 +23,7 @@ export default function PrivacyPage() {
           </ul>
           <h2 className="font-display text-2xl">Contact us</h2>
           <p>Email: privacy@onlyforseniors.ca · Phone: 1-800-555-0199</p>
-          <p className="text-sm text-emerald-700">
+          <p className="text-base text-emerald-700">
             This is a sample privacy policy. Have it reviewed by a legal professional
             before going into production.
           </p>

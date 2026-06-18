@@ -144,10 +144,10 @@ export default function ForBusinessesPage() {
       {/* HERO */}
       <section className="bg-white border-b-2 border-black">
         <div className="max-w-5xl mx-auto px-4 py-16 sm:py-20 text-center">
-          <p className="text-sm font-bold uppercase tracking-widest text-blue-700 mb-3">
+          <p className="text-base font-bold   text-blue-700 mb-3">
             For businesses
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-stone-900 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-stone-900 leading-normal">
             Reach the seniors <br className="hidden sm:block" />
             who actually need you.
           </h1>
@@ -170,7 +170,7 @@ export default function ForBusinessesPage() {
               <Mail className="w-5 h-5" /> Talk to a human
             </a>
           </div>
-          <p className="mt-5 text-sm text-stone-500">
+          <p className="mt-5 text-base text-stone-700">
             Free setup during launch · No contract · Cancel anytime
           </p>
         </div>
@@ -184,10 +184,10 @@ export default function ForBusinessesPage() {
               <p className="text-3xl sm:text-4xl font-display font-black text-white">
                 {w.stat}
               </p>
-              <p className="text-xs sm:text-sm uppercase tracking-widest text-stone-300 mt-1">
+              <p className="text-base sm:text-base   text-stone-700 mt-1">
                 {w.label}
               </p>
-              <p className="text-sm text-stone-200 mt-3 leading-relaxed">
+              <p className="text-base text-stone-200 mt-3 leading-relaxed">
                 {w.body}
               </p>
             </div>
@@ -198,13 +198,13 @@ export default function ForBusinessesPage() {
       {/* WHAT YOU GET */}
       <section className="max-w-6xl mx-auto px-4 py-16 sm:py-20">
         <div className="text-center mb-10">
-          <p className="text-sm font-bold uppercase tracking-widest text-blue-700 mb-2">
+          <p className="text-base font-bold   text-blue-700 mb-2">
             What you get
           </p>
           <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
             A real profile. Real seniors. Real calls.
           </h2>
-          <p className="mt-3 text-lg text-stone-600 max-w-2xl mx-auto">
+          <p className="mt-3 text-lg text-stone-800 max-w-2xl mx-auto">
             Every business on the directory gets the same set of tools to earn
             trust and make it easy for seniors to reach them.
           </p>
@@ -219,7 +219,7 @@ export default function ForBusinessesPage() {
               <h3 className="text-lg font-bold text-stone-900 mb-2">
                 {item.title}
               </h3>
-              <p className="text-stone-600 leading-relaxed">{item.body}</p>
+              <p className="text-stone-800 leading-relaxed">{item.body}</p>
             </div>
           ))}
         </div>
@@ -229,13 +229,13 @@ export default function ForBusinessesPage() {
       <section className="bg-white border-y-2 border-stone-200">
         <div className="max-w-5xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
           <div>
-            <p className="text-sm font-bold uppercase tracking-widest text-blue-700 mb-2">
+            <p className="text-base font-bold   text-blue-700 mb-2">
               Who lists here
             </p>
             <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900 mb-4">
               The businesses seniors actually hire.
             </h2>
-            <p className="text-lg text-stone-600">
+            <p className="text-lg text-stone-800">
               From home care to mobile dental, from snow removal to pastoral
               visits — if a senior might need you, you belong in the directory.
             </p>
@@ -257,7 +257,7 @@ export default function ForBusinessesPage() {
       {/* HOW IT WORKS */}
       <section className="max-w-5xl mx-auto px-4 py-16 sm:py-20">
         <div className="text-center mb-10">
-          <p className="text-sm font-bold uppercase tracking-widest text-blue-700 mb-2">
+          <p className="text-base font-bold   text-blue-700 mb-2">
             How it works
           </p>
           <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
@@ -276,7 +276,7 @@ export default function ForBusinessesPage() {
               <h3 className="text-lg font-bold text-stone-900 mb-2">
                 {s.title}
               </h3>
-              <p className="text-stone-600 leading-relaxed">{s.body}</p>
+              <p className="text-stone-800 leading-relaxed">{s.body}</p>
             </div>
           ))}
         </div>
@@ -285,13 +285,13 @@ export default function ForBusinessesPage() {
       {/* PRICING RECAP */}
       <section className="bg-white border-y-2 border-stone-200">
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-          <p className="text-sm font-bold uppercase tracking-widest text-blue-700 mb-2">
+          <p className="text-base font-bold   text-blue-700 mb-2">
             Pricing
           </p>
           <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900 mb-4">
             One flat rate. No surprises.
           </h2>
-          <p className="text-lg text-stone-600 mb-8 max-w-xl mx-auto">
+          <p className="text-lg text-stone-800 mb-8 max-w-xl mx-auto">
             $10/month covers your full profile, all categories, and all the
             tools. We don&apos;t take a cut of your work.
           </p>
@@ -300,7 +300,7 @@ export default function ForBusinessesPage() {
               <span className="text-5xl font-display font-black text-stone-900">
                 $10
               </span>
-              <span className="text-stone-600">/ month</span>
+              <span className="text-stone-800">/ month</span>
             </div>
             <ul className="mt-5 space-y-2 text-stone-800">
               <li className="flex items-start gap-2">
@@ -341,7 +341,7 @@ export default function ForBusinessesPage() {
       {/* FAQ */}
       <section className="max-w-3xl mx-auto px-4 py-16 sm:py-20">
         <div className="text-center mb-8">
-          <p className="text-sm font-bold uppercase tracking-widest text-blue-700 mb-2">
+          <p className="text-base font-bold   text-blue-700 mb-2">
             FAQ
           </p>
           <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
@@ -356,11 +356,11 @@ export default function ForBusinessesPage() {
             >
               <summary className="cursor-pointer list-none px-5 py-4 font-bold text-stone-900 flex items-center justify-between">
                 {f.q}
-                <span className="ml-3 text-stone-400 group-open:rotate-45 transition-transform text-2xl leading-none">
+                <span className="ml-3 text-stone-700 group-open:rotate-45 transition-transform text-2xl leading-normal">
                   +
                 </span>
               </summary>
-              <p className="px-5 pb-5 text-stone-600 leading-relaxed">{f.a}</p>
+              <p className="px-5 pb-5 text-stone-800 leading-relaxed">{f.a}</p>
             </details>
           ))}
         </div>
@@ -389,7 +389,7 @@ export default function ForBusinessesPage() {
               <Mail className="w-5 h-5" /> hello@onlyforseniors.ca
             </a>
           </div>
-          <p className="mt-6 text-sm text-blue-100 flex items-center justify-center gap-2 flex-wrap">
+          <p className="mt-6 text-base text-blue-100 flex items-center justify-center gap-2 flex-wrap">
             <Clock className="w-4 h-4" /> Or just call —{" "}
             <Phone className="w-4 h-4" /> (416) 555-0142
           </p>

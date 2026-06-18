@@ -32,7 +32,7 @@ export default function HomePage() {
       <section className="border-b-2 border-black bg-gradient-to-b from-white to-stone-50">
         <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
           {/* Eyebrow */}
-          <p className="inline-block text-xs font-bold tracking-widest uppercase bg-black text-white px-3 py-1 rounded-full">
+          <p className="inline-block text-base font-bold   bg-black text-white px-3 py-1 rounded-full">
             Canada’s Senior Marketplace
           </p>
 
@@ -55,7 +55,7 @@ export default function HomePage() {
           <form action="/search" method="GET" className="mt-8 flex flex-col sm:flex-row gap-3 max-w-3xl">
             <label htmlFor="hero-search" className="sr-only">Search listings</label>
             <div className="flex-1 flex items-center bg-white border-2 border-black rounded-xl px-4 shadow-sm focus-within:ring-4 focus-within:ring-blue-200">
-              <Search className="w-5 h-5 text-stone-500" />
+              <Search className="w-5 h-5 text-stone-700" />
               <input
                 id="hero-search"
                 type="text"
@@ -75,12 +75,12 @@ export default function HomePage() {
 
           {/* Quick-pick popular searches */}
           <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="text-sm font-semibold text-stone-600">Popular:</span>
+            <span className="text-base font-semibold text-stone-800">Popular:</span>
             {["Personal Care", "House Cleaning", "Rides", "Snow Removal", "Physiotherapy", "Pharmacy Delivery"].map((tag) => (
               <Link
                 key={tag}
                 href={`/search/?q=${encodeURIComponent(tag)}`}
-                className="text-sm px-3 py-1.5 bg-white border border-stone-300 text-stone-800 rounded-full hover:border-black hover:bg-stone-50 transition-colors"
+                className="text-base px-3 py-1.5 bg-white border border-stone-500 text-stone-800 rounded-full hover:border-black hover:bg-stone-50 transition-colors"
               >
                 {tag}
               </Link>
@@ -89,25 +89,25 @@ export default function HomePage() {
 
           {/* Trust strip — quick value props */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl">
-            <div className="flex items-start gap-2 text-sm">
+            <div className="flex items-start gap-2 text-base">
               <BadgeCheck className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">Verified businesses</p>
-                <p className="text-stone-600">Every listing is reviewed.</p>
+                <p className="text-stone-800">Every listing is reviewed.</p>
               </div>
             </div>
-            <div className="flex items-start gap-2 text-sm">
+            <div className="flex items-start gap-2 text-base">
               <Heart className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">No ads, ever</p>
-                <p className="text-stone-600">We never sell your data.</p>
+                <p className="text-stone-800">We never sell your data.</p>
               </div>
             </div>
-            <div className="flex items-start gap-2 text-sm">
+            <div className="flex items-start gap-2 text-base">
               <MapPin className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">Local to you</p>
-                <p className="text-stone-600">Filter by city and province.</p>
+                <p className="text-stone-800">Filter by city and province.</p>
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function HomePage() {
         {/* Sidebar — All categories (Kijiji-style flat list) */}
         <aside className="space-y-4">
           <div className="bg-white border-2 border-black rounded-lg overflow-hidden">
-            <div className="bg-black text-white px-4 py-2 font-display font-bold uppercase tracking-wide text-sm">
+            <div className="bg-black text-white px-4 py-2 font-display font-bold   text-base">
               All Categories
             </div>
             <ul>
@@ -130,11 +130,11 @@ export default function HomePage() {
                       href={`/categories/${cat.slug}`}
                       className="flex items-center justify-between gap-2 px-4 py-3 border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
                     >
-                      <span className="flex items-center gap-2 text-sm">
+                      <span className="flex items-center gap-2 text-base">
                         <span aria-hidden>{cat.icon}</span>
                         <span className="line-clamp-1">{cat.name}</span>
                       </span>
-                      <span className="text-xs text-stone-500">({count})</span>
+                      <span className="text-base text-stone-700">({count})</span>
                     </Link>
                   </li>
                 );
@@ -146,13 +146,13 @@ export default function HomePage() {
           <div className="bg-emerald-700 text-white border-2 border-black rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">
               <Phone className="w-4 h-4" />
-              <h3 className="font-display font-bold uppercase tracking-wide text-sm">Need help?</h3>
+              <h3 className="font-display font-bold   text-base">Need help?</h3>
             </div>
-            <p className="text-sm mb-2">Call our free senior help line.</p>
+            <p className="text-base mb-2">Call our free senior help line.</p>
             <a href="tel:1-855-555-0123" className="block text-2xl font-display font-black underline">
               1-855-555-0123
             </a>
-            <p className="text-xs mt-1">Mon–Fri 8am–8pm ET</p>
+            <p className="text-base mt-1">Mon–Fri 8am–8pm ET</p>
           </div>
         </aside>
 
@@ -168,7 +168,7 @@ export default function HomePage() {
                 </h2>
                 <Link
                   href="/categories/news"
-                  className="text-sm font-bold text-blue-700 hover:underline flex items-center gap-1"
+                  className="text-base font-bold text-blue-700 hover:underline flex items-center gap-1"
                 >
                   See all <ChevronRight className="w-4 h-4" />
                 </Link>
@@ -189,7 +189,7 @@ export default function HomePage() {
                   <Star className="w-6 h-6 fill-stone-900 stroke-stone-900" />
                   Featured Listings
                 </h2>
-                <span className="text-sm text-stone-600">{totalListings} total listings</span>
+                <span className="text-base text-stone-800">{totalListings} total listings</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {featuredOnly.map((b) => (
@@ -208,13 +208,13 @@ export default function HomePage() {
               </h2>
               <Link
                 href="/businesses"
-                className="text-sm font-bold hover:underline flex items-center gap-1"
+                className="text-base font-bold hover:underline flex items-center gap-1"
               >
                 Browse all <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
             {allCards.length === 0 ? (
-              <div className="bg-white border-2 border-black rounded-lg p-12 text-center text-stone-600">
+              <div className="bg-white border-2 border-black rounded-lg p-12 text-center text-stone-800">
                 No more listings to show.
               </div>
             ) : (
@@ -235,17 +235,17 @@ export default function HomePage() {
               <div>
                 <BadgeCheck className="w-6 h-6 text-emerald-700" />
                 <h3 className="font-bold mt-1">Verified Businesses</h3>
-                <p className="text-sm text-stone-700">Every business is reviewed before being listed.</p>
+                <p className="text-base text-stone-700">Every business is reviewed before being listed.</p>
               </div>
               <div>
                 <Heart className="w-6 h-6 text-rose-700" />
                 <h3 className="font-bold mt-1">No Ads, Ever</h3>
-                <p className="text-sm text-stone-700">We never show ads. We never sell your data.</p>
+                <p className="text-base text-stone-700">We never show ads. We never sell your data.</p>
               </div>
               <div>
                 <MapPin className="w-6 h-6 text-blue-700" />
                 <h3 className="font-bold mt-1">Local to You</h3>
-                <p className="text-sm text-stone-700">Filter by city and province across Canada.</p>
+                <p className="text-base text-stone-700">Filter by city and province across Canada.</p>
               </div>
             </div>
           </section>

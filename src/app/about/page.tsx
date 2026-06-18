@@ -13,7 +13,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 border-2 border-stone-300 text-stone-800 font-semibold text-sm hover:bg-stone-50"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 border-2 border-stone-500 text-stone-800 font-semibold text-base hover:bg-stone-50"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>
@@ -24,10 +24,10 @@ export default function AboutPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
         <section>
-          <p className="inline-block text-xs font-bold tracking-widest uppercase bg-black text-white px-3 py-1 rounded-full">
+          <p className="inline-block text-base font-bold   bg-black text-white px-3 py-1 rounded-full">
             Our mission
           </p>
-          <h2 className="mt-3 text-3xl md:text-4xl font-display font-black leading-tight">
+          <h2 className="mt-3 text-3xl md:text-4xl font-display font-black leading-normal">
             Help that seniors can trust.
           </h2>
           <p className="mt-3 text-lg text-stone-700 leading-relaxed">
@@ -42,7 +42,7 @@ export default function AboutPage() {
           <div className="bg-white border border-stone-200 rounded-lg p-5">
             <BadgeCheck className="w-6 h-6 text-emerald-700" />
             <h3 className="font-display font-bold text-lg mt-2">Verified businesses</h3>
-            <p className="text-sm text-stone-600">
+            <p className="text-base text-stone-800">
               Every listing is reviewed by a real person. We check basic business details
               before publishing.
             </p>
@@ -50,7 +50,7 @@ export default function AboutPage() {
           <div className="bg-white border border-stone-200 rounded-lg p-5">
             <Heart className="w-6 h-6 text-rose-600" />
             <h3 className="font-display font-bold text-lg mt-2">No ads, ever</h3>
-            <p className="text-sm text-stone-600">
+            <p className="text-base text-stone-800">
               We never show ads. The only way a business appears in search results is by
               being a verified listing.
             </p>
@@ -58,14 +58,14 @@ export default function AboutPage() {
           <div className="bg-white border border-stone-200 rounded-lg p-5">
             <MapPin className="w-6 h-6 text-blue-700" />
             <h3 className="font-display font-bold text-lg mt-2">Local to you</h3>
-            <p className="text-sm text-stone-600">
+            <p className="text-base text-stone-800">
               Filter by city, province, or sub-category to find help close to home.
             </p>
           </div>
           <div className="bg-white border border-stone-200 rounded-lg p-5">
             <Shield className="w-6 h-6 text-stone-700" />
             <h3 className="font-display font-bold text-lg mt-2">Your data stays yours</h3>
-            <p className="text-sm text-stone-600">
+            <p className="text-base text-stone-800">
               We do not sell your contact information to third parties. Period.
             </p>
           </div>

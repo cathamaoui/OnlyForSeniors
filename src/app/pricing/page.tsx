@@ -29,8 +29,8 @@ export default function PricingPage() {
             className="card-retro bg-emerald-800 text-cream-50"
             style={{ borderColor: "black" }}
           >
-            <span className="inline-block bg-ember-500 text-white font-black text-xs uppercase
-              tracking-wider px-2 py-1 rounded-chunky border-2 border-black mb-2">
+            <span className="inline-block bg-ember-500 text-white font-black text-base 
+               px-2 py-1 rounded-chunky border-2 border-black mb-2">
               Most Popular
             </span>
             <h2 className="font-display font-black text-2xl">For Businesses</h2>

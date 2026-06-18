@@ -52,7 +52,7 @@ export default async function CategoryPage({
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-3 flex-wrap">
             <Link
               href="/categories/"
-              className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-semibold uppercase tracking-wide text-sm hover:bg-stone-50"
+              className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-semibold   text-base hover:bg-stone-50"
             >
               <ArrowLeft className="w-4 h-4" /> All Categories
             </Link>
@@ -70,7 +70,7 @@ export default async function CategoryPage({
               <p className="font-semibold text-stone-900">
                 Today&apos;s feed — {todayLabel()}
               </p>
-              <p className="text-sm text-stone-600 mt-1">
+              <p className="text-base text-stone-800 mt-1">
                 Everything new or updated across the directory in the last 24 hours.
                 Listings appear in reverse chronological order.
               </p>
@@ -83,8 +83,8 @@ export default async function CategoryPage({
 
           {feed.length === 0 ? (
             <div className="bg-white border-2 border-black rounded-lg p-12 text-center">
-              <p className="text-lg text-stone-600">No new listings today.</p>
-              <p className="text-sm text-stone-500 mt-2">Check back tomorrow.</p>
+              <p className="text-lg text-stone-800">No new listings today.</p>
+              <p className="text-base text-stone-700 mt-2">Check back tomorrow.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -112,7 +112,7 @@ export default async function CategoryPage({
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/categories/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-semibold uppercase tracking-wide text-sm hover:bg-stone-50"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-semibold   text-base hover:bg-stone-50"
           >
             <ArrowLeft className="w-4 h-4" /> All Categories
           </Link>
@@ -127,13 +127,13 @@ export default async function CategoryPage({
         {/* Subcategory chips */}
         {cat.subcategories.length > 0 && (
           <div className="bg-white border-2 border-black rounded-lg p-4">
-            <h2 className="font-display font-bold text-sm uppercase tracking-wide mb-3 text-stone-600">
+            <h2 className="font-display font-bold text-base   mb-3 text-stone-800">
               Browse by sub-category
             </h2>
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/categories/${cat.slug}`}
-                className="px-3 py-2 text-sm bg-black text-white border-2 border-black font-bold"
+                className="px-3 py-2 text-base bg-black text-white border-2 border-black font-bold"
               >
                 All
               </Link>
@@ -141,7 +141,7 @@ export default async function CategoryPage({
                 <Link
                   key={sub.slug}
                   href={`/categories/${cat.slug}/${sub.slug}`}
-                  className="px-3 py-2 text-sm bg-white text-black border-2 border-black hover:bg-stone-50"
+                  className="px-3 py-2 text-base bg-white text-black border-2 border-black hover:bg-stone-50"
                 >
                   {sub.name}
                 </Link>
@@ -160,8 +160,8 @@ export default async function CategoryPage({
         {/* Grid */}
         {sorted.length === 0 ? (
           <div className="bg-white border-2 border-black rounded-lg p-12 text-center">
-            <p className="text-lg text-stone-600">No listings in this category yet.</p>
-            <p className="text-sm text-stone-500 mt-2">Be the first to add one!</p>
+            <p className="text-lg text-stone-800">No listings in this category yet.</p>
+            <p className="text-base text-stone-700 mt-2">Be the first to add one!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

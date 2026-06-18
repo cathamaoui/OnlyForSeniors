@@ -18,7 +18,7 @@ export default function SearchPage() {
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-sm hover:bg-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>
@@ -30,7 +30,7 @@ export default function SearchPage() {
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
         <form action="/search" method="GET" className="flex flex-col sm:flex-row gap-2">
           <div className="flex-1 flex items-center bg-white border-2 border-black rounded-lg px-3">
-            <Search className="w-5 h-5 text-stone-600" />
+            <Search className="w-5 h-5 text-stone-800" />
             <input
               type="text"
               name="q"

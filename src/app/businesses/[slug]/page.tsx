@@ -50,7 +50,7 @@ export default async function BusinessDetailPage({
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href={cat ? `/categories/${cat.slug}` : "/businesses"}
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-sm hover:bg-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
@@ -72,7 +72,7 @@ export default async function BusinessDetailPage({
               priority
             />
             {b.isFeatured && (
-              <span className="absolute top-3 left-3 bg-white text-black text-sm font-bold px-3 py-1.5 rounded border-2 border-black shadow-sm">
+              <span className="absolute top-3 left-3 bg-white text-black text-base font-bold px-3 py-1.5 rounded border-2 border-black shadow-sm">
                 Featured
               </span>
             )}
@@ -82,14 +82,14 @@ export default async function BusinessDetailPage({
           <div className="bg-white border-2 border-black rounded-lg p-6">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h1 className="text-3xl md:text-4xl font-display font-black leading-tight">
+                <h1 className="text-3xl md:text-4xl font-display font-black leading-normal">
                   {b.name}
                 </h1>
                 {b.tagline && (
                   <p className="text-lg text-stone-700 mt-1">{b.tagline}</p>
                 )}
-                <div className="flex items-center gap-3 mt-2 text-sm flex-wrap">
-                  <span className="flex items-center gap-1 text-stone-600">
+                <div className="flex items-center gap-3 mt-2 text-base flex-wrap">
+                  <span className="flex items-center gap-1 text-stone-800">
                     <MapPin className="w-4 h-4" />
                     {b.city}, {b.province}
                   </span>
@@ -110,7 +110,7 @@ export default async function BusinessDetailPage({
                 <Star className="w-5 h-5 fill-stone-900 stroke-black" />
                 <span className="font-bold">{b.rating.toFixed(1)}</span>
                 {b.reviewCount !== undefined && (
-                  <span className="text-stone-600">({b.reviewCount} reviews)</span>
+                  <span className="text-stone-800">({b.reviewCount} reviews)</span>
                 )}
               </div>
             )}
@@ -120,7 +120,7 @@ export default async function BusinessDetailPage({
                 {b.tags.map((t) => (
                   <span
                     key={t}
-                    className="flex items-center gap-1 text-sm px-3 py-1 bg-stone-100 border-2 border-black rounded"
+                    className="flex items-center gap-1 text-base px-3 py-1 bg-stone-100 border-2 border-black rounded"
                   >
                     <Tag className="w-3 h-3" /> {t}
                   </span>
@@ -134,7 +134,7 @@ export default async function BusinessDetailPage({
             </div>
 
             {cat && (
-              <div className="mt-6 pt-4 border-t-2 border-stone-200 text-sm text-stone-600">
+              <div className="mt-6 pt-4 border-t-2 border-stone-200 text-base text-stone-800">
                 Listed in:{" "}
                 <Link href={`/categories/${cat.slug}`} className="font-bold hover:underline">
                   {cat.name}
@@ -199,7 +199,7 @@ export default async function BusinessDetailPage({
                 href={`mailto:${b.email}`}
                 className="flex items-center gap-3 p-3 border-2 border-black rounded hover:bg-stone-50"
               >
-                <Mail className="w-5 h-5" /> <span className="text-sm">{b.email}</span>
+                <Mail className="w-5 h-5" /> <span className="text-base">{b.email}</span>
               </a>
             )}
             {b.website && (
@@ -209,14 +209,14 @@ export default async function BusinessDetailPage({
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 p-3 border-2 border-black rounded hover:bg-stone-50"
               >
-                <Globe className="w-5 h-5" /> <span className="text-sm">Visit website</span>
+                <Globe className="w-5 h-5" /> <span className="text-base">Visit website</span>
               </a>
             )}
 
             {(b.address || b.postalCode) && (
               <div className="flex items-start gap-3 p-3 border-2 border-black rounded">
                 <MapPin className="w-5 h-5 mt-0.5" />
-                <div className="text-sm">
+                <div className="text-base">
                   {b.address && <p>{b.address}</p>}
                   <p>
                     {b.city}, {b.province} {b.postalCode}
@@ -228,12 +228,12 @@ export default async function BusinessDetailPage({
             {b.hours && (
               <div className="flex items-center gap-3 p-3 border-2 border-black rounded">
                 <Clock className="w-5 h-5" />
-                <span className="text-sm">{b.hours}</span>
+                <span className="text-base">{b.hours}</span>
               </div>
             )}
           </div>
 
-          <div className="bg-white border-2 border-black rounded-lg p-4 text-sm">
+          <div className="bg-white border-2 border-black rounded-lg p-4 text-base">
             <p className="font-bold mb-1">Safety tip</p>
             <p className="text-stone-800">
               Always verify a business before sending money or personal information.
