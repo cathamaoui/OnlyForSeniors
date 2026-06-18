@@ -31,10 +31,13 @@ export default function HomePage() {
       {/* Hero / Search */}
       <section className="border-b-2 border-black bg-gradient-to-b from-white to-stone-50">
         <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
-          {/* Eyebrow */}
-          <p className="inline-block text-base font-bold   bg-black text-white px-3 py-1 rounded-full">
-            Canada’s Senior Marketplace
-          </p>
+          {/* Eyebrow — subtle accent label above the H1 */}
+          <div className="flex items-center gap-3 mb-5">
+            <span className="block w-8 h-[3px] bg-blue-700" aria-hidden="true" />
+            <p className="text-base font-semibold text-stone-800">
+              For Canadians 65 and older
+            </p>
+          </div>
 
           {/* H1 — value proposition */}
           <h1 className="mt-4 text-4xl md:text-6xl font-display font-black leading-[1.05] tracking-tight max-w-3xl">
