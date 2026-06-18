@@ -14,6 +14,10 @@ import {
   Phone,
   Plus,
   Settings,
+  Trash2,
+  Clock,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import {
   loadSignup,
@@ -24,6 +28,11 @@ import {
 } from "@/lib/signup";
 import { getProvince, type ProvinceCode, PROVINCES } from "@/lib/canadaTax";
 import { getAllCategories } from "@/lib/businesses";
+import {
+  getUserListingsFor,
+  deleteUserListing,
+  type UserListing,
+} from "@/lib/userListings";
 
 function fmtDate(d: Date): string {
   return d.toLocaleDateString("en-CA", {
@@ -41,6 +50,7 @@ export function Dashboard() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [data, setData] = useState<ReturnType<typeof loadSignup> | null>(null);
+  const [userListings, setUserListings] = useState<UserListing[]>([]);
 
   useEffect(() => {
     const s = loadSignup();
@@ -49,6 +59,7 @@ export function Dashboard() {
       return;
     }
     setData(s);
+    setUserListings(getUserListingsFor(s.account?.email));
     setMounted(true);
   }, [router]);
 
@@ -69,6 +80,44 @@ export function Dashboard() {
     if (confirm("Sign out of your dashboard? Your data will be cleared from this device.")) {
       clearSignup();
       router.push("/");
+    }
+  };
+
+  const onDeleteListing = (id: string, name: string) => {
+    if (confirm(`Delete "${name}"? This cannot be undone.`)) {
+      const next = deleteUserListing(id);
+      setUserListings(getUserListingsFor(data?.account?.email));
+      return next;
+    }
+    return userListings;
+  };
+
+  const statusBadge = (status: UserListing["status"]) => {
+    switch (status) {
+      case "published":
+        return (
+          <span className="inline-flex items-center gap-1 text-base font-semibold text-blue-800 bg-blue-100 border-2 border-blue-700 rounded-full px-3 py-0.5">
+            <CheckCircle2 className="w-4 h-4" /> Live
+          </span>
+        );
+      case "pending":
+        return (
+          <span className="inline-flex items-center gap-1 text-base font-semibold text-stone-800 bg-stone-200 border-2 border-stone-500 rounded-full px-3 py-0.5">
+            <Clock className="w-4 h-4" /> Pending review
+          </span>
+        );
+      case "rejected":
+        return (
+          <span className="inline-flex items-center gap-1 text-base font-semibold text-red-800 bg-red-100 border-2 border-red-700 rounded-full px-3 py-0.5">
+            <XCircle className="w-4 h-4" /> Not approved
+          </span>
+        );
+      case "draft":
+        return (
+          <span className="inline-flex items-center gap-1 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-full px-3 py-0.5">
+            Draft
+          </span>
+        );
     }
   };
 
@@ -267,19 +316,74 @@ export function Dashboard() {
             Create listing <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-        <div className="bg-stone-50 border-2 border-dashed border-stone-500 rounded-lg p-8 text-center">
-          <p className="text-lg font-bold text-stone-900">No listings yet</p>
-          <p className="text-base text-stone-700 mt-2 max-w-md mx-auto">
-            Create your first service, event, or product listing. Each listing
-            goes live within 24 hours after our team verifies the contact info.
-          </p>
-          <Link
-            href="/list-business/dashboard/new-listing/"
-            className="mt-5 inline-flex items-center gap-2 min-h-touch px-6 py-3 text-base font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800"
-          >
-            <Plus className="w-5 h-5" /> Create your first listing
-          </Link>
-        </div>
+
+        {userListings.length === 0 ? (
+          <div className="bg-stone-50 border-2 border-dashed border-stone-500 rounded-lg p-8 text-center">
+            <p className="text-lg font-bold text-stone-900">No listings yet</p>
+            <p className="text-base text-stone-700 mt-2 max-w-md mx-auto">
+              Create your first service, event, or product listing. Each listing
+              goes live within 24 hours after our team verifies the contact info.
+            </p>
+            <Link
+              href="/list-business/dashboard/new-listing/"
+              className="mt-5 inline-flex items-center gap-2 min-h-touch px-6 py-3 text-base font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800"
+            >
+              <Plus className="w-5 h-5" /> Create your first listing
+            </Link>
+          </div>
+        ) : (
+          <ul className="space-y-3">
+            {userListings.map((l) => {
+              const cat = cats.find((c) => c.slug === l.categorySlug);
+              return (
+                <li
+                  key={l.id}
+                  className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-stone-50 border-2 border-stone-200 rounded-lg"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-lg font-bold text-stone-900 truncate">
+                        {l.name}
+                      </h3>
+                      {statusBadge(l.status)}
+                    </div>
+                    {l.tagline && (
+                      <p className="text-base text-stone-700 mt-1 line-clamp-2">
+                        {l.tagline}
+                      </p>
+                    )}
+                    <p className="text-base text-stone-700 mt-1 flex flex-wrap items-center gap-2">
+                      <span>{cat ? `${cat.icon} ${cat.name}` : "Uncategorized"}</span>
+                      {l.city && (
+                        <>
+                          <span>·</span>
+                          <span>{l.city}, {l.province}</span>
+                        </>
+                      )}
+                      <span>·</span>
+                      <span>Submitted {fmtDate(new Date(l.submittedAt))}</span>
+                    </p>
+                    {l.status === "rejected" && l.rejectionReason && (
+                      <p className="mt-2 text-base text-red-800 font-semibold">
+                        Reason: {l.rejectionReason}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex gap-2 sm:flex-col sm:items-end">
+                    <button
+                      type="button"
+                      onClick={() => onDeleteListing(l.id, l.name)}
+                      className="inline-flex items-center gap-1 min-h-touch px-3 py-2 text-base font-semibold text-red-700 bg-white border-2 border-red-700 rounded-lg hover:bg-red-50"
+                      aria-label={`Delete ${l.name}`}
+                    >
+                      <Trash2 className="w-4 h-4" /> Delete
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </section>
 
       {/* Account settings row */}
