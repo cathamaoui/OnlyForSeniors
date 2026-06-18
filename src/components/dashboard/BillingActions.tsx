@@ -8,7 +8,7 @@ export function BillingActions({
   cancelAtPeriodEnd,
 }: {
   subscribed: boolean;
-  cancelAtPeriodEnd: boolean;
+  cancelAtPeriodEnd?: boolean;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);

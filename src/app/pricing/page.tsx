@@ -45,7 +45,7 @@ export default function PricingPage() {
               <li>✓ Cancel anytime</li>
             </ul>
             <div className="mt-6">
-              <Button href="/list-business" variant="ember">
+              <Button href="/list-business" variant="primary">
                 Get Started
               </Button>
             </div>

@@ -5,16 +5,16 @@ import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "Only For Seniors — Canada's Senior Marketplace",
+    default: "Only For Seniors — Canada's Senior Directory",
     template: "%s | Only For Seniors",
   },
   description:
-    "The friendly Canadian marketplace for seniors 65+. Find trusted home care, transportation, health services, products, and delivery — all in one place.",
+    "The friendly Canadian directory for seniors 65+. Find trusted home care, transportation, health services, products, and delivery — all in one place.",
   keywords: [
     "seniors Canada",
     "senior services",
     "home care",
-    "senior marketplace",
+    "senior directory",
     "65+ services",
     "elder care",
   ],
@@ -24,17 +24,17 @@ export const metadata: Metadata = {
     locale: "en_CA",
     url: "https://onlyforseniors.ca",
     siteName: "Only For Seniors",
-    title: "Only For Seniors — Canada's Senior Marketplace",
+    title: "Only For Seniors — Canada's Senior Directory",
     description:
-      "The friendly Canadian marketplace for seniors 65+. Trusted services, products, and delivery.",
+      "The friendly Canadian directory for seniors 65+. Trusted services, products, and delivery.",
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5, // allow pinch-zoom (a11y)
-  themeColor: "#047857",
+  maximumScale: 5,
+  themeColor: "#fcd116",
 };
 
 export default function RootLayout({
@@ -44,11 +44,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-CA">
-      <body className="min-h-screen flex flex-col bg-cream-50">
+      <body className="min-h-screen flex flex-col bg-yp-500">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50
-            bg-ember-600 text-white px-4 py-3 rounded-chunky font-bold border-2 border-black"
+            bg-black text-yp-500 px-4 py-3 font-bold border-2 border-black"
         >
           Skip to main content
         </a>

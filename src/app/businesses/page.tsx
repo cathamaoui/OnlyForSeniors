@@ -78,6 +78,7 @@ export default async function BusinessesPage({
                     isVerified={b.isVerified}
                     isFeatured={b.isFeatured}
                     priceRange={b.priceRange}
+                    phone={b.phone}
                     logoUrl={b.logoUrl}
                   />
                 </ScrollReveal>

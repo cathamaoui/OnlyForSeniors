@@ -125,6 +125,7 @@ export default async function SearchPage({
                     isVerified={b.isVerified}
                     isFeatured={b.isFeatured}
                     priceRange={b.priceRange}
+                    phone={b.phone}
                     logoUrl={b.logoUrl}
                   />
                 </ScrollReveal>

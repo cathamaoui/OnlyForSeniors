@@ -2,11 +2,18 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { CategoryCard } from "@/components/ui/CategoryCard";
 import { Button } from "@/components/ui/Button";
-import { HeroScene } from "@/components/animations/HeroScene";
-import { RevealText } from "@/components/animations/RevealText";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
-import { FloatingElement } from "@/components/animations/FloatingBook";
-import { Phone, Shield, Heart, Star, ArrowRight } from "lucide-react";
+import { YPBook } from "@/components/brand/YPBook";
+import {
+  Phone,
+  Shield,
+  Heart,
+  Star,
+  ArrowRight,
+  BookOpen,
+  PhoneCall,
+  CheckCircle2,
+} from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -18,138 +25,116 @@ export default async function HomePage() {
     },
   });
 
+  // Map for the YPBook component
+  const ypCategories = categories.map((c) => ({
+    id: c.id,
+    slug: c.slug,
+    name: c.name,
+    description: c.description,
+    icon: c.icon,
+    color: c.color,
+    businessCount: c._count.businesses,
+  }));
+
   return (
     <div className="yp-paper">
       {/* ============== HERO ============== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <HeroScene />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 py-16 sm:py-24 lg:py-32">
-          <div className="max-w-3xl">
-            <span className="inline-block bg-ember-600 text-white font-black uppercase
-              tracking-wider text-sm px-3 py-1.5 rounded-chunky border-2 border-black mb-6">
-              📞 For Canadians 65+
-            </span>
-            <RevealText
-              className="font-display font-black text-emerald-900
-                text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6"
-            >
-              The friendly directory every senior deserves.
-            </RevealText>
-            <p className="text-xl lg:text-2xl text-emerald-900 leading-relaxed mb-8 max-w-2xl">
-              Find trusted Canadian businesses for home care, transportation, health,
-              shopping, and everything in between. One phone book. One tap away.
+      <section className="bg-yp-500 border-b-4 border-black">
+        <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
+          <div className="max-w-4xl">
+            <div className="inline-block bg-black text-yp-500 px-3 py-1.5
+              border-2 border-black uppercase tracking-widest text-sm mb-6">
+              📞 The Real Yellow Pages · For Canadians 65+
+            </div>
+
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-black leading-[1.1] mb-4">
+              Let your fingers
+              <br />
+              do the walking.
+            </h1>
+
+            <p className="text-lg lg:text-xl text-black leading-relaxed mb-8 max-w-2xl">
+              The friendly Canadian directory for seniors 65+ —
+              home care, transportation, health, shopping, and everything in between.
+              Same book you remember. Now it fits in your pocket.
             </p>
-            <div className="flex flex-wrap gap-4">
+
+            <div className="flex flex-wrap gap-3">
               <Button
-                href="/categories"
+                href="#directory"
                 variant="primary"
-                instruction="Browse all senior service categories"
+                instruction="Open the directory below — search or tap a coloured tab"
               >
-                Browse the Directory
-                <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                <BookOpen className="w-5 h-5" aria-hidden="true" />
+                Open the Book
               </Button>
               <Button
                 href="/list-business"
-                variant="ember"
-                instruction="Business owners — list your service for $10/month"
+                variant="outline"
+                instruction="Business owners — get listed for $10/month"
               >
                 List Your Business
               </Button>
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-emerald-900">
-              <div className="inline-flex items-center gap-2">
-                <Shield className="w-5 h-5 text-emerald-700" aria-hidden="true" />
-                <span className="font-bold">Verified Businesses</span>
+            {/* Trust badges */}
+            <div className="mt-8 grid grid-cols-3 gap-2 max-w-2xl">
+              <div className="bg-black text-yp-500 text-center py-2 px-1 border-2 border-black">
+                <Shield className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
+                <p className="text-xs uppercase">Verified</p>
               </div>
-              <div className="inline-flex items-center gap-2">
-                <Heart className="w-5 h-5 text-ember-600" aria-hidden="true" />
-                <span className="font-bold">Senior-Friendly Service</span>
+              <div className="bg-black text-yp-500 text-center py-2 px-1 border-2 border-black">
+                <Heart className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
+                <p className="text-xs uppercase">Senior-First</p>
               </div>
-              <div className="inline-flex items-center gap-2">
-                <Star className="w-5 h-5 text-amber-500" aria-hidden="true" />
-                <span className="font-bold">Trusted Reviews</span>
+              <div className="bg-black text-yp-500 text-center py-2 px-1 border-2 border-black">
+                <Star className="w-5 h-5 mx-auto mb-1" aria-hidden="true" />
+                <p className="text-xs uppercase">Trusted</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ============== QUICK SEARCH BAR ============== */}
-      <section className="bg-emerald-800 text-cream-50">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <form
-            action="/search"
-            method="get"
-            className="flex flex-col sm:flex-row gap-3"
-            role="search"
-          >
-            <label htmlFor="hero-q" className="sr-only">
-              Search the directory
-            </label>
-            <div className="flex-1">
-              <input
-                id="hero-q"
-                name="q"
-                type="search"
-                placeholder="What do you need help with today?"
-                className="w-full min-h-touch px-4 py-3 text-lg text-emerald-900
-                  bg-cream-50 border-2 border-black rounded-chunky
-                  focus:border-ember-500 focus:ring-4 focus:ring-ember-200"
-              />
-              <span className="instruction !text-cream-200">
-                Example: &quot;Snow removal&quot;, &quot;Ride to doctor&quot;, &quot;Grocery delivery&quot;
-              </span>
-            </div>
-            <label htmlFor="hero-prov" className="sr-only">Province</label>
-            <select
-              id="hero-prov"
-              name="province"
-              className="min-h-touch px-4 py-3 text-lg text-emerald-900
-                bg-cream-50 border-2 border-black rounded-chunky
-                focus:border-ember-500 focus:ring-4 focus:ring-ember-200 sm:w-48"
-              defaultValue=""
-            >
-              <option value="">All of Canada</option>
-              <option value="ON">Ontario</option>
-              <option value="BC">British Columbia</option>
-              <option value="AB">Alberta</option>
-              <option value="QC">Quebec</option>
-              <option value="MB">Manitoba</option>
-              <option value="SK">Saskatchewan</option>
-              <option value="NS">Nova Scotia</option>
-              <option value="NB">New Brunswick</option>
-              <option value="PE">PEI</option>
-              <option value="NL">Newfoundland</option>
-            </select>
-            <Button type="submit" variant="ember">
-              Search
-            </Button>
-          </form>
-        </div>
-      </section>
-
-      {/* ============== CATEGORIES — Yellow Pages index ============== */}
-      <section id="categories" className="max-w-7xl mx-auto px-4 py-16 sm:py-20">
+      {/* ============== THE YP BOOK (with side tabs, big search, page-flip + sound) ============== */}
+      <section
+        id="directory"
+        className="max-w-6xl mx-auto px-4 py-12 sm:py-16 scroll-mt-24"
+      >
         <ScrollReveal>
-          <div className="text-center mb-12">
-            <span className="inline-block bg-cream-200 text-emerald-900 font-bold
-              uppercase tracking-wider text-sm px-3 py-1 rounded-chunky border-2 border-black mb-3">
-              The Big Book of Services
-            </span>
-            <h2 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl text-emerald-900 mb-4">
-              Browse by Category
+          <div className="text-center mb-8">
+            <div className="inline-block bg-black text-yp-500 px-3 py-1.5
+              border-2 border-black uppercase tracking-widest text-sm mb-3">
+              Open the Book
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl text-black mb-3">
+              Search or tap a tab
             </h2>
-            <p className="text-lg text-emerald-800 max-w-2xl mx-auto">
-              Just like the Yellow Pages you remember — only now it fits in your pocket.
-              Pick a tab to find trusted help.
+            <p className="text-lg text-black max-w-2xl mx-auto">
+              Search the whole directory, or tap a coloured tab on the left to
+              jump to a section. Listen for the page-turn sound — just like the
+              old Yellow Pages.
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <YPBook categories={ypCategories} />
+      </section>
+
+      {/* ============== ALL SECTIONS (grid for deep browsing) ============== */}
+      <section className="max-w-7xl mx-auto px-4 py-12 sm:py-16 border-t-4 border-black">
+        <ScrollReveal>
+          <div className="text-center mb-8">
+            <h2 className="font-display text-3xl sm:text-4xl text-black mb-3">
+              Or browse every section
+            </h2>
+            <p className="text-lg text-black">
+              A complete list of every category in the book.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((c, i) => (
             <ScrollReveal key={c.id} delay={i * 0.05}>
               <CategoryCard
@@ -166,46 +151,46 @@ export default async function HomePage() {
       </section>
 
       {/* ============== HOW IT WORKS ============== */}
-      <section className="bg-cream-200 border-y-4 border-black">
-        <div className="max-w-7xl mx-auto px-4 py-16 sm:py-20">
+      <section className="bg-yp-500 border-y-4 border-black">
+        <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
           <ScrollReveal>
-            <h2 className="font-display font-black text-3xl sm:text-4xl text-emerald-900 text-center mb-12">
-              How Only For Seniors Works
+            <h2 className="font-display text-3xl sm:text-4xl text-black text-center mb-10">
+              How to Use the Book
             </h2>
           </ScrollReveal>
 
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-3">
             {[
               {
                 step: "1",
-                title: "Browse or Search",
-                body: "Look through our colour-coded categories or search for what you need — groceries, rides, repairs, anything.",
+                title: "Search or tap a tab",
+                body: "Use the big search bar at the top of the book, or tap any coloured tab on the left side.",
                 icon: "🔍",
               },
               {
                 step: "2",
-                title: "Pick a Trusted Business",
-                body: "Every business is reviewed for senior-friendliness. Look for the ✓ Verified badge and read real reviews.",
-                icon: "⭐",
+                title: "Pick a listing",
+                body: "Each entry shows who they are, where they are, and their big phone number. Look for the ✓ Verified stamp.",
+                icon: "📖",
               },
               {
                 step: "3",
-                title: "Call, Book, or Message",
-                body: "Tap the big phone button, send a message, or book online. It&apos;s that simple.",
+                title: "Pick up the phone",
+                body: "Tap the big black button to call them right now. That&apos;s all there is to it.",
                 icon: "📞",
               },
             ].map((s, i) => (
               <ScrollReveal key={s.step} delay={i * 0.1}>
-                <div className="card-retro text-center h-full">
-                  <div className="text-6xl mb-3" aria-hidden="true">{s.icon}</div>
-                  <div className="inline-block bg-emerald-700 text-white font-black
-                    text-2xl w-12 h-12 rounded-full border-2 border-black mb-3 leading-[3rem]">
+                <div className="yp-card text-center h-full">
+                  <div className="text-5xl mb-3" aria-hidden="true">{s.icon}</div>
+                  <div className="inline-block bg-black text-yp-500 text-2xl w-12 h-12
+                    border-2 border-black mb-3 leading-[3rem] font-bold">
                     {s.step}
                   </div>
-                  <h3 className="font-display font-black text-2xl text-emerald-900 mb-2">
+                  <h3 className="font-display text-2xl text-black mb-2">
                     {s.title}
                   </h3>
-                  <p className="text-emerald-800 leading-relaxed">
+                  <p className="text-black leading-relaxed">
                     {s.body}
                   </p>
                 </div>
@@ -215,79 +200,85 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ============== FEATURED CTA — LIST YOUR BUSINESS ============== */}
-      <section className="max-w-7xl mx-auto px-4 py-16 sm:py-20">
+      {/* ============== CTA — Business owners ============== */}
+      <section className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
         <ScrollReveal>
-          <div className="relative card-retro bg-emerald-800 text-cream-50 border-black overflow-hidden">
+          <div className="relative yp-card bg-paper">
             <div className="relative grid gap-8 lg:grid-cols-2 items-center">
               <div>
-                <span className="inline-block bg-ember-600 text-white font-black uppercase
-                  tracking-wider text-sm px-3 py-1 rounded-chunky border-2 border-black mb-4">
+                <span className="inline-block bg-black text-yp-500 px-3 py-1.5
+                  border-2 border-black uppercase tracking-widest text-sm mb-4">
                   For Business Owners
                 </span>
-                <h2 className="font-display font-black text-3xl sm:text-4xl text-cream-50 mb-4">
-                  Reach thousands of Canadian seniors. Only $10/month.
+                <h2 className="font-display text-3xl sm:text-4xl text-black mb-4">
+                  Get your name in the book. Only $10/month.
                 </h2>
-                <p className="text-xl text-cream-100 leading-relaxed mb-6">
-                  List your business, get discovered by the 65+ community, and grow
-                  with purpose. No contracts. Cancel anytime.
+                <p className="text-lg text-black leading-relaxed mb-6">
+                  Reach thousands of Canadian seniors. No contracts. Cancel anytime.
                 </p>
-                <ul className="space-y-2 mb-8 text-cream-50 text-lg">
+                <ul className="space-y-2 mb-6 text-black text-lg">
                   <li className="flex items-start gap-2">
-                    <span className="text-ember-400 font-black" aria-hidden="true">✓</span>
-                    Custom business profile with photos and hours
+                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
+                    Your own listing with photos, hours, and contact info
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-ember-400 font-black" aria-hidden="true">✓</span>
-                    Direct contact from seniors in your area
+                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
+                    Get found by seniors searching in your area
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-ember-400 font-black" aria-hidden="true">✓</span>
-                    Reviews to build your reputation
+                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
+                    Customer reviews build your reputation
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-ember-400 font-black" aria-hidden="true">✓</span>
-                    Senior-friendly listing badge
+                    <CheckCircle2 className="w-6 h-6 text-black shrink-0" aria-hidden="true" />
+                    Verified badge so seniors know they can trust you
                   </li>
                 </ul>
-                <Button href="/list-business" variant="ember" instruction="Start your $10/month listing">
-                  Get Started — $10/month
+                <Button href="/list-business" variant="primary" instruction="Start your $10/month listing">
+                  Get Listed Today
                   <ArrowRight className="w-5 h-5" aria-hidden="true" />
                 </Button>
               </div>
 
-              <FloatingElement className="flex justify-center" duration={5}>
-                <div className="bg-cream-50 text-emerald-900 p-6 rounded-chunky border-4 border-black shadow-retro max-w-sm">
-                  <div className="text-6xl text-center mb-3" aria-hidden="true">📖</div>
-                  <p className="font-display font-black text-2xl text-center mb-2">
-                    Like the Yellow Pages?
+              {/* "YP" badge card — no more bad mascot! */}
+              <div className="flex justify-center">
+                <div className="bg-black text-yp-500 border-4 border-black p-8 max-w-sm
+                  shadow-yp-lg text-center">
+                  <p className="text-7xl font-display font-black mb-2">YP</p>
+                  <p className="text-2xl font-display uppercase tracking-widest mb-1">
+                    Directory
                   </p>
-                  <p className="text-center leading-relaxed">
-                    You&apos;ll love this. Same friendly format, now with a search bar,
-                    reviews, and one-tap calling.
+                  <p className="text-yp-300 text-sm">
+                    OnlyForSeniors.ca
                   </p>
+                  <div className="mt-6 pt-6 border-t-2 border-yp-700">
+                    <p className="text-4xl font-display font-black">$10</p>
+                    <p className="text-yp-300 uppercase tracking-wider text-sm">
+                      per month
+                    </p>
+                  </div>
                 </div>
-              </FloatingElement>
+              </div>
             </div>
           </div>
         </ScrollReveal>
       </section>
 
       {/* ============== CALL ASSISTANCE STRIP ============== */}
-      <section className="bg-ember-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <section className="bg-black text-yp-500 border-y-4 border-black">
+        <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="bg-white text-ember-600 rounded-full border-2 border-black w-14 h-14 flex items-center justify-center">
-              <Phone className="w-7 h-7" aria-hidden="true" />
+            <div className="bg-yp-500 text-black border-2 border-yp-500 w-14 h-14 flex items-center justify-center">
+              <PhoneCall className="w-7 h-7" aria-hidden="true" />
             </div>
             <div>
-              <p className="font-display font-black text-2xl">Prefer to talk to a person?</p>
-              <p className="text-cream-50">Call our friendly Canadian team — we&apos;ll help you find what you need.</p>
+              <p className="text-2xl">Prefer to talk to a person?</p>
+              <p>Call our friendly Canadian team — we&apos;ll help you find what you need.</p>
             </div>
           </div>
           <a
             href="tel:1-800-555-0199"
-            className="btn-primary !bg-white !text-emerald-900 !border-black"
+            className="btn-yp-outline !bg-yp-500 !text-black"
           >
             1-800-555-0199
           </a>

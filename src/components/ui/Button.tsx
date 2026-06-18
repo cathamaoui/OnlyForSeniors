@@ -1,42 +1,46 @@
-import { clsx } from "clsx";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-type Variant = "primary" | "ember" | "outline";
+type Variant = "primary" | "outline";
 
-interface BaseProps {
+interface CommonProps {
   variant?: Variant;
   className?: string;
-  children: ReactNode;
-  instruction?: string; // visible instruction text under the button
+  instruction?: string;
 }
 
-interface ButtonProps extends BaseProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonAsButtonProps
+  extends CommonProps,
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
+  children?: ReactNode;
   href?: undefined;
 }
 
-interface LinkProps extends BaseProps {
+interface ButtonAsLinkProps extends CommonProps {
+  children?: ReactNode;
   href: string;
   type?: never;
+  onClick?: never;
 }
 
+type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;
+
 const variantClass: Record<Variant, string> = {
-  primary: "btn-primary",
-  ember: "btn-ember",
-  outline: "btn-outline",
+  primary: "btn-yp",
+  outline: "btn-yp-outline",
 };
 
-export function Button(props: ButtonProps | LinkProps) {
+export function Button(props: ButtonProps) {
   const { variant = "primary", className, children, instruction, ...rest } =
-    props as BaseProps & { [k: string]: unknown };
+    props as CommonProps & { children: ReactNode } & { [k: string]: unknown };
 
-  const classes = clsx(variantClass[variant as Variant], className);
+  const classes = `${variantClass[variant as Variant]} ${className ?? ""}`;
 
   if ("href" in props && props.href) {
     return (
       <span className="inline-flex flex-col items-stretch">
         <Link href={props.href} className={classes}>
-          {children}
+          {children as ReactNode}
         </Link>
         {instruction && <span className="instruction">{instruction}</span>}
       </span>
@@ -47,7 +51,7 @@ export function Button(props: ButtonProps | LinkProps) {
   return (
     <span className="inline-flex flex-col items-stretch">
       <button className={classes} {...buttonProps}>
-        {children}
+        {children as ReactNode}
       </button>
       {instruction && <span className="instruction">{instruction}</span>}
     </span>

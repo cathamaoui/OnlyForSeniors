@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { clsx } from "clsx";
 
 interface CategoryCardProps {
   slug: string;
@@ -10,6 +9,12 @@ interface CategoryCardProps {
   businessCount?: number;
 }
 
+/**
+ * Yellow-Pages style category card.
+ * - Black-on-yellow section header (mimics YP column header)
+ * - White paper background for the body
+ * - Sharp corners, thick black borders
+ */
 export function CategoryCard({
   slug,
   name,
@@ -21,48 +26,57 @@ export function CategoryCard({
   return (
     <Link
       href={`/categories/${slug}`}
-      className={clsx(
-        "group relative block card-retro",
-        "transition-all duration-200",
-        "hover:-translate-y-1 hover:shadow-[6px_6px_0_0_rgba(0,0,0,0.85)]"
-      )}
-      style={{ borderTop: `8px solid ${color}` }}
+      className="group relative block bg-paper border-2 border-black
+        transition-transform duration-200
+        hover:-translate-x-0.5 hover:-translate-y-0.5
+        shadow-yp hover:shadow-yp-lg"
     >
-      <div className="flex items-start gap-4">
+      {/* Section header - black with colored stripe */}
+      <div className="flex items-stretch border-b-2 border-black">
         <div
-          className="shrink-0 w-16 h-16 rounded-chunky border-2 border-black
-            flex items-center justify-center text-4xl"
-          style={{ backgroundColor: color + "22" }}
+          className="w-2"
+          style={{ backgroundColor: color }}
           aria-hidden="true"
-        >
-          {icon}
-        </div>
-        <div className="min-w-0">
-          <h3 className="font-display font-black text-xl text-emerald-900 leading-tight mb-1">
+        />
+        <div className="flex-1 flex items-center gap-2 bg-black text-yp-500 px-3 py-2">
+          <span className="text-xl" aria-hidden="true">{icon}</span>
+          <h3 className="font-display text-base sm:text-lg uppercase tracking-tight">
             {name}
           </h3>
-          <p className="text-emerald-800 leading-snug line-clamp-3">
-            {description}
-          </p>
         </div>
       </div>
-      <div className="mt-4 flex items-center justify-between">
-        <span
-          className="inline-flex items-center gap-1 font-bold text-emerald-800
-            group-hover:text-ember-600 transition-colors"
-        >
-          Browse {name.split(" ")[0]}
-          <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
-        </span>
-        {typeof businessCount === "number" && (
-          <span className="text-sm font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded">
-            {businessCount} listed
-          </span>
+
+      {/* Listing count line */}
+      <div className="px-3 py-1.5 bg-yp-500 text-black text-xs uppercase tracking-wider border-b border-black/30 font-bold">
+        {typeof businessCount === "number" ? (
+          businessCount === 0
+            ? "No listings yet"
+            : `${businessCount} ${businessCount === 1 ? "Listing" : "Listings"} In This Section`
+        ) : (
+          "Browse this section"
         )}
       </div>
-      <span className="instruction">
-        Tap to open the {name.toLowerCase()} directory
-      </span>
+
+      {/* Description */}
+      <div className="p-3">
+        <p className="text-black text-sm leading-snug line-clamp-3">
+          {description}
+        </p>
+      </div>
+
+      {/* Footer with "see section" CTA */}
+      <div className="px-3 py-2 bg-yp-500 border-t-2 border-black
+        flex items-center justify-between">
+        <span className="text-xs uppercase tracking-wider text-black font-bold">
+          Open Section
+        </span>
+        <span
+          className="text-black text-lg transition-transform group-hover:translate-x-1"
+          aria-hidden="true"
+        >
+          →
+        </span>
+      </div>
     </Link>
   );
 }
