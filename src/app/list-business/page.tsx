@@ -1,41 +1,42 @@
-import Link from "next/link";
-import { ArrowLeft, Mail } from "lucide-react";
+import { SignupProgress } from "@/components/layout/SignupProgress";
+import { SignupForm } from "./SignupForm";
 
 export const metadata = {
-  title: "Post a Listing — Only For Seniors",
-  description: "Post your business on Only For Seniors.",
+  title: "Create your account — Only For Seniors",
+  description:
+    "Set up your Only For Seniors business account. $10/month subscription plus applicable provincial taxes. Cancel anytime.",
 };
 
 export default function ListBusinessPage() {
   return (
     <div className="min-h-screen bg-stone-50">
-      <div className="border-b-2 border-black bg-white">
-        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
-          >
-            <ArrowLeft className="w-4 h-4" /> Home
-          </Link>
-          <h1 className="text-xl font-display font-bold">Post a Listing</h1>
-          <div className="w-24" />
-        </div>
-      </div>
+      <SignupProgress current={1} />
 
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        <div className="bg-white border-2 border-black rounded-lg p-8">
-          <h2 className="text-2xl font-display font-black mb-3">Coming soon</h2>
-          <p className="text-stone-700 mb-4">
-            Self-serve posting is launching shortly. In the meantime, send us an email with your
-            business details and we'll add you to the directory for free during our launch period.
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        <div className="mb-6">
+          <p className="text-base font-semibold text-stone-800 mb-2">
+            Step 1 of 4
           </p>
+          <h1 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+            Create your business account
+          </h1>
+          <p className="mt-3 text-lg text-stone-700">
+            This takes about 60 seconds. You can save and come back any time.
+          </p>
+        </div>
+
+        <SignupForm />
+
+        <p className="mt-6 text-base text-stone-700">
+          Already have an account?{" "}
           <a
             href="mailto:hello@onlyforseniors.ca"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-black text-black border-2 border-black font-display font-bold hover:bg-stone-900"
+            className="font-semibold text-blue-700 underline hover:text-blue-800"
           >
-            <Mail className="w-5 h-5" /> hello@onlyforseniors.ca
-          </a>
-        </div>
+            Contact us
+          </a>{" "}
+          to sign in.
+        </p>
       </div>
     </div>
   );
