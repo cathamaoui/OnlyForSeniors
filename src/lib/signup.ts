@@ -1,4 +1,5 @@
 import { getProvince, type ProvinceCode, formatCAD } from "./canadaTax";
+import type { AddonPurchase } from "./addons";
 
 // The signup flow is a 4-step process. Each step writes its slice of data to
 // localStorage so the user can refresh and resume. There is no real backend
@@ -41,7 +42,10 @@ export type Checkout = {
   billingPostal: string;
   agreedToTerms: boolean;
   agreedToContact: boolean;
-  addons: string[]; // ids from lib/addons.ts
+  /** Each purchased add-on carries the buyer's chosen start date so the
+   * dashboard can show when the bump is live, when it ends, and when a
+   * renewal reminder should go out. */
+  addons: AddonPurchase[];
 };
 
 export type SignupState = {

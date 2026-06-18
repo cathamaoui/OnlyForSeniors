@@ -18,7 +18,7 @@ import {
 } from "@/lib/signup";
 import { getProvince, type ProvinceCode, PROVINCES } from "@/lib/canadaTax";
 import { getAllCategories } from "@/lib/businesses";
-import { formatInterval, getAddon } from "@/lib/addons";
+import { formatDateShort, formatInterval, getAddon, normaliseAddonList } from "@/lib/addons";
 
 function today(): string {
   return new Date().toLocaleDateString("en-CA", {
@@ -49,9 +49,14 @@ export function Confirmation() {
 
   const selectedAddons = useMemo(
     () =>
-      (data?.checkout?.addons ?? [])
-        .map((id) => getAddon(id))
+      normaliseAddonList(data?.checkout?.addons ?? [])
+        .map((p) => getAddon(p.id))
         .filter((a): a is NonNullable<ReturnType<typeof getAddon>> => Boolean(a)),
+    [data]
+  );
+
+  const purchases = useMemo(
+    () => normaliseAddonList(data?.checkout?.addons ?? []),
     [data]
   );
 
@@ -193,8 +198,31 @@ export function Confirmation() {
                 </td>
                 <td className="py-3 text-right text-stone-800">1</td>
                 <td className="py-3 text-right text-stone-800">{formatCAD(PLAN_BASE_CAD)}</td>
-                <td className="py-3 text-right text-stone-800">{formatCAD(tax.subtotal)}</td>
+                <td className="py-3 text-right text-stone-800">{formatCAD(PLAN_BASE_CAD)}</td>
               </tr>
+              {purchases.map((purchase) => {
+                const a = getAddon(purchase.id);
+                if (!a) return null;
+                return (
+                  <tr key={purchase.id} className="border-b border-stone-200">
+                    <td className="py-3 text-stone-900">
+                      {a.title}
+                      {purchase.startDate && (
+                        <span className="block text-base text-stone-700">
+                          {a.interval === "per-event" ? "Date: " : "Live: "}
+                          {formatDateShort(purchase.startDate)}
+                          {purchase.startDate !== purchase.endDate && (
+                            <> – {formatDateShort(purchase.endDate)}</>
+                          )}
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 text-right text-stone-800">1</td>
+                    <td className="py-3 text-right text-stone-800">{formatCAD(a.price)}</td>
+                    <td className="py-3 text-right text-stone-800">{formatCAD(a.price)}</td>
+                  </tr>
+                );
+              })}
             </tbody>
             <tfoot>
               <tr>

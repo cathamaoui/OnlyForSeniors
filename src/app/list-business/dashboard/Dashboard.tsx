@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import {
   loadSignup,
+  saveSignup,
   clearSignup,
   totalWithTax,
   formatCAD,
@@ -33,6 +34,15 @@ import {
   deleteUserListing,
   type UserListing,
 } from "@/lib/userListings";
+import {
+  formatDateShort,
+  getAddon,
+  normaliseAddonList,
+  daysUntil,
+  addDaysIso,
+  buildPurchase,
+  todayIso,
+} from "@/lib/addons";
 
 function fmtDate(d: Date): string {
   return d.toLocaleDateString("en-CA", {
@@ -81,6 +91,37 @@ export function Dashboard() {
       clearSignup();
       router.push("/");
     }
+  };
+
+  // Read the purchased add-ons (with backward-compat for old string[] data).
+  const purchases = normaliseAddonList(co.addons ?? []);
+
+  // Renew an add-on: roll its end date forward by one more period from the
+  // current end date. Stays inside the same data shape so the dashboard
+  // updates instantly without a Stripe round-trip.
+  const onRenewAddon = (id: string) => {
+    if (!data) return;
+    const a = getAddon(id);
+    if (!a) return;
+    const existing = purchases.find((p) => p.id === id);
+    const days =
+      a.interval === "weekly" ? 7 :
+      a.interval === "monthly" ? 30 :
+      1;
+    // For renew, start fresh from the day after the current end (so there's
+    // no gap). If there's no purchase, start today.
+    const baseDate = existing ? addDaysIso(existing.endDate, 1) : todayIso();
+    const fresh = buildPurchase(a, baseDate);
+    const nextAddons = existing
+      ? purchases.map((p) => (p.id === id ? fresh : p))
+      : [...purchases, fresh];
+    const nextState = {
+      ...data,
+      checkout: { ...data.checkout, addons: nextAddons },
+      updatedAt: new Date().toISOString(),
+    };
+    setData(nextState);
+    saveSignup(nextState);
   };
 
   const onDeleteListing = (id: string, name: string) => {
@@ -239,6 +280,76 @@ export function Dashboard() {
             )}
           </dl>
         </section>
+
+        {/* Expiring add-ons (only date-bounded ones) */}
+        {purchases.length > 0 && (
+          <aside className="bg-white border-2 border-blue-700 rounded-lg p-6 h-fit">
+            <h2 className="text-xl font-display font-black text-stone-900 flex items-center gap-2 mb-4">
+              <Clock className="w-5 h-5 text-blue-700" /> Time-limited add-ons
+            </h2>
+            <ul className="space-y-3 text-base">
+              {purchases.map((p) => {
+                const a = getAddon(p.id);
+                if (!a) return null;
+                const remaining = daysUntil(p.endDate);
+                const expired = remaining < 0;
+                const expiring = !expired && remaining <= 3;
+                const badge = expired
+                  ? { color: "red", label: "Expired" }
+                  : expiring
+                  ? { color: "amber", label: `${remaining} day${remaining === 1 ? "" : "s"} left` }
+                  : { color: "blue", label: "Live" };
+                const badgeClass =
+                  badge.color === "red"
+                    ? "text-red-800 bg-red-100 border-red-700"
+                    : badge.color === "amber"
+                    ? "text-amber-900 bg-amber-100 border-amber-700"
+                    : "text-blue-800 bg-blue-100 border-blue-700";
+                return (
+                  <li
+                    key={p.id}
+                    className="rounded-lg border-2 border-stone-200 p-3"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="font-bold text-stone-900">{a.title}</p>
+                      <span
+                        className={`text-base font-semibold border-2 rounded-full px-2 py-0.5 ${badgeClass}`}
+                      >
+                        {badge.label}
+                      </span>
+                    </div>
+                    <p className="text-stone-700 mt-1">
+                      {a.interval === "per-event"
+                        ? `Listed on ${formatDateShort(p.startDate)}`
+                        : `Live ${formatDateShort(p.startDate)} – ${formatDateShort(p.endDate)}`}
+                    </p>
+                    <p className="text-stone-700">
+                      {a.interval === "per-event" ? (
+                        <>Reminder email sent the day before the event.</>
+                      ) : (
+                        <>
+                          Reminder email sent {formatDateShort(addDaysIso(p.endDate, -1))}.
+                        </>
+                      )}
+                    </p>
+                    <div className="mt-2 flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => onRenewAddon(p.id)}
+                        className="inline-flex items-center gap-1 min-h-touch px-4 py-2 text-base font-semibold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800"
+                      >
+                        {a.interval === "per-event" ? "Re-list" : "Renew"} · {a.interval === "weekly" ? "+1 week" : a.interval === "monthly" ? "+1 month" : "+1 day"}
+                      </button>
+                      <span className="text-base text-stone-700">
+                        {formatCAD(a.price)} {a.interval === "weekly" ? "/week" : a.interval === "monthly" ? "/month" : "/event"}
+                      </span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        )}
 
         {/* Subscription card */}
         <aside className="bg-white border-2 border-stone-200 rounded-lg p-6 h-fit">

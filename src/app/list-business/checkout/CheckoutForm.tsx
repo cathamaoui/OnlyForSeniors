@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   CreditCard,
   Lock,
+  RefreshCw,
   ShieldCheck,
   Sparkles,
   Zap,
@@ -24,7 +25,16 @@ import {
   totalWithTax,
   type Checkout,
 } from "@/lib/signup";
-import { ADDONS, formatInterval, getAddon } from "@/lib/addons";
+import {
+  ADDONS,
+  buildPurchase,
+  formatDateShort,
+  formatInterval,
+  getAddon,
+  todayIso,
+  addDaysIso,
+  normaliseAddonList,
+} from "@/lib/addons";
 
 type Errors = Partial<Record<keyof Checkout, string>>;
 
@@ -65,6 +75,21 @@ function validate(c: Checkout): Errors {
   if (!c.billingPostal?.trim()) e.billingPostal = "Postal code is required.";
   if (!c.agreedToTerms) e.agreedToTerms = "Please agree to the terms to continue.";
   if (!c.agreedToContact) e.agreedToContact = "Please confirm you may be contacted for clarification.";
+
+  // Date-required add-ons need a future start date.
+  const today = todayIso();
+  for (const purchase of c.addons ?? []) {
+    const a = getAddon(purchase.id);
+    if (!a?.dateRequired) continue;
+    if (!purchase.startDate) {
+      e.addons = `Please pick a start date for ${a.title}.`;
+      break;
+    }
+    if (purchase.startDate < today) {
+      e.addons = `${a.title}: start date can't be in the past.`;
+      break;
+    }
+  }
   return e;
 }
 
@@ -91,6 +116,8 @@ export function CheckoutForm() {
 
   useEffect(() => {
     const s = loadSignup();
+    // Migrate any old string[] addon list to the new AddonPurchase[] shape
+    const migratedAddons = normaliseAddonList(s.checkout?.addons ?? []);
     // Pre-fill billing from profile if available
     const merged: Checkout = {
       ...form,
@@ -100,6 +127,7 @@ export function CheckoutForm() {
       billingProvince: (s.checkout?.billingProvince ?? s.profile?.province ?? "") as ProvinceCode,
       billingPostal: s.checkout?.billingPostal ?? s.profile?.postalCode ?? "",
       cardName: s.checkout?.cardName ?? s.account?.contactName ?? "",
+      addons: migratedAddons,
     };
     setForm(merged);
     setMounted(true);
@@ -115,7 +143,7 @@ export function CheckoutForm() {
   const tax = useMemo(
     () => {
       const selectedAddons = form.addons
-        .map((id) => getAddon(id))
+        .map((p) => getAddon(p.id))
         .filter((a): a is NonNullable<ReturnType<typeof getAddon>> => Boolean(a));
       return totalWithTax(
         form.billingProvince as ProvinceCode,
@@ -127,12 +155,38 @@ export function CheckoutForm() {
 
   const toggleAddon = (id: string) => {
     setForm((prev) => {
-      const has = prev.addons.includes(id);
-      return {
-        ...prev,
-        addons: has ? prev.addons.filter((a) => a !== id) : [...prev.addons, id],
-      };
+      const has = prev.addons.some((p) => p.id === id);
+      if (has) {
+        return { ...prev, addons: prev.addons.filter((p) => p.id !== id) };
+      }
+      const a = getAddon(id);
+      if (!a) return prev;
+      // Default start date: today. The buyer can change it inline.
+      return { ...prev, addons: [...prev.addons, buildPurchase(a, todayIso())] };
     });
+  };
+
+  const updateAddonDate = (id: string, startDate: string) => {
+    setForm((prev) => ({
+      ...prev,
+      addons: prev.addons.map((p) =>
+        p.id === id
+          ? {
+              id,
+              startDate,
+              endDate: (() => {
+                const a = getAddon(id);
+                if (!a) return p.endDate;
+                const days =
+                  a.interval === "weekly" ? 7 :
+                  a.interval === "monthly" ? 30 :
+                  1;
+                return addDaysIso(startDate, days - 1);
+              })(),
+            }
+          : p
+      ),
+    }));
   };
 
   const onChange = <K extends keyof Checkout>(k: K) =>
@@ -372,61 +426,138 @@ export function CheckoutForm() {
           </p>
           <div className="space-y-3">
             {ADDONS.map((a) => {
-              const checked = form.addons.includes(a.id);
+              const purchase = form.addons.find((p) => p.id === a.id);
+              const checked = Boolean(purchase);
               const Icon =
                 a.id === "top-bump" ? Zap
                 : a.id === "senior-discount-badge" ? TagIcon
                 : a.id === "media-pack" ? ImageIcon
                 : CalendarDays;
+              const reminderDate = purchase && purchase.startDate
+                ? addDaysIso(purchase.endDate, -1) // day before end
+                : "";
               return (
-                <label
+                <div
                   key={a.id}
                   className={[
-                    "flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors",
+                    "rounded-lg border-2 transition-colors",
                     checked
                       ? "border-blue-700 bg-blue-50"
                       : "border-stone-500 bg-white hover:bg-stone-50",
                   ].join(" ")}
                 >
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => toggleAddon(a.id)}
-                    className="mt-1 w-5 h-5 shrink-0"
-                    aria-describedby={`addon-${a.id}-title`}
-                  />
-                  <Icon
-                    className={`w-5 h-5 mt-0.5 shrink-0 ${checked ? "text-blue-700" : "text-stone-700"}`}
-                    strokeWidth={2.25}
-                  />
-                  <span className="flex-1 min-w-0">
-                    <span className="flex flex-wrap items-baseline gap-x-2">
-                      <span
-                        id={`addon-${a.id}-title`}
-                        className="text-base font-bold text-stone-900"
-                      >
-                        {a.title}
-                      </span>
-                      {a.highlight && (
-                        <span className="text-base font-semibold text-blue-700 bg-blue-100 border border-blue-700 rounded-full px-2 py-0.5">
-                          Popular
+                  <label className="flex items-start gap-3 p-4 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleAddon(a.id)}
+                      className="mt-1 w-5 h-5 shrink-0"
+                      aria-describedby={`addon-${a.id}-title`}
+                    />
+                    <Icon
+                      className={`w-5 h-5 mt-0.5 shrink-0 ${checked ? "text-blue-700" : "text-stone-700"}`}
+                      strokeWidth={2.25}
+                    />
+                    <span className="flex-1 min-w-0">
+                      <span className="flex flex-wrap items-baseline gap-x-2">
+                        <span
+                          id={`addon-${a.id}-title`}
+                          className="text-base font-bold text-stone-900"
+                        >
+                          {a.title}
                         </span>
+                        {a.highlight && (
+                          <span className="text-base font-semibold text-blue-700 bg-blue-100 border border-blue-700 rounded-full px-2 py-0.5">
+                            Popular
+                          </span>
+                        )}
+                        <span className="text-base font-bold text-stone-900 ml-auto whitespace-nowrap">
+                          {formatCAD(a.price)}
+                          <span className="text-stone-700 font-normal">
+                            {formatInterval(a.interval)}
+                          </span>
+                        </span>
+                      </span>
+                      <span className="block text-base text-stone-700 mt-1 leading-snug">
+                        {a.blurb}
+                      </span>
+                    </span>
+                  </label>
+
+                  {/* Auto-renews notice — appears on every checked add-on so
+                      the buyer is never surprised. Bolded for visibility. */}
+                  {checked && (
+                    <div className="px-4 pb-4 pl-12 -mt-1">
+                      <p className="flex items-start gap-2 text-base font-bold text-stone-900">
+                        <RefreshCw
+                          className="w-4 h-4 mt-1 shrink-0 text-blue-700"
+                          strokeWidth={2.5}
+                          aria-hidden="true"
+                        />
+                        <span>
+                          {a.interval === "weekly" && "Auto-renews every week on the same day. Cancel any time."}
+                          {a.interval === "monthly" && "Auto-renews every month on the same day. Cancel any time."}
+                          {a.interval === "per-event" && a.dateLabel?.toLowerCase().includes("sale")
+                            ? "Auto-renews the same sale each month. Cancel any time."
+                            : a.interval === "per-event" && (a.dateLabel?.toLowerCase().includes("class") || a.dateLabel?.toLowerCase().includes("workshop"))
+                            ? "Auto-renews the same class each month. Cancel any time."
+                            : a.interval === "per-event"
+                            ? "Auto-renews the same event each month. Cancel any time."
+                            : ""}
+                        </span>
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Date picker for date-required add-ons */}
+                  {checked && a.dateRequired && (
+                    <div className="px-4 pb-4 pl-12 space-y-2">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <label
+                          htmlFor={`addon-date-${a.id}`}
+                          className="text-base font-semibold text-stone-900"
+                        >
+                          {a.dateLabel ?? "Start date"}
+                        </label>
+                        <input
+                          id={`addon-date-${a.id}`}
+                          type="date"
+                          min={todayIso()}
+                          value={purchase?.startDate ?? todayIso()}
+                          onChange={(e) => updateAddonDate(a.id, e.target.value)}
+                          className="min-h-touch px-3 py-2 text-base bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+                        />
+                      </div>
+                      {purchase?.startDate && (
+                        <p className="text-base text-stone-800">
+                          <span className="font-semibold">
+                            {a.interval === "per-event" ? "Listed on " : "Live "}
+                            {formatDateShort(purchase.startDate)}
+                          </span>
+                          {purchase.startDate !== purchase.endDate && (
+                            <>
+                              {" "}→ {formatDateShort(purchase.endDate)}
+                            </>
+                          )}
+                          {a.interval !== "per-event" && (
+                            <>
+                              {" "}·{" "}
+                              <span className="text-stone-700">
+                                Reminder email sent {formatDateShort(reminderDate)}
+                              </span>
+                            </>
+                          )}
+                        </p>
                       )}
-                      <span className="text-base font-bold text-stone-900 ml-auto whitespace-nowrap">
-                        {formatCAD(a.price)}
-                        <span className="text-stone-700 font-normal">
-                          {formatInterval(a.interval)}
-                        </span>
-                      </span>
-                    </span>
-                    <span className="block text-base text-stone-700 mt-1 leading-snug">
-                      {a.blurb}
-                    </span>
-                  </span>
-                </label>
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
+          {errFor("addons") && (
+            <p className="mt-2 text-base text-red-700 font-semibold">{errFor("addons")}</p>
+          )}
         </fieldset>
 
         {/* Refund + acknowledgement box */}
@@ -512,15 +643,24 @@ export function CheckoutForm() {
           </div>
           {form.addons.length > 0 && (
             <>
-              {form.addons.map((id) => {
-                const a = getAddon(id);
+              {form.addons.map((purchase) => {
+                const a = getAddon(purchase.id);
                 if (!a) return null;
                 return (
-                  <div key={id} className="flex justify-between text-stone-800">
+                  <div key={purchase.id} className="flex justify-between text-stone-800">
                     <dt className="pr-2">
                       {a.title}
                       <span className="block text-base text-stone-700">
                         {formatInterval(a.interval)}
+                        {purchase.startDate && (
+                          <>
+                            {" · "}
+                            {formatDateShort(purchase.startDate)}
+                            {purchase.startDate !== purchase.endDate && (
+                              <> – {formatDateShort(purchase.endDate)}</>
+                            )}
+                          </>
+                        )}
                       </span>
                     </dt>
                     <dd>{formatCAD(a.price)}</dd>
