@@ -1,0 +1,222 @@
+// Prisma schema for OnlyForSeniors.ca
+// Senior-focused marketplace for products, services, and businesses
+// NOTE: SQLite is used for dev simplicity. For production switch to Postgres
+// and convert the string "enum" fields back to real enums.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// USER ACCOUNTS
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  passwordHash  String
+  phone         String?
+  // SENIOR | BUSINESS | ADMIN
+  role          String    @default("SENIOR")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  businesses    Business[]
+  reviews       Review[]
+  inquiries     Inquiry[]
+  subscription  Subscription?
+}
+
+// ============================================================
+// CATEGORIES (Taxonomy)
+// ============================================================
+
+model Category {
+  id            String     @id @default(cuid())
+  slug          String     @unique
+  name          String
+  description   String
+  icon          String     // emoji or icon name
+  color         String     // hex color for category card
+  order         Int        @default(0)
+  parentId      String?
+  parent        Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children      Category[] @relation("CategoryTree")
+  subcategories Subcategory[]
+  businesses    Business[]
+
+  @@index([parentId])
+}
+
+model Subcategory {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  businesses  Business[]
+
+  @@index([categoryId])
+}
+
+// ============================================================
+// BUSINESS LISTINGS
+// ============================================================
+
+model Business {
+  id              String         @id @default(cuid())
+  ownerId         String
+  owner           User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // Identity
+  name            String
+  slug            String         @unique
+  tagline         String?
+  description     String
+  logoUrl         String?
+  coverImageUrl   String?
+
+  // Contact
+  email           String
+  phone           String?
+  website         String?
+
+  // Location
+  addressLine1    String?
+  addressLine2    String?
+  city            String
+  province        String
+  postalCode      String?
+  serviceArea     String?
+
+  // Service details
+  categoryId      String
+  category        Category       @relation(fields: [categoryId], references: [id])
+  subcategoryId   String?
+  subcategory     Subcategory?   @relation(fields: [subcategoryId], references: [id])
+
+  // IN_PERSON | ONLINE | BOTH | DELIVERY
+  serviceType     String         @default("BOTH")
+  priceRange      String?
+  yearsInBusiness Int?
+  isMobileService Boolean        @default(false)
+  isOnlineService Boolean        @default(false)
+  offersDelivery  Boolean        @default(false)
+
+  // Accessibility
+  wheelchairAccess Boolean       @default(false)
+  seniorDiscount  Boolean        @default(false)
+  homeVisits      Boolean        @default(false)
+  bilingualStaff  Boolean        @default(false)
+
+  // Status
+  isVerified      Boolean        @default(false)
+  isPublished     Boolean        @default(true)
+  isFeatured      Boolean        @default(false)
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  reviews         Review[]
+  inquiries       Inquiry[]
+  hours           BusinessHours[]
+  images          BusinessImage[]
+
+  @@index([categoryId])
+  @@index([subcategoryId])
+  @@index([city])
+  @@index([province])
+}
+
+model BusinessImage {
+  id         String   @id @default(cuid())
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  url        String
+  caption    String?
+  order      Int      @default(0)
+}
+
+model BusinessHours {
+  id         String   @id @default(cuid())
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  dayOfWeek  Int
+  openTime   String
+  closeTime  String
+  isClosed   Boolean  @default(false)
+
+  @@index([businessId])
+}
+
+// ============================================================
+// REVIEWS
+// ============================================================
+
+model Review {
+  id         String   @id @default(cuid())
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  rating     Int
+  title      String
+  body       String
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([businessId])
+}
+
+// ============================================================
+// INQUIRIES (Contact form submissions)
+// ============================================================
+
+model Inquiry {
+  id         String   @id @default(cuid())
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  name       String
+  email      String
+  phone      String?
+  message    String
+  // NEW | READ | REPLIED | ARCHIVED
+  status     String   @default("NEW")
+  createdAt  DateTime @default(now())
+
+  @@index([businessId])
+}
+
+// ============================================================
+// SUBSCRIPTIONS ($10/month for business owners)
+// ============================================================
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stripeCustomerId     String?
+  stripeSubscriptionId String?  @unique
+  // TRIALING | ACTIVE | PAST_DUE | CANCELED | INCOMPLETE
+  status               String   @default("ACTIVE")
+  plan                 String   @default("BASIC")
+
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean  @default(false)
+
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

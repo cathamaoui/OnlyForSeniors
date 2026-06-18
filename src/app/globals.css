@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;900&family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --emerald: #047857;
+  --ember: #ea580c;
+  --cream: #fdf8e8;
+}
+
+html {
+  font-size: 18px; /* Larger base for senior readability */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Atkinson Hyperlegible", system-ui, -apple-system, sans-serif;
+  color: #1a1a1a;
+  background: #fdf8e8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Larger line-height for easier reading */
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Bitter", Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Visible focus rings - critical for accessibility */
+*:focus-visible {
+  outline: 4px solid #ea580c;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Selection color */
+::selection {
+  background: #047857;
+  color: white;
+}
+
+/* Senior-friendly scrollbar */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track {
+  background: #fdf8e8;
+}
+::-webkit-scrollbar-thumb {
+  background: #047857;
+  border-radius: 8px;
+  border: 3px solid #fdf8e8;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #065f46;
+}
+
+/* === Retro Yellow Pages "Index Card" texture === */
+.yp-paper {
+  background-color: #fdf8e8;
+  background-image:
+    linear-gradient(rgba(120, 80, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 80, 20, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.yp-tab {
+  /* Vertical text strip, like the colored section tabs in the old Yellow Pages */
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.15em;
+}
+
+/* === Reusable components === */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+      min-h-touch px-6 py-3
+      bg-emerald-700 hover:bg-emerald-800 active:bg-emerald-900
+      text-white font-bold text-lg rounded-chunky
+      shadow-retro hover:shadow-[6px_6px_0_0_rgba(0,0,0,0.85)]
+      transition-all duration-150
+      border-2 border-black;
+  }
+  .btn-ember {
+    @apply inline-flex items-center justify-center gap-2
+      min-h-touch px-6 py-3
+      bg-ember-600 hover:bg-ember-700 active:bg-ember-800
+      text-white font-bold text-lg rounded-chunky
+      shadow-retro hover:shadow-[6px_6px_0_0_rgba(0,0,0,0.85)]
+      transition-all duration-150
+      border-2 border-black;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2
+      min-h-touch px-6 py-3
+      bg-cream-50 hover:bg-cream-100
+      text-emerald-900 font-bold text-lg rounded-chunky
+      border-2 border-black
+      shadow-retro hover:shadow-[6px_6px_0_0_rgba(0,0,0,0.85)]
+      transition-all duration-150;
+  }
+  .field-label {
+    @apply block text-base font-bold text-emerald-900 mb-2;
+  }
+  .field-hint {
+    @apply block text-sm text-emerald-800/70 italic mb-2;
+  }
+  .field-input {
+    @apply w-full min-h-touch px-4 py-3 text-lg
+      bg-white border-2 border-black rounded-chunky
+      focus:border-ember-600 focus:ring-4 focus:ring-ember-200
+      placeholder:text-gray-500;
+  }
+  .field-textarea {
+    @apply field-input min-h-32 py-4;
+  }
+  .card-retro {
+    @apply bg-cream-50 border-2 border-black rounded-chunky
+      shadow-retro p-6;
+  }
+  .instruction {
+    /* Visible instruction near every interactive element */
+    @apply block text-sm font-semibold text-emerald-800
+      mt-1 leading-snug;
+  }
+}
+
+/* Reduce motion if requested */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
