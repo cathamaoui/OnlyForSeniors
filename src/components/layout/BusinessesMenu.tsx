@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Briefcase, FileEdit } from "lucide-react";
+import { ChevronDown, Briefcase, FileEdit, LogIn } from "lucide-react";
 
 export function BusinessesMenu() {
   const [open, setOpen] = useState(false);
@@ -48,6 +48,23 @@ export function BusinessesMenu() {
           aria-label="For businesses"
           className="absolute right-0 mt-2 w-64 bg-white border-2 border-black rounded-lg shadow-lg overflow-hidden z-30"
         >
+          {/* Returning businesses — sign in */}
+          <Link
+            href="/list-business/login/"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+            className="flex items-start gap-3 px-4 py-3 bg-blue-50 hover:bg-blue-100 border-b border-stone-200"
+          >
+            <LogIn className="w-5 h-5 mt-0.5 text-blue-700 shrink-0" />
+            <span>
+              <span className="block font-semibold text-stone-900">Business sign in</span>
+              <span className="block text-base text-stone-700 mt-0.5">
+                Manage your subscription and listings
+              </span>
+            </span>
+          </Link>
+
+          {/* New businesses — learn + sign up */}
           <Link
             href="/for-businesses/"
             role="menuitem"
