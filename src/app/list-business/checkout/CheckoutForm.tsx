@@ -10,6 +10,11 @@ import {
   CreditCard,
   Lock,
   ShieldCheck,
+  Sparkles,
+  Zap,
+  Tag as TagIcon,
+  Image as ImageIcon,
+  CalendarDays,
 } from "lucide-react";
 import { PROVINCES, type ProvinceCode, formatCAD } from "@/lib/canadaTax";
 import {
@@ -19,6 +24,7 @@ import {
   totalWithTax,
   type Checkout,
 } from "@/lib/signup";
+import { ADDONS, formatInterval, getAddon } from "@/lib/addons";
 
 type Errors = Partial<Record<keyof Checkout, string>>;
 
@@ -58,6 +64,7 @@ function validate(c: Checkout): Errors {
   if (!c.billingProvince) e.billingProvince = "Choose a province.";
   if (!c.billingPostal?.trim()) e.billingPostal = "Postal code is required.";
   if (!c.agreedToTerms) e.agreedToTerms = "Please agree to the terms to continue.";
+  if (!c.agreedToContact) e.agreedToContact = "Please confirm you may be contacted for clarification.";
   return e;
 }
 
@@ -75,6 +82,8 @@ export function CheckoutForm() {
     billingProvince: "",
     billingPostal: "",
     agreedToTerms: false,
+    agreedToContact: false,
+    addons: [],
   });
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof Checkout, boolean>>>({});
@@ -104,9 +113,27 @@ export function CheckoutForm() {
   }, [mounted, router]);
 
   const tax = useMemo(
-    () => totalWithTax(form.billingProvince as ProvinceCode),
-    [form.billingProvince]
+    () => {
+      const selectedAddons = form.addons
+        .map((id) => getAddon(id))
+        .filter((a): a is NonNullable<ReturnType<typeof getAddon>> => Boolean(a));
+      return totalWithTax(
+        form.billingProvince as ProvinceCode,
+        selectedAddons.map((a) => ({ price: a.price }))
+      );
+    },
+    [form.billingProvince, form.addons]
   );
+
+  const toggleAddon = (id: string) => {
+    setForm((prev) => {
+      const has = prev.addons.includes(id);
+      return {
+        ...prev,
+        addons: has ? prev.addons.filter((a) => a !== id) : [...prev.addons, id],
+      };
+    });
+  };
 
   const onChange = <K extends keyof Checkout>(k: K) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -155,6 +182,7 @@ export function CheckoutForm() {
       billingProvince: true,
       billingPostal: true,
       agreedToTerms: true,
+      agreedToContact: true,
     });
     if (Object.keys(v).length > 0) {
       const firstErrKey = Object.keys(v)[0];
@@ -334,24 +362,126 @@ export function CheckoutForm() {
           </div>
         </fieldset>
 
-        <label className="flex items-start gap-3 cursor-pointer">
-          <input
-            id="cfield-agreedToTerms"
-            type="checkbox"
-            checked={form.agreedToTerms}
-            onChange={onChange("agreedToTerms")}
-            onBlur={onBlur("agreedToTerms")}
-            className="mt-1 w-5 h-5 shrink-0"
-          />
-          <span className="text-base text-stone-800">
-            I agree to the{" "}
-            <Link href="/terms/" className="font-semibold text-blue-700 underline hover:text-blue-800">
-              Terms of Service
-            </Link>{" "}
-            and the $10/month recurring subscription.
-          </span>
-        </label>
-        {errFor("agreedToTerms") && <p className="text-base text-red-700 font-semibold">{errFor("agreedToTerms")}</p>}
+        {/* Add-on upgrades — opt-in, à la carte */}
+        <fieldset>
+          <legend className="text-lg font-display font-bold text-stone-900 mb-1 flex items-center gap-2">
+            <Sparkles className="w-5 h-5" /> Boost your listing
+          </legend>
+          <p className="text-base text-stone-700 mb-3">
+            Optional add-ons. Pick what you need — change or cancel any of them any time.
+          </p>
+          <div className="space-y-3">
+            {ADDONS.map((a) => {
+              const checked = form.addons.includes(a.id);
+              const Icon =
+                a.id === "top-bump" ? Zap
+                : a.id === "senior-discount-badge" ? TagIcon
+                : a.id === "media-pack" ? ImageIcon
+                : CalendarDays;
+              return (
+                <label
+                  key={a.id}
+                  className={[
+                    "flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors",
+                    checked
+                      ? "border-blue-700 bg-blue-50"
+                      : "border-stone-500 bg-white hover:bg-stone-50",
+                  ].join(" ")}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleAddon(a.id)}
+                    className="mt-1 w-5 h-5 shrink-0"
+                    aria-describedby={`addon-${a.id}-title`}
+                  />
+                  <Icon
+                    className={`w-5 h-5 mt-0.5 shrink-0 ${checked ? "text-blue-700" : "text-stone-700"}`}
+                    strokeWidth={2.25}
+                  />
+                  <span className="flex-1 min-w-0">
+                    <span className="flex flex-wrap items-baseline gap-x-2">
+                      <span
+                        id={`addon-${a.id}-title`}
+                        className="text-base font-bold text-stone-900"
+                      >
+                        {a.title}
+                      </span>
+                      {a.highlight && (
+                        <span className="text-base font-semibold text-blue-700 bg-blue-100 border border-blue-700 rounded-full px-2 py-0.5">
+                          Popular
+                        </span>
+                      )}
+                      <span className="text-base font-bold text-stone-900 ml-auto whitespace-nowrap">
+                        {formatCAD(a.price)}
+                        <span className="text-stone-700 font-normal">
+                          {formatInterval(a.interval)}
+                        </span>
+                      </span>
+                    </span>
+                    <span className="block text-base text-stone-700 mt-1 leading-snug">
+                      {a.blurb}
+                    </span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
+
+        {/* Refund + acknowledgement box */}
+        <div className="rounded-lg border-2 border-stone-500 bg-stone-50 p-5 space-y-4">
+          <div className="flex items-start gap-3">
+            <ShieldCheck className="w-5 h-5 mt-0.5 text-blue-700 shrink-0" />
+            <p className="text-base text-stone-800">
+              Listings are reviewed by our team within 24 hours.{" "}
+              <strong>Should your posting not be approved, you will receive a full refund.</strong>{" "}
+              Thank you for choosing to enhance the lives of seniors.
+            </p>
+          </div>
+
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              id="cfield-agreedToContact"
+              type="checkbox"
+              checked={form.agreedToContact}
+              onChange={onChange("agreedToContact")}
+              onBlur={onBlur("agreedToContact")}
+              className="mt-1 w-5 h-5 shrink-0"
+            />
+            <span className="text-base text-stone-800">
+              I understand I may be contacted for clarification.
+            </span>
+          </label>
+          {errFor("agreedToContact") && (
+            <p className="text-base text-red-700 font-semibold">
+              {errFor("agreedToContact")}
+            </p>
+          )}
+
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              id="cfield-agreedToTerms"
+              type="checkbox"
+              checked={form.agreedToTerms}
+              onChange={onChange("agreedToTerms")}
+              onBlur={onBlur("agreedToTerms")}
+              className="mt-1 w-5 h-5 shrink-0"
+            />
+            <span className="text-base text-stone-800">
+              I agree to the{" "}
+              <Link href="/terms/" className="font-semibold text-blue-700 underline hover:text-blue-800">
+                Terms of Service
+              </Link>{" "}
+              and the $10/month recurring subscription.
+            </span>
+          </label>
+          {errFor("agreedToTerms") && (
+            <p className="text-base text-red-700 font-semibold">
+              {errFor("agreedToTerms")}
+            </p>
+          )}
+        </div>
 
         <div className="pt-2 flex flex-col-reverse sm:flex-row gap-3 sm:items-center sm:justify-between">
           <Link
@@ -378,8 +508,31 @@ export function CheckoutForm() {
         <dl className="text-base text-stone-800 space-y-2">
           <div className="flex justify-between">
             <dt>Monthly subscription</dt>
-            <dd>{formatCAD(tax.subtotal)}</dd>
+            <dd>{formatCAD(tax.base)}</dd>
           </div>
+          {form.addons.length > 0 && (
+            <>
+              {form.addons.map((id) => {
+                const a = getAddon(id);
+                if (!a) return null;
+                return (
+                  <div key={id} className="flex justify-between text-stone-800">
+                    <dt className="pr-2">
+                      {a.title}
+                      <span className="block text-base text-stone-700">
+                        {formatInterval(a.interval)}
+                      </span>
+                    </dt>
+                    <dd>{formatCAD(a.price)}</dd>
+                  </div>
+                );
+              })}
+              <div className="flex justify-between text-stone-700 border-t border-stone-200 pt-2">
+                <dt>Subtotal (add-ons)</dt>
+                <dd>{formatCAD(tax.addonsSubtotal)}</dd>
+              </div>
+            </>
+          )}
           <div className="flex justify-between text-stone-700">
             <dt>
               {tax.label}{" "}
@@ -396,6 +549,7 @@ export function CheckoutForm() {
         </dl>
         <p className="mt-4 text-base text-stone-700">
           Renews monthly. Cancel any time from your dashboard — no cancellation fee.
+          Add-ons are billed with your subscription and can be turned off any time.
         </p>
         <ul className="mt-4 space-y-2 text-base text-stone-800">
           <li className="flex items-start gap-2">

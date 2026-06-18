@@ -18,6 +18,7 @@ import {
 } from "@/lib/signup";
 import { getProvince, type ProvinceCode, PROVINCES } from "@/lib/canadaTax";
 import { getAllCategories } from "@/lib/businesses";
+import { formatInterval, getAddon } from "@/lib/addons";
 
 function today(): string {
   return new Date().toLocaleDateString("en-CA", {
@@ -46,9 +47,21 @@ export function Confirmation() {
     setMounted(true);
   }, []);
 
-  const tax = useMemo(
-    () => totalWithTax(data?.checkout?.billingProvince as ProvinceCode),
+  const selectedAddons = useMemo(
+    () =>
+      (data?.checkout?.addons ?? [])
+        .map((id) => getAddon(id))
+        .filter((a): a is NonNullable<ReturnType<typeof getAddon>> => Boolean(a)),
     [data]
+  );
+
+  const tax = useMemo(
+    () =>
+      totalWithTax(
+        data?.checkout?.billingProvince as ProvinceCode,
+        selectedAddons.map((a) => ({ price: a.price }))
+      ),
+    [data, selectedAddons]
   );
 
   const province = getProvince(data?.checkout?.billingProvince);

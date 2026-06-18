@@ -1,18 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
+  Eye,
+  Globe,
   Image as ImageIcon,
   Info,
+  Languages,
+  Mail,
   MapPin,
+  Phone,
   ShieldCheck,
   Sparkles,
+  Star,
   Tag as TagIcon,
+  X,
 } from "lucide-react";
 import { getAllCategories } from "@/lib/businesses";
 import { PROVINCES, type ProvinceCode } from "@/lib/canadaTax";
@@ -22,6 +29,8 @@ import {
   nextUserListingId,
   type UserListing,
 } from "@/lib/userListings";
+import { citiesFor } from "@/lib/canadaCities";
+import { LANGUAGES, OTHER_LANGUAGES, languageName } from "@/lib/languages";
 
 type ListingType = "service" | "event" | "product";
 
@@ -33,14 +42,19 @@ type Form = {
   categorySlug: string;
   subcategorySlug: string;
   phone: string;
+  contactPhone: string;
   email: string;
   website: string;
   city: string;
   province: ProvinceCode | "";
   serviceArea: string;
   priceRange: "" | "$" | "$$" | "$$$" | "$$$$" | "Free";
+  cost: string;
+  costUnit: "" | "per-hour" | "per-day" | "per-service" | "estimate";
   image: string;
   tags: string;
+  languages: string[];   // language codes from lib/languages.ts
+  otherLanguage: string; // free-text or selected from the "other" list
 };
 
 type Errors = Partial<Record<keyof Form | "agreed", string>>;
@@ -97,14 +111,19 @@ export function NewListingForm() {
     categorySlug: "",
     subcategorySlug: "",
     phone: "",
+    contactPhone: "",
     email: "",
     website: "",
     city: "",
     province: "",
     serviceArea: "",
     priceRange: "",
+    cost: "",
+    costUnit: "" as Form["costUnit"],
     image: "",
     tags: "",
+    languages: [] as string[],
+    otherLanguage: "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof Form | "agreed", boolean>>>({});
@@ -112,6 +131,7 @@ export function NewListingForm() {
   const [agreedContact, setAgreedContact] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<{ id: string; name: string } | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     const s = loadSignup();
@@ -177,6 +197,32 @@ export function NewListingForm() {
 
     setSubmitting(true);
     const id = nextUserListingId();
+    // Build the description-side note for cost + languages so they show up
+    // on the public card even though the underlying Business type doesn't have
+    // dedicated fields for them yet.
+    const costLine =
+      form.cost && form.costUnit
+        ? `\n\nCost: $${form.cost} ${
+            form.costUnit === "per-hour"
+              ? "per hour"
+              : form.costUnit === "per-day"
+              ? "per day"
+              : form.costUnit === "per-service"
+              ? "per service"
+              : "(estimate)"
+          }`
+        : "";
+    const languageLine =
+      form.languages.length > 0 || form.otherLanguage
+        ? `\n\nLanguages: ${[
+            ...form.languages.map((c) => languageName(c)),
+            form.otherLanguage,
+          ]
+            .filter(Boolean)
+            .join(", ")}`
+        : "";
+    const fullDescription = form.description.trim() + costLine + languageLine;
+
     const listing: UserListing = {
       id,
       ownerEmail: (signup?.account?.email ?? "").toLowerCase(),
@@ -184,7 +230,7 @@ export function NewListingForm() {
       submittedAt: new Date().toISOString(),
       name: form.name.trim(),
       tagline: form.tagline.trim(),
-      description: form.description.trim(),
+      description: fullDescription,
       categorySlug: form.categorySlug,
       subcategorySlug: form.subcategorySlug || "",
       phone: form.phone.trim(),
@@ -441,25 +487,8 @@ export function NewListingForm() {
           </div>
         </fieldset>
 
-        {/* Location */}
+        {/* Location — province first, then city */}
         <fieldset className="grid sm:grid-cols-3 gap-4">
-          <div className="sm:col-span-2">
-            <label htmlFor="nfield-city" className="block text-base font-bold text-black mb-2">
-              City
-            </label>
-            <input
-              id="nfield-city"
-              type="text"
-              autoComplete="address-level2"
-              value={form.city}
-              onChange={onChange("city")}
-              onBlur={onBlur("city")}
-              aria-invalid={Boolean(errFor("city"))}
-              className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
-              placeholder="Toronto"
-            />
-            {errFor("city") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("city")}</p>}
-          </div>
           <div>
             <label htmlFor="nfield-province" className="block text-base font-bold text-black mb-2">
               Province
@@ -473,10 +502,44 @@ export function NewListingForm() {
               <option value="">Choose…</option>
               {PROVINCES.map((p) => (
                 <option key={p.code} value={p.code}>
-                  {p.code}
+                  {p.code} — {p.name}
                 </option>
               ))}
             </select>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="nfield-city" className="block text-base font-bold text-black mb-2">
+              City
+              <span className="ml-2 text-base font-normal text-stone-700">
+                {form.province
+                  ? `${citiesFor(form.province as ProvinceCode).length} popular cities in ${
+                      PROVINCES.find((p) => p.code === form.province)?.name ?? form.province
+                    }`
+                  : "Pick a province first to see popular cities"}
+              </span>
+            </label>
+            <input
+              id="nfield-city"
+              type="text"
+              autoComplete="address-level2"
+              list="cities-datalist"
+              value={form.city}
+              onChange={onChange("city")}
+              onBlur={onBlur("city")}
+              aria-invalid={Boolean(errFor("city"))}
+              className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+              placeholder={
+                form.province
+                  ? "Pick from the list or type your city"
+                  : "Pick a province first"
+              }
+            />
+            <datalist id="cities-datalist">
+              {citiesFor(form.province as ProvinceCode).map((c) => (
+                <option key={c} value={c} />
+              ))}
+            </datalist>
+            {errFor("city") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("city")}</p>}
           </div>
         </fieldset>
 
@@ -517,23 +580,40 @@ export function NewListingForm() {
             {errFor("phone") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("phone")}</p>}
           </div>
           <div>
-            <label htmlFor="nfield-email" className="block text-base font-bold text-black mb-2">
-              Email
+            <label htmlFor="nfield-contactPhone" className="block text-base font-bold text-black mb-2">
+              Contact phone (optional)
+              <span className="ml-2 text-base font-normal text-stone-700">
+                alternate or direct line
+              </span>
             </label>
             <input
-              id="nfield-email"
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              onChange={onChange("email")}
-              onBlur={onBlur("email")}
-              aria-invalid={Boolean(errFor("email"))}
+              id="nfield-contactPhone"
+              type="tel"
+              autoComplete="tel-national"
+              value={form.contactPhone}
+              onChange={onChange("contactPhone")}
               className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
-              placeholder="you@business.ca"
+              placeholder="e.g. cell or after-hours number"
             />
-            {errFor("email") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("email")}</p>}
           </div>
         </fieldset>
+        <div>
+          <label htmlFor="nfield-email" className="block text-base font-bold text-black mb-2">
+            Email
+          </label>
+          <input
+            id="nfield-email"
+            type="email"
+            autoComplete="email"
+            value={form.email}
+            onChange={onChange("email")}
+            onBlur={onBlur("email")}
+            aria-invalid={Boolean(errFor("email"))}
+            className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+            placeholder="you@business.ca"
+          />
+          {errFor("email") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("email")}</p>}
+        </div>
 
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
@@ -568,6 +648,127 @@ export function NewListingForm() {
             </select>
           </div>
         </div>
+
+        {/* Cost (optional) — useful for services with a set price */}
+        <fieldset>
+          <legend className="text-base font-bold text-stone-900 mb-1">
+            Cost (optional)
+            <span className="ml-2 text-base font-normal text-stone-700">
+              If you have a set price, list it here
+            </span>
+          </legend>
+          <div className="grid sm:grid-cols-[1fr_1fr] gap-4">
+            <div>
+              <label htmlFor="nfield-cost" className="block text-base font-bold text-black mb-2">
+                Amount
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg text-stone-700 font-bold">
+                  $
+                </span>
+                <input
+                  id="nfield-cost"
+                  type="text"
+                  inputMode="decimal"
+                  value={form.cost}
+                  onChange={onChange("cost")}
+                  className="w-full min-h-touch pl-9 pr-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                  placeholder="e.g. 75"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="nfield-costUnit" className="block text-base font-bold text-black mb-2">
+                Per
+              </label>
+              <select
+                id="nfield-costUnit"
+                value={form.costUnit}
+                onChange={onChange("costUnit")}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+              >
+                <option value="">Choose…</option>
+                <option value="per-hour">Per hour</option>
+                <option value="per-day">Per day</option>
+                <option value="per-service">Per service</option>
+                <option value="estimate">Estimate</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        {/* Languages spoken — multi-select chips + "other" dropdown */}
+        <fieldset>
+          <legend className="text-base font-bold text-stone-900 mb-1 flex items-center gap-2">
+            <Languages className="w-5 h-5" /> Languages spoken
+          </legend>
+          <p className="text-base text-stone-700 mb-3">
+            Tap any language you can serve seniors in. Helps families find you.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {LANGUAGES.map((l) => {
+              const active = form.languages.includes(l.code);
+              return (
+                <button
+                  key={l.code}
+                  type="button"
+                  onClick={() => {
+                    setForm((prev) => ({
+                      ...prev,
+                      languages: active
+                        ? prev.languages.filter((c) => c !== l.code)
+                        : [...prev.languages, l.code],
+                    }));
+                  }}
+                  aria-pressed={active}
+                  className={[
+                    "min-h-touch px-3 py-2 text-base font-semibold border-2 rounded-lg transition-colors",
+                    active
+                      ? "bg-blue-700 text-white border-blue-700"
+                      : "bg-white text-stone-800 border-stone-500 hover:bg-stone-100",
+                  ].join(" ")}
+                >
+                  {l.name}
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-4">
+            <label htmlFor="nfield-otherLanguage" className="block text-base font-bold text-black mb-2">
+              Other language (optional)
+              <span className="ml-2 text-base font-normal text-stone-700">
+                pick from the list or type your own
+              </span>
+            </label>
+            <div className="flex gap-2">
+              <input
+                id="nfield-otherLanguage"
+                type="text"
+                list="other-languages"
+                value={form.otherLanguage}
+                onChange={onChange("otherLanguage")}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+                placeholder="e.g. Maltese"
+              />
+              <datalist id="other-languages">
+                {OTHER_LANGUAGES.map((l) => (
+                  <option key={l} value={l} />
+                ))}
+              </datalist>
+            </div>
+          </div>
+          {(form.languages.length > 0 || form.otherLanguage) && (
+            <p className="mt-3 text-base text-stone-800">
+              <span className="font-bold">You speak: </span>
+              {[
+                ...form.languages.map((c) => languageName(c)),
+                form.otherLanguage,
+              ]
+                .filter(Boolean)
+                .join(", ")}
+            </p>
+          )}
+        </fieldset>
 
         <div>
           <label htmlFor="nfield-image" className="block text-base font-bold text-black mb-2">
@@ -670,15 +871,260 @@ export function NewListingForm() {
           >
             Cancel
           </Link>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="inline-flex items-center justify-center gap-2 min-h-touch px-7 py-3 text-lg font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800 disabled:bg-stone-500 disabled:border-stone-500"
-          >
-            {submitting ? "Submitting…" : <>Submit for review <ArrowRight className="w-5 h-5" /></>}
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              type="button"
+              onClick={() => setShowPreview(true)}
+              className="inline-flex items-center justify-center gap-2 min-h-touch px-6 py-3 text-lg font-bold text-stone-900 bg-white border-2 border-black rounded-lg hover:bg-stone-100"
+            >
+              <Eye className="w-5 h-5" /> Preview
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex items-center justify-center gap-2 min-h-touch px-7 py-3 text-lg font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800 disabled:bg-stone-500 disabled:border-stone-500"
+            >
+              {submitting ? "Submitting…" : <>Submit for review <ArrowRight className="w-5 h-5" /></>}
+            </button>
+          </div>
         </div>
       </form>
+
+      {showPreview && <PreviewModal form={form} onClose={() => setShowPreview(false)} signup={signup} cats={cats} />}
+    </div>
+  );
+}
+
+function PreviewModal({
+  form,
+  onClose,
+  signup,
+  cats,
+}: {
+  form: Form;
+  onClose: () => void;
+  signup: ReturnType<typeof loadSignup> | null;
+  cats: ReturnType<typeof getAllCategories>;
+}) {
+  const cat = cats.find((c) => c.slug === form.categorySlug);
+  const sub = cat?.subcategories.find((s) => s.slug === form.subcategorySlug);
+  const costLabel =
+    form.cost && form.costUnit
+      ? `$${form.cost} ${
+          form.costUnit === "per-hour"
+            ? "/ hour"
+            : form.costUnit === "per-day"
+            ? "/ day"
+            : form.costUnit === "per-service"
+            ? "/ service"
+            : "(estimate)"
+        }`
+      : null;
+  const languageChips = [
+    ...form.languages.map((c) => languageName(c)),
+    form.otherLanguage,
+  ].filter(Boolean);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="preview-title"
+      className="fixed inset-0 z-50 bg-black/60 flex items-start sm:items-center justify-center p-2 sm:p-4 overflow-y-auto"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-lg max-w-3xl w-full my-4 sm:my-8"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between p-4 border-b-2 border-stone-200 sticky top-0 bg-white rounded-t-lg z-10">
+          <div>
+            <p className="text-base font-semibold text-blue-700">Preview</p>
+            <h2 id="preview-title" className="text-xl font-display font-black text-stone-900">
+              How seniors will see your listing
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close preview"
+            className="p-2 text-stone-800 hover:text-black"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="p-4 sm:p-6 space-y-6">
+          {/* Directory card preview */}
+          <article className="bg-white border-2 border-black rounded-lg overflow-hidden">
+            <div className="relative aspect-[4/3] bg-stone-100 border-b-2 border-black">
+              {/* Using a regular <img> so we don't need to know the next/image
+                  remote-pattern config. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={
+                  form.image.trim() ||
+                  "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop"
+                }
+                alt={form.name || "Listing photo"}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-4 space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="text-xl font-display font-black text-stone-900">
+                  {form.name || "Listing name"}
+                </h3>
+              </div>
+              {form.tagline && (
+                <p className="text-base text-stone-700">{form.tagline}</p>
+              )}
+              <div className="flex items-center gap-1 text-base text-stone-800 flex-wrap">
+                <MapPin className="w-4 h-4" />
+                <span>
+                  {form.city || "City"}
+                  {form.province && `, ${form.province}`}
+                </span>
+                {sub && (
+                  <>
+                    <span>·</span>
+                    <span>{sub.name}</span>
+                  </>
+                )}
+              </div>
+              {form.description && (
+                <p className="text-base text-stone-800 whitespace-pre-line">
+                  {form.description}
+                </p>
+              )}
+              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-stone-200">
+                {form.priceRange && (
+                  <span className="text-base font-bold text-stone-900">
+                    {form.priceRange}
+                  </span>
+                )}
+                {costLabel && (
+                  <span className="text-base font-bold text-blue-700">
+                    {costLabel}
+                  </span>
+                )}
+                {(signup?.account?.businessName || "Your business") && (
+                  <span className="text-base text-stone-700">
+                    · {signup?.account?.businessName || "Your business"}
+                  </span>
+                )}
+              </div>
+              {form.tags && (
+                <div className="flex flex-wrap gap-1">
+                  {form.tags
+                    .split(",")
+                    .map((t) => t.trim())
+                    .filter(Boolean)
+                    .slice(0, 6)
+                    .map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-base px-2 py-0.5 bg-stone-100 border border-stone-500 rounded"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                </div>
+              )}
+              {languageChips.length > 0 && (
+                <div className="flex items-start gap-2 pt-2 border-t border-stone-200">
+                  <Languages className="w-4 h-4 mt-0.5 text-blue-700 shrink-0" />
+                  <p className="text-base text-stone-800">
+                    <span className="font-bold">Speaks: </span>
+                    {languageChips.join(", ")}
+                  </p>
+                </div>
+              )}
+              <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-stone-200">
+                <a
+                  href={`tel:${form.phone}`}
+                  className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-bold bg-black text-white rounded-lg"
+                >
+                  <Phone className="w-4 h-4" /> Call
+                </a>
+                <a
+                  href={`mailto:${form.email}`}
+                  className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-bold bg-white text-black border-2 border-black rounded-lg"
+                >
+                  <Mail className="w-4 h-4" /> Email
+                </a>
+                {form.contactPhone && (
+                  <a
+                    href={`tel:${form.contactPhone}`}
+                    className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-bold bg-white text-black border-2 border-stone-500 rounded-lg"
+                  >
+                    <Phone className="w-4 h-4" /> {form.contactPhone}
+                  </a>
+                )}
+                {form.website && (
+                  <a
+                    href={form.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-bold bg-white text-black border-2 border-stone-500 rounded-lg"
+                  >
+                    Website
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+
+          {/* Category + service area line */}
+          <div className="bg-stone-50 border-2 border-stone-200 rounded-lg p-4 text-base text-stone-800">
+            <p>
+              <span className="font-bold">Category:</span>{" "}
+              {cat ? `${cat.icon} ${cat.name}` : "Not selected"}{" "}
+              {sub && <span className="text-stone-700">· {sub.name}</span>}
+            </p>
+            {form.serviceArea && (
+              <p className="mt-1">
+                <span className="font-bold">Service area:</span> {form.serviceArea}
+              </p>
+            )}
+            <p className="mt-1 flex items-center gap-1">
+              <Sparkles className="w-4 h-4 text-blue-700" />
+              <span className="font-bold">Status:</span> Pending review (will go live
+              within 24 hours)
+            </p>
+          </div>
+
+          <p className="text-base text-stone-700">
+            This is a preview. Your listing will look like this on{" "}
+            <Link href="/" className="font-semibold text-blue-700 underline hover:text-blue-800">
+              onlyforseniors.ca
+            </Link>{" "}
+            once it&apos;s approved.
+          </p>
+        </div>
+
+        <div className="flex justify-end gap-3 p-4 border-t-2 border-stone-200 bg-stone-50 rounded-b-lg">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex items-center justify-center min-h-touch px-5 py-3 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100"
+          >
+            Back to edit
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

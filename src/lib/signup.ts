@@ -40,6 +40,8 @@ export type Checkout = {
   billingProvince: ProvinceCode | "";
   billingPostal: string;
   agreedToTerms: boolean;
+  agreedToContact: boolean;
+  addons: string[]; // ids from lib/addons.ts
 };
 
 export type SignupState = {
@@ -87,7 +89,12 @@ export function markStep(state: SignupState, step: number): SignupState {
   return { ...state, completedSteps: Math.max(state.completedSteps, step) };
 }
 
-export function totalWithTax(province: ProvinceCode | "" | undefined): {
+export function totalWithTax(
+  province: ProvinceCode | "" | undefined,
+  addons: { price: number }[] = []
+): {
+  base: number;
+  addonsSubtotal: number;
   subtotal: number;
   tax: number;
   total: number;
@@ -96,11 +103,16 @@ export function totalWithTax(province: ProvinceCode | "" | undefined): {
 } {
   const p = getProvince(province);
   const rate = p?.rate ?? 0;
-  const tax = PLAN_BASE_CAD * rate;
+  const addonsSubtotal = addons.reduce((sum, a) => sum + a.price, 0);
+  const base = PLAN_BASE_CAD;
+  const subtotal = base + addonsSubtotal;
+  const tax = subtotal * rate;
   return {
-    subtotal: PLAN_BASE_CAD,
+    base,
+    addonsSubtotal,
+    subtotal,
     tax,
-    total: PLAN_BASE_CAD + tax,
+    total: subtotal + tax,
     rate,
     label: p?.label ?? "No tax",
   };
