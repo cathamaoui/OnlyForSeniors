@@ -628,7 +628,7 @@ export function NewListingForm() {
           </div>
           <div className="rounded-lg border-2 border-stone-200 bg-stone-50 p-4 space-y-4">
             <p className="text-base font-semibold text-stone-900">
-              Secondary contact <span className="font-normal text-stone-700">(optional — leave blank to skip)</span>
+              List a Contact <span className="font-normal text-stone-700">(name and number is applicable, optional — leave blank to skip)</span>
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
