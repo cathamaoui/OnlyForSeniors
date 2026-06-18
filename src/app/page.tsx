@@ -2,7 +2,6 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { CategoryCard } from "@/components/ui/CategoryCard";
 import { Button } from "@/components/ui/Button";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { YPBook } from "@/components/brand/YPBook";
 import {
   Phone,
@@ -101,7 +100,7 @@ export default async function HomePage() {
         id="directory"
         className="max-w-6xl mx-auto px-4 py-12 sm:py-16 scroll-mt-24"
       >
-        <ScrollReveal>
+        <div>
           <div className="text-center mb-8">
             <div className="inline-block bg-black text-yp-500 px-3 py-1.5
               border-2 border-black uppercase tracking-widest text-sm mb-3">
@@ -116,14 +115,14 @@ export default async function HomePage() {
               old Yellow Pages.
             </p>
           </div>
-        </ScrollReveal>
+        </div>
 
         <YPBook categories={ypCategories} />
       </section>
 
       {/* ============== ALL SECTIONS (grid for deep browsing) ============== */}
       <section className="max-w-7xl mx-auto px-4 py-12 sm:py-16 border-t-4 border-black">
-        <ScrollReveal>
+        <div>
           <div className="text-center mb-8">
             <h2 className="font-display text-3xl sm:text-4xl text-black mb-3">
               Or browse every section
@@ -132,11 +131,11 @@ export default async function HomePage() {
               A complete list of every category in the book.
             </p>
           </div>
-        </ScrollReveal>
+        </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((c, i) => (
-            <ScrollReveal key={c.id} delay={i * 0.05}>
+            <div>
               <CategoryCard
                 slug={c.slug}
                 name={c.name}
@@ -145,7 +144,7 @@ export default async function HomePage() {
                 color={c.color}
                 businessCount={c._count.businesses}
               />
-            </ScrollReveal>
+            </div>
           ))}
         </div>
       </section>
@@ -153,11 +152,11 @@ export default async function HomePage() {
       {/* ============== HOW IT WORKS ============== */}
       <section className="bg-yp-500 border-y-4 border-black">
         <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-          <ScrollReveal>
+          <div>
             <h2 className="font-display text-3xl sm:text-4xl text-black text-center mb-10">
               How to Use the Book
             </h2>
-          </ScrollReveal>
+          </div>
 
           <div className="grid gap-6 md:grid-cols-3">
             {[
@@ -180,7 +179,7 @@ export default async function HomePage() {
                 icon: "📞",
               },
             ].map((s, i) => (
-              <ScrollReveal key={s.step} delay={i * 0.1}>
+              <div>
                 <div className="yp-card text-center h-full">
                   <div className="text-5xl mb-3" aria-hidden="true">{s.icon}</div>
                   <div className="inline-block bg-black text-yp-500 text-2xl w-12 h-12
@@ -194,7 +193,7 @@ export default async function HomePage() {
                     {s.body}
                   </p>
                 </div>
-              </ScrollReveal>
+              </div>
             ))}
           </div>
         </div>
@@ -202,7 +201,7 @@ export default async function HomePage() {
 
       {/* ============== CTA — Business owners ============== */}
       <section className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
-        <ScrollReveal>
+        <div>
           <div className="relative yp-card bg-paper">
             <div className="relative grid gap-8 lg:grid-cols-2 items-center">
               <div>
@@ -261,7 +260,7 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
-        </ScrollReveal>
+        </div>
       </section>
 
       {/* ============== CALL ASSISTANCE STRIP ============== */}
