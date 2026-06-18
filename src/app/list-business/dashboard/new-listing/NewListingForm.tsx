@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -182,6 +182,10 @@ export function NewListingForm() {
   const [showPreview, setShowPreview] = useState(false);
   const [provinceChangeNote, setProvinceChangeNote] = useState<string | null>(null);
   const [langPanelOpen, setLangPanelOpen] = useState(false);
+  // Used by the preview modal to trigger the form's submit handler when the
+  // user clicks "Approve and submit". The modal is a sibling of the form,
+  // so it needs a way to fire submission without owning the form element.
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
     const s = loadSignup();
@@ -468,6 +472,7 @@ export function NewListingForm() {
       </div>
 
       <form
+        ref={formRef}
         onSubmit={onSubmit}
         noValidate
         className="bg-white border-2 border-stone-200 rounded-lg p-6 sm:p-8 space-y-7"
@@ -1332,26 +1337,40 @@ export function NewListingForm() {
           >
             Cancel
           </Link>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              type="button"
-              onClick={() => setShowPreview(true)}
-              className="inline-flex items-center justify-center gap-2 min-h-touch px-6 py-3 text-lg font-bold text-stone-900 bg-white border-2 border-black rounded-lg hover:bg-stone-100"
-            >
-              <Eye className="w-5 h-5" /> Preview
-            </button>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex items-center justify-center gap-2 min-h-touch px-7 py-3 text-lg font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800 disabled:bg-stone-500 disabled:border-stone-500"
-            >
-              {submitting ? "Submitting…" : <>Submit for review <ArrowRight className="w-5 h-5" /></>}
-            </button>
-          </div>
+          {/* Step 1 of 2: open the preview. The actual submit button now
+              lives INSIDE the preview modal so the user must review before
+              they can approve. */}
+          <button
+            type="button"
+            onClick={() => setShowPreview(true)}
+            className="inline-flex items-center justify-center gap-2 min-h-touch px-7 py-3 text-lg font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800"
+          >
+            <Eye className="w-5 h-5" /> Preview &amp; submit
+            <ArrowRight className="w-5 h-5" />
+          </button>
         </div>
+        <p className="text-base text-stone-700 sm:text-right -mt-1">
+          Step 1 of 2 — you'll review the preview, then approve before we send it.
+        </p>
       </form>
 
-      {showPreview && <PreviewModal form={form} onClose={() => setShowPreview(false)} signup={signup} cats={cats} />}
+      {showPreview && (
+        <PreviewModal
+          form={form}
+          signup={signup}
+          cats={cats}
+          submitting={submitting}
+          onClose={() => setShowPreview(false)}
+          onApprove={() => {
+            // User approved from inside the preview -> close the modal and
+            // submit the underlying form via a ref. We can't just call
+            // onSubmit directly because the modal is a sibling of the form,
+            // so we use a small ref the parent form owns.
+            setShowPreview(false);
+            formRef.current?.requestSubmit();
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -1359,11 +1378,15 @@ export function NewListingForm() {
 function PreviewModal({
   form,
   onClose,
+  onApprove,
+  submitting,
   signup,
   cats,
 }: {
   form: Form;
   onClose: () => void;
+  onApprove: () => void;
+  submitting: boolean;
   signup: ReturnType<typeof loadSignup> | null;
   cats: ReturnType<typeof getAllCategories>;
 }) {
@@ -1551,20 +1574,23 @@ function PreviewModal({
               )}
               <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-stone-200">
                 <a
-                  href={`tel:${form.phone}`}
+                  href={`tel:${form.phone.replace(/\D/g, "")}`}
+                  aria-label={`Call ${form.name} at ${form.phone}`}
                   className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-bold bg-black text-white rounded-lg"
                 >
                   <Phone className="w-4 h-4" /> Call
                 </a>
                 <a
                   href={`mailto:${form.email}`}
+                  aria-label={`Email ${form.name}`}
                   className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-bold bg-white text-black border-2 border-black rounded-lg"
                 >
                   <Mail className="w-4 h-4" /> Email
                 </a>
                 {form.contactPhone && (
                   <a
-                    href={`tel:${form.contactPhone}`}
+                    href={`tel:${form.contactPhone.replace(/\D/g, "")}`}
+                    aria-label={`Call the contact at ${form.contactPhone}`}
                     className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-bold bg-white text-black border-2 border-stone-500 rounded-lg"
                   >
                     <Phone className="w-4 h-4" /> {form.contactPhone}
@@ -1612,14 +1638,33 @@ function PreviewModal({
           </p>
         </div>
 
-        <div className="flex justify-end gap-3 p-4 border-t-2 border-stone-200 bg-stone-50 rounded-b-lg">
-          <button
-            type="button"
-            onClick={onClose}
-            className="inline-flex items-center justify-center min-h-touch px-5 py-3 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100"
-          >
-            Back to edit
-          </button>
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between p-4 border-t-2 border-stone-200 bg-stone-50 rounded-b-lg">
+          <p className="text-base text-stone-700">
+            <span className="font-bold text-stone-900">Step 2 of 2</span> — review carefully, then approve to send.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex items-center justify-center min-h-touch px-5 py-3 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100"
+            >
+              Back to edit
+            </button>
+            <button
+              type="button"
+              onClick={onApprove}
+              disabled={submitting}
+              className="inline-flex items-center justify-center gap-2 min-h-touch px-7 py-3 text-lg font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800 disabled:bg-stone-500 disabled:border-stone-500"
+            >
+              {submitting ? (
+                "Approving & sending…"
+              ) : (
+                <>
+                  Approve and submit <CheckCircle2 className="w-5 h-5" />
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
