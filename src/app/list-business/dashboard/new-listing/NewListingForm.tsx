@@ -802,13 +802,17 @@ export function NewListingForm() {
             (name + their phone). Keeps the two phone numbers clearly
             distinguished so they don't look like duplicates. */}
         <fieldset className="space-y-4">
-          <div>
-            <label htmlFor="nfield-phone" className="block text-base font-bold text-black mb-2">
+          <div className="rounded-lg border-4 border-blue-700 bg-blue-50 p-4">
+            <label htmlFor="nfield-phone" className="flex items-center gap-2 text-lg font-display font-black text-stone-900 mb-1">
+              <Phone className="w-5 h-5 text-blue-700" />
               Business phone
-              <span className="ml-2 text-base font-normal text-stone-700">
-                the main number seniors will call
+              <span className="text-base font-bold text-blue-800 bg-blue-100 border-2 border-blue-700 rounded-full px-2 py-0.5">
+                Required
               </span>
             </label>
+            <p className="text-base text-stone-800 mb-2">
+              The main number seniors will call.
+            </p>
             <input
               id="nfield-phone"
               type="tel"
