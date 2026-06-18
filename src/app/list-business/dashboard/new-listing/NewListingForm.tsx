@@ -7,6 +7,7 @@ import {
   Accessibility,
   ArrowLeft,
   ArrowRight,
+  CalendarClock,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -57,6 +58,13 @@ type Form = {
   cost: string;
   costUnit: "" | "per-hour" | "per-day" | "per-service" | "per-person" | "per-family" | "estimate" | "other";
   costUnitOther: string; // free-text when costUnit === "other"
+  // Schedule (all three types): civic + street name, event/available date,
+  // start + end time. All optional.
+  fullAddress: string;  // e.g. "Suite 200, 123 Main Street"
+  startDate: string;    // ISO yyyy-mm-dd (event date, "available from", or "product launch")
+  endDate: string;      // ISO yyyy-mm-dd (optional end date)
+  startTime: string;    // "10:00"
+  endTime: string;      // "12:00"
   image: string;
   tags: string;
   languages: string[];   // language codes from lib/languages.ts
@@ -142,6 +150,11 @@ export function NewListingForm() {
     cost: "",
     costUnit: "" as Form["costUnit"],
     costUnitOther: "",
+    fullAddress: "",
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
     image: "",
     tags: "",
     languages: [] as string[],
@@ -313,12 +326,37 @@ export function NewListingForm() {
             .join("; ")}.`
         : "";
 
+    // Schedule + venue note (for all 3 types; all fields optional)
+    const scheduleBits: string[] = [];
+    if (form.fullAddress.trim()) scheduleBits.push(`Venue: ${form.fullAddress.trim()}`);
+    if (form.startDate) {
+      const start = form.startDate;
+      const end = form.endDate && form.endDate !== start ? form.endDate : null;
+      scheduleBits.push(
+        end
+          ? `Dates: ${start} to ${end}`
+          : `Date: ${start}`
+      );
+    }
+    if (form.startTime) {
+      scheduleBits.push(
+        form.endTime
+          ? `Time: ${form.startTime} – ${form.endTime}`
+          : `Time: ${form.startTime}`
+      );
+    }
+    const scheduleLine =
+      scheduleBits.length > 0
+        ? `\n\n${scheduleBits.join(" · ")}`
+        : "";
+
     const fullDescription =
       form.description.trim() +
       costLine +
       languageLine +
       capacityLine +
-      accessibilityLine;
+      accessibilityLine +
+      scheduleLine;
 
     const listing: UserListing = {
       id,
@@ -333,7 +371,7 @@ export function NewListingForm() {
       phone: form.phone.trim(),
       email: form.email.trim(),
       website: form.website.trim() || undefined,
-      address: undefined,
+      address: form.fullAddress.trim() || undefined,
       city: form.city.trim(),
       province: (form.province as string) || "ON",
       postalCode: "",
@@ -346,7 +384,10 @@ export function NewListingForm() {
         .map((t) => t.trim())
         .filter(Boolean)
         .slice(0, 8),
-      hours: undefined,
+      hours:
+        form.startTime && form.endTime
+          ? `${form.startTime} – ${form.endTime}`
+          : form.startTime || undefined,
       image:
         form.image.trim() ||
         "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop",
@@ -647,6 +688,96 @@ export function NewListingForm() {
               ))}
             </datalist>
             {errFor("city") && <p className="mt-2 text-base text-red-700 font-semibold">{errFor("city")}</p>}
+          </div>
+        </fieldset>
+
+        {/* Schedule & venue address — all optional, for service / event / product.
+            Event date is the primary use; service "available from" / "hours"
+            and product "launch / available on" are secondary. */}
+        <fieldset className="rounded-lg border-2 border-stone-200 bg-white p-4 space-y-4">
+          <legend className="text-base font-bold text-stone-900 px-2 flex items-center gap-2">
+            <CalendarClock className="w-5 h-5" /> Schedule &amp; venue
+            <span className="text-base font-normal text-stone-700">(all optional)</span>
+          </legend>
+          <p className="text-base text-stone-700 -mt-1">
+            For events: the date and time of the event. For services: hours you're open. For products: when it becomes available.
+          </p>
+
+          {/* Full civic + street address */}
+          <div>
+            <label htmlFor="nfield-fullAddress" className="block text-base font-bold text-black mb-2">
+              Full civic and street name
+              <span className="ml-2 text-base font-normal text-stone-700">
+                e.g. "Suite 200, 123 Main Street"
+              </span>
+            </label>
+            <input
+              id="nfield-fullAddress"
+              type="text"
+              autoComplete="street-address"
+              value={form.fullAddress}
+              onChange={onChange("fullAddress")}
+              className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+              placeholder="Suite 200, 123 Main Street"
+            />
+          </div>
+
+          {/* Date range */}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="nfield-startDate" className="block text-base font-bold text-black mb-2">
+                {form.type === "event" ? "Event date" : form.type === "service" ? "Available from" : "Available on"}
+              </label>
+              <input
+                id="nfield-startDate"
+                type="date"
+                value={form.startDate}
+                onChange={onChange("startDate")}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+            <div>
+              <label htmlFor="nfield-endDate" className="block text-base font-bold text-black mb-2">
+                End date
+                <span className="ml-2 text-base font-normal text-stone-700">(if different)</span>
+              </label>
+              <input
+                id="nfield-endDate"
+                type="date"
+                min={form.startDate || undefined}
+                value={form.endDate}
+                onChange={onChange("endDate")}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+          </div>
+
+          {/* Start / end time */}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="nfield-startTime" className="block text-base font-bold text-black mb-2">
+                {form.type === "event" ? "Starts at" : "Opens at"}
+              </label>
+              <input
+                id="nfield-startTime"
+                type="time"
+                value={form.startTime}
+                onChange={onChange("startTime")}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
+            <div>
+              <label htmlFor="nfield-endTime" className="block text-base font-bold text-black mb-2">
+                {form.type === "event" ? "Ends at" : "Closes at"}
+              </label>
+              <input
+                id="nfield-endTime"
+                type="time"
+                value={form.endTime}
+                onChange={onChange("endTime")}
+                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+              />
+            </div>
           </div>
         </fieldset>
 
