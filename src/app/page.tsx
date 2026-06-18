@@ -29,75 +29,134 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Top bar */}
-      <header className="border-b-2 border-black bg-white">
+      <header className="border-b border-stone-200 bg-white sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-yp border-2 border-black rounded flex items-center justify-center font-display font-black text-black">
-              YP
+            <div className="w-10 h-10 bg-black text-white border border-black rounded-lg flex items-center justify-center font-display font-black text-sm">
+              OFS
             </div>
             <div>
               <p className="font-display font-bold text-lg leading-none">Only For Seniors</p>
               <p className="text-xs text-stone-600">Canada's senior marketplace</p>
             </div>
           </Link>
-          <div className="flex items-center gap-2">
+          <nav className="flex items-center gap-1 sm:gap-2">
             <Link
-              href="/categories"
-              className="hidden sm:inline-block px-3 py-2 text-sm font-bold border-2 border-black hover:bg-yp"
+              href="/about/"
+              className="hidden md:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
+            >
+              About
+            </Link>
+            <Link
+              href="/categories/news/"
+              className="hidden md:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
+            >
+              News
+            </Link>
+            <Link
+              href="/categories/"
+              className="hidden sm:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
             >
               Browse
             </Link>
             <Link
-              href="/list-business"
-              className="inline-block px-3 py-2 text-sm font-bold bg-black text-yp border-2 border-black"
+              href="/contact/"
+              className="hidden sm:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
             >
-              Post a Listing
+              Contact
             </Link>
-          </div>
+            <Link
+              href="/list-business/"
+              className="inline-block px-4 py-2 text-sm font-semibold bg-blue-700 text-white rounded-lg hover:bg-blue-800 ml-1"
+            >
+              Post a Listing — $10/mo
+            </Link>
+          </nav>
         </div>
       </header>
 
       {/* Hero / Search */}
-      <section className="border-b-2 border-black bg-yp">
-        <div className="max-w-6xl mx-auto px-4 py-8 md:py-10">
-          <h1 className="text-3xl md:text-5xl font-display font-black leading-tight">
-            Trusted services<br />
-            <span className="inline-block bg-black text-yp px-3 py-1 mt-1">for Canadian seniors.</span>
-          </h1>
-          <p className="mt-3 text-base md:text-lg max-w-2xl">
-            No ads. No spam. Just verified businesses, real reviews, and people who care.
+      <section className="border-b-2 border-black bg-gradient-to-b from-white to-stone-50">
+        <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
+          {/* Eyebrow */}
+          <p className="inline-block text-xs font-bold tracking-widest uppercase bg-black text-white px-3 py-1 rounded-full">
+            Canada’s Senior Marketplace
           </p>
 
-          <form action="/search" method="GET" className="mt-6 flex flex-col sm:flex-row gap-2 max-w-3xl">
-            <div className="flex-1 flex items-center bg-white border-2 border-black rounded-lg px-3">
-              <Search className="w-5 h-5 text-stone-600" />
+          {/* H1 — value proposition */}
+          <h1 className="mt-4 text-4xl md:text-6xl font-display font-black leading-[1.05] tracking-tight max-w-3xl">
+            Find help you can{" "}
+            <span className="text-blue-700">trust</span>.
+            <br className="hidden sm:block" />
+            From people who{" "}
+            <span className="text-blue-700">care</span>.
+          </h1>
+
+          {/* H2 — supporting subhead */}
+          <h2 className="mt-4 text-base md:text-xl text-stone-700 max-w-2xl leading-relaxed">
+            Browse verified home care, transportation, health, and daily living services
+            across Canada. No ads, no spam — just real businesses and real reviews.
+          </h2>
+
+          {/* Primary search CTA */}
+          <form action="/search" method="GET" className="mt-8 flex flex-col sm:flex-row gap-3 max-w-3xl">
+            <label htmlFor="hero-search" className="sr-only">Search listings</label>
+            <div className="flex-1 flex items-center bg-white border-2 border-black rounded-xl px-4 shadow-sm focus-within:ring-4 focus-within:ring-blue-200">
+              <Search className="w-5 h-5 text-stone-500" />
               <input
+                id="hero-search"
                 type="text"
                 name="q"
-                placeholder="What are you looking for? e.g. 'ride to doctor', 'grocery delivery'"
-                className="flex-1 min-w-touch px-3 py-3 text-lg outline-none"
+                placeholder="What do you need help with today?"
+                className="flex-1 min-h-touch px-3 py-3 text-lg outline-none bg-transparent"
                 aria-label="Search"
               />
             </div>
             <button
               type="submit"
-              className="px-6 py-3 bg-black text-yp border-2 border-black rounded-lg font-display font-bold text-lg hover:bg-stone-900 min-h-touch"
+              className="px-8 py-3 bg-blue-700 text-white border-2 border-black rounded-xl font-display font-bold text-lg hover:bg-blue-800 min-h-touch shadow-sm"
             >
               Search
             </button>
           </form>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            <span className="text-sm font-bold text-black">Popular:</span>
+          {/* Quick-pick popular searches */}
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="text-sm font-semibold text-stone-600">Popular:</span>
             {["Personal Care", "House Cleaning", "Rides", "Snow Removal", "Physiotherapy", "Pharmacy Delivery"].map((tag) => (
               <Link
                 key={tag}
-                href={`/search?q=${encodeURIComponent(tag)}`}
-                className="text-sm px-3 py-1 bg-white border-2 border-black rounded-full hover:bg-yellow-300"
+                href={`/search/?q=${encodeURIComponent(tag)}`}
+                className="text-sm px-3 py-1.5 bg-white border border-stone-300 text-stone-800 rounded-full hover:border-black hover:bg-stone-50 transition-colors"
               >
                 {tag}
               </Link>
             ))}
+          </div>
+
+          {/* Trust strip — quick value props */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl">
+            <div className="flex items-start gap-2 text-sm">
+              <BadgeCheck className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-stone-900">Verified businesses</p>
+                <p className="text-stone-600">Every listing is reviewed.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2 text-sm">
+              <Heart className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-stone-900">No ads, ever</p>
+                <p className="text-stone-600">We never sell your data.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2 text-sm">
+              <MapPin className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-stone-900">Local to you</p>
+                <p className="text-stone-600">Filter by city and province.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -106,7 +165,7 @@ export default function HomePage() {
         {/* Sidebar — All categories (Kijiji-style flat list) */}
         <aside className="space-y-4">
           <div className="bg-white border-2 border-black rounded-lg overflow-hidden">
-            <div className="bg-black text-yp px-4 py-2 font-display font-bold uppercase tracking-wide text-sm">
+            <div className="bg-black text-white px-4 py-2 font-display font-bold uppercase tracking-wide text-sm">
               All Categories
             </div>
             <ul>
@@ -241,36 +300,35 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t-2 border-black bg-black text-yp mt-12">
-        <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <footer className="border-t border-stone-200 bg-stone-900 text-stone-200 mt-12">
+        <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-yp text-black font-display font-black flex items-center justify-center rounded">YP</div>
-              <span className="font-display font-bold">Only For Seniors</span>
+              <div className="w-8 h-8 bg-white text-stone-900 font-display font-black flex items-center justify-center rounded text-sm">OFS</div>
+              <span className="font-display font-bold text-white">Only For Seniors</span>
             </div>
-            <p className="text-sm mt-2 opacity-90">Canada's senior marketplace. No ads. No spam. Just the people who can help.</p>
+            <p className="text-sm mt-3 text-stone-400">Canada's senior marketplace. No ads. No spam. Just the people who can help.</p>
           </div>
           <div>
-            <h4 className="font-display font-bold mb-2">Browse</h4>
-            <ul className="space-y-1 text-sm">
+            <h4 className="font-display font-bold mb-3 text-white">Browse</h4>
+            <ul className="space-y-1.5 text-sm">
               {allCats.slice(0, 5).map((c) => (
                 <li key={c.slug}>
-                  <Link href={`/categories/${c.slug}`} className="hover:underline">{c.icon} {c.name}</Link>
+                  <Link href={`/categories/${c.slug}/`} className="text-stone-300 hover:text-white transition-colors">{c.icon} {c.name}</Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h4 className="font-display font-bold mb-2">For Business Owners</h4>
-            <ul className="space-y-1 text-sm">
-              <li><Link href="/list-business" className="hover:underline">Post a Listing</Link></li>
-              <li><Link href="/pricing" className="hover:underline">Pricing</Link></li>
-              <li><Link href="/how-it-works" className="hover:underline">How It Works</Link></li>
-              <li><Link href="/contact" className="hover:underline">Contact</Link></li>
+            <h4 className="font-display font-bold mb-3 text-white">For Business Owners</h4>
+            <ul className="space-y-1.5 text-sm">
+              <li><Link href="/list-business/" className="text-stone-300 hover:text-white transition-colors">Post a Listing</Link></li>
+              <li><Link href="/pricing/" className="text-stone-300 hover:text-white transition-colors">Pricing</Link></li>
+              <li><Link href="/how-it-works/" className="text-stone-300 hover:text-white transition-colors">How It Works</Link></li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-yp/30 text-center text-xs py-3 opacity-80">
+        <div className="border-t border-stone-800 text-center text-xs py-4 text-stone-500">
           © {new Date().getFullYear()} Only For Seniors · Made with care in Canada
         </div>
       </footer>
