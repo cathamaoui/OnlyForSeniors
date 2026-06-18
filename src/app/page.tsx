@@ -28,53 +28,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Top bar */}
-      <header className="border-b border-stone-200 bg-white sticky top-0 z-20">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-black text-white border border-black rounded-lg flex items-center justify-center font-display font-black text-sm">
-              OFS
-            </div>
-            <div>
-              <p className="font-display font-bold text-lg leading-none">Only For Seniors</p>
-              <p className="text-xs text-stone-600">Canada's senior marketplace</p>
-            </div>
-          </Link>
-          <nav className="flex items-center gap-1 sm:gap-2">
-            <Link
-              href="/about/"
-              className="hidden md:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
-            >
-              About
-            </Link>
-            <Link
-              href="/categories/news/"
-              className="hidden md:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
-            >
-              News
-            </Link>
-            <Link
-              href="/categories/"
-              className="hidden sm:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
-            >
-              Browse
-            </Link>
-            <Link
-              href="/contact/"
-              className="hidden sm:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
-            >
-              Contact
-            </Link>
-            <Link
-              href="/list-business/"
-              className="inline-block px-4 py-2 text-sm font-semibold bg-blue-700 text-white rounded-lg hover:bg-blue-800 ml-1"
-            >
-              Post a Listing — $10/mo
-            </Link>
-          </nav>
-        </div>
-      </header>
-
       {/* Hero / Search */}
       <section className="border-b-2 border-black bg-gradient-to-b from-white to-stone-50">
         <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
@@ -233,7 +186,7 @@ export default function HomePage() {
             <section>
               <div className="flex items-center justify-between mb-3">
                 <h2 className="flex items-center gap-2 text-xl md:text-2xl font-display font-black">
-                  <Star className="w-6 h-6 fill-yp stroke-black" />
+                  <Star className="w-6 h-6 fill-stone-900 stroke-stone-900" />
                   Featured Listings
                 </h2>
                 <span className="text-sm text-stone-600">{totalListings} total listings</span>
@@ -298,40 +251,6 @@ export default function HomePage() {
           </section>
         </main>
       </div>
-
-      {/* Footer */}
-      <footer className="border-t border-stone-200 bg-stone-900 text-stone-200 mt-12">
-        <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-white text-stone-900 font-display font-black flex items-center justify-center rounded text-sm">OFS</div>
-              <span className="font-display font-bold text-white">Only For Seniors</span>
-            </div>
-            <p className="text-sm mt-3 text-stone-400">Canada's senior marketplace. No ads. No spam. Just the people who can help.</p>
-          </div>
-          <div>
-            <h4 className="font-display font-bold mb-3 text-white">Browse</h4>
-            <ul className="space-y-1.5 text-sm">
-              {allCats.slice(0, 5).map((c) => (
-                <li key={c.slug}>
-                  <Link href={`/categories/${c.slug}/`} className="text-stone-300 hover:text-white transition-colors">{c.icon} {c.name}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-display font-bold mb-3 text-white">For Business Owners</h4>
-            <ul className="space-y-1.5 text-sm">
-              <li><Link href="/list-business/" className="text-stone-300 hover:text-white transition-colors">Post a Listing</Link></li>
-              <li><Link href="/pricing/" className="text-stone-300 hover:text-white transition-colors">Pricing</Link></li>
-              <li><Link href="/how-it-works/" className="text-stone-300 hover:text-white transition-colors">How It Works</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="border-t border-stone-800 text-center text-xs py-4 text-stone-500">
-          © {new Date().getFullYear()} Only For Seniors · Made with care in Canada
-        </div>
-      </footer>
     </div>
   );
 }

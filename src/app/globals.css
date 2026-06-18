@@ -5,7 +5,6 @@
 @tailwind utilities;
 
 :root {
-  --yp-yellow: #fcd116;
   --ink: #0a0a0a;
   --dial-red: #c8102e;
 }
@@ -18,7 +17,7 @@ html {
 body {
   font-family: "Atkinson Hyperlegible", system-ui, -apple-system, sans-serif;
   color: #0a0a0a;
-  background: var(--yp-yellow);
+  background: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
@@ -48,73 +47,73 @@ strong, b {
 }
 
 ::-webkit-scrollbar {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--yp-yellow);
+  background: #ffffff;
 }
 ::-webkit-scrollbar-thumb {
-  background: #000;
-  border: 3px solid var(--yp-yellow);
+  background: #57534e;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
 }
 
-.yp-paper {
-  background-color: #fcd116;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
+/* Defang any leftover legacy yellow classes — these used to paint yellow. */
+.bg-yp-500, .bg-yp, .yp-paper {
+  background-color: #ffffff !important;
+  background-image: none !important;
 }
+.text-yp-500, .text-yp { color: #0a0a0a !important; }
+.border-yp { border-color: #e7e5e4 !important; }
+.hover\:bg-yp:hover { background-color: #f5f5f4 !important; }
 
 @layer components {
   .btn-yp {
     @apply inline-flex items-center justify-center gap-2
       min-h-touch px-6 py-3
-      bg-black text-yp-500
-      font-display text-lg rounded-none
+      bg-black text-white
+      font-display text-lg rounded-lg
       border-2 border-black
-      shadow-yp hover:shadow-yp-lg
-      transition-all duration-150
-      hover:-translate-x-0.5 hover:-translate-y-0.5;
+      shadow-sm hover:shadow-md
+      transition-all duration-150;
   }
   .btn-yp-outline {
     @apply inline-flex items-center justify-center gap-2
       min-h-touch px-6 py-3
-      bg-yp-500 text-black
-      font-display text-lg rounded-none
+      bg-white text-black
+      font-display text-lg rounded-lg
       border-2 border-black
-      shadow-yp hover:shadow-yp-lg
-      transition-all duration-150
-      hover:-translate-x-0.5 hover:-translate-y-0.5;
+      shadow-sm hover:shadow-md
+      transition-all duration-150;
   }
   .field-label {
     @apply block text-base font-bold text-black mb-2 uppercase tracking-wide;
   }
   .field-hint {
-    @apply block text-sm text-black/60 italic mb-2;
+    @apply block text-sm text-stone-500 italic mb-2;
   }
   .field-input {
     @apply w-full min-h-touch px-4 py-3 text-lg
-      bg-white text-black border-2 border-black rounded-none
-      focus:border-dial focus:ring-4 focus:ring-dial/30
-      placeholder:text-black/40;
+      bg-white text-black border-2 border-stone-300 rounded-lg
+      focus:border-blue-700 focus:ring-4 focus:ring-blue-100
+      placeholder:text-stone-400;
   }
   .field-textarea {
     @apply field-input min-h-32 py-4;
   }
   .yp-card {
-    @apply bg-paper border-2 border-black p-4;
+    @apply bg-white border border-stone-200 p-4 rounded-lg;
   }
   .yp-banner {
-    @apply bg-black text-yp-500 px-3 py-2 font-display uppercase tracking-widest text-sm;
+    @apply bg-black text-white px-3 py-2 font-display uppercase tracking-widest text-sm rounded-md;
   }
   .yp-section-head {
-    @apply bg-black text-yp-500 px-3 py-2 font-display uppercase tracking-widest text-sm
-      border-y-2 border-black;
+    @apply bg-black text-white px-3 py-2 font-display uppercase tracking-widest text-sm
+      border-y border-stone-200;
   }
   .instruction {
-    @apply block text-sm font-semibold text-black/70 mt-1 leading-snug;
+    @apply block text-sm font-semibold text-stone-600 mt-1 leading-snug;
   }
 }
 
@@ -124,82 +123,4 @@ strong, b {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* === Page-flip / page-curl animation === */
-@layer utilities {
-  .perspective-1000 {
-    perspective: 1200px;
-  }
-  .perspective-1500 {
-    perspective: 1500px;
-  }
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-  .backface-hidden {
-    backface-visibility: hidden;
-  }
-}
-
-@keyframes pageCurlForward {
-  0% {
-    transform: rotateY(0deg) translateZ(0);
-    box-shadow: inset 0 0 24px rgba(0,0,0,0.10), 4px 0 12px rgba(0,0,0,0.2);
-  }
-  50% {
-    transform: rotateY(-90deg) translateZ(20px);
-    box-shadow: inset 0 0 24px rgba(0,0,0,0.25), 0 12px 30px rgba(0,0,0,0.35);
-  }
-  100% {
-    transform: rotateY(-180deg) translateZ(0);
-    box-shadow: inset 0 0 24px rgba(0,0,0,0.40), -4px 0 12px rgba(0,0,0,0.2);
-  }
-}
-
-@keyframes pageCurlBackward {
-  0% {
-    transform: rotateY(0deg) translateZ(0);
-    box-shadow: inset 0 0 24px rgba(0,0,0,0.10), -4px 0 12px rgba(0,0,0,0.2);
-  }
-  50% {
-    transform: rotateY(90deg) translateZ(20px);
-    box-shadow: inset 0 0 24px rgba(0,0,0,0.25), 0 12px 30px rgba(0,0,0,0.35);
-  }
-  100% {
-    transform: rotateY(180deg) translateZ(0);
-    box-shadow: inset 0 0 24px rgba(0,0,0,0.40), 4px 0 12px rgba(0,0,0,0.2);
-  }
-}
-
-/* Book-stack style for the YPBook container */
-.yp-book-stack {
-  background: #0a0a0a;
-  padding: 4px;
-  box-shadow:
-    6px 6px 0 0 #000,
-    inset 0 0 0 2px #fcd116;
-}
-
-.yp-book-page {
-  position: relative;
-  background: #fffdf2;
-  /* Subtle paper grain */
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-/* The "spine" shadow on the inner page (where the page meets the tabs) */
-.yp-book-page::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 24px;
-  background: linear-gradient(90deg, rgba(0,0,0,0.18) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 5;
 }

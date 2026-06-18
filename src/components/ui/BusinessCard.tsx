@@ -14,7 +14,7 @@ export function BusinessCard({ business }: Props) {
   return (
     <Link
       href={`/businesses/${business.id}`}
-      className="group flex flex-col bg-white border-2 border-black rounded-lg overflow-hidden transition-shadow hover:shadow-yp-lg"
+      className="group flex flex-col bg-white border-2 border-black rounded-lg overflow-hidden transition-shadow hover:shadow-lg"
     >
       {/* Image */}
       <div className="relative aspect-[4/3] bg-stone-100 border-b-2 border-black">
@@ -26,7 +26,7 @@ export function BusinessCard({ business }: Props) {
           className="object-cover"
         />
         {business.isFeatured && (
-          <span className="absolute top-2 left-2 bg-yp text-black text-xs font-bold px-2 py-1 rounded border border-black">
+          <span className="absolute top-2 left-2 bg-white text-black text-xs font-bold px-2 py-1 rounded border border-black">
             Featured
           </span>
         )}
@@ -61,7 +61,7 @@ export function BusinessCard({ business }: Props) {
 
         {business.rating !== undefined && (
           <div className="flex items-center gap-1 text-sm">
-            <Star className="w-4 h-4 fill-yp stroke-black" />
+            <Star className="w-4 h-4 fill-stone-900 stroke-black" />
             <span className="font-semibold">{business.rating.toFixed(1)}</span>
             {business.reviewCount !== undefined && (
               <span className="text-stone-600">({business.reviewCount})</span>

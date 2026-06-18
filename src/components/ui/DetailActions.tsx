@@ -11,7 +11,7 @@ export function DetailActions() {
         aria-label="Save"
         aria-pressed={saved}
         onClick={() => setSaved((s) => !s)}
-        className="w-10 h-10 border-2 border-black rounded flex items-center justify-center hover:bg-yp"
+        className="w-10 h-10 border-2 border-black rounded flex items-center justify-center hover:bg-stone-100"
       >
         <Heart className={`w-5 h-5 ${saved ? "fill-rose-600 stroke-rose-600" : ""}`} />
       </button>
@@ -26,7 +26,7 @@ export function DetailActions() {
             nav.clipboard.writeText(window.location.href).catch(() => {});
           }
         }}
-        className="w-10 h-10 border-2 border-black rounded flex items-center justify-center hover:bg-yp"
+        className="w-10 h-10 border-2 border-black rounded flex items-center justify-center hover:bg-stone-100"
       >
         <Share2 className="w-5 h-5" />
       </button>

@@ -64,7 +64,7 @@ export function SearchClient({ businesses, categories }: Props) {
               <Link
                 key={c.slug}
                 href={`/categories/${c.slug}/`}
-                className="px-3 py-2 text-sm bg-yp border-2 border-black hover:bg-yellow-300"
+                className="px-3 py-2 text-sm bg-white border-2 border-black hover:bg-stone-100"
               >
                 {c.icon} {c.name}
               </Link>

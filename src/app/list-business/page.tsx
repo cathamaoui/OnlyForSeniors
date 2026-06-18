@@ -13,7 +13,7 @@ export default function ListBusinessPage() {
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-yp text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-yp-sm hover:bg-yellow-300"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-sm hover:bg-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>
@@ -31,7 +31,7 @@ export default function ListBusinessPage() {
           </p>
           <a
             href="mailto:hello@onlyforseniors.ca"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-black text-yp border-2 border-black font-display font-bold hover:bg-stone-900"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-black text-black border-2 border-black font-display font-bold hover:bg-stone-900"
           >
             <Mail className="w-5 h-5" /> hello@onlyforseniors.ca
           </a>

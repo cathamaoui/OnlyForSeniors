@@ -14,7 +14,7 @@ export function SaveButton() {
         e.stopPropagation();
         setSaved((s) => !s);
       }}
-      className="absolute top-2 right-2 w-8 h-8 bg-white border-2 border-black rounded-full flex items-center justify-center hover:bg-yp transition-colors"
+      className="absolute top-2 right-2 w-8 h-8 bg-white border-2 border-black rounded-full flex items-center justify-center hover:bg-white transition-colors"
     >
       <Heart className={`w-4 h-4 ${saved ? "fill-rose-600 stroke-rose-600" : ""}`} />
     </button>

@@ -34,7 +34,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#fcd116",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -44,11 +44,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-CA">
-      <body className="min-h-screen flex flex-col bg-yp-500">
+      <body className="min-h-screen flex flex-col bg-white">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50
-            bg-black text-yp-500 px-4 py-3 font-bold border-2 border-black"
+            bg-black text-white px-4 py-3 font-bold border-2 border-black"
         >
           Skip to main content
         </a>

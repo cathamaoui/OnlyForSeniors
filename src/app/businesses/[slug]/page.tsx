@@ -50,7 +50,7 @@ export default async function BusinessDetailPage({
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href={cat ? `/categories/${cat.slug}` : "/businesses"}
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-yp text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-yp-sm hover:bg-yellow-300"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display uppercase tracking-wide text-sm shadow-sm hover:bg-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
@@ -72,7 +72,7 @@ export default async function BusinessDetailPage({
               priority
             />
             {b.isFeatured && (
-              <span className="absolute top-3 left-3 bg-yp text-black text-sm font-bold px-3 py-1.5 rounded border-2 border-black shadow-yp-sm">
+              <span className="absolute top-3 left-3 bg-white text-black text-sm font-bold px-3 py-1.5 rounded border-2 border-black shadow-sm">
                 Featured
               </span>
             )}
@@ -107,7 +107,7 @@ export default async function BusinessDetailPage({
 
             {b.rating !== undefined && (
               <div className="mt-4 flex items-center gap-2 text-lg">
-                <Star className="w-5 h-5 fill-yp stroke-black" />
+                <Star className="w-5 h-5 fill-stone-900 stroke-black" />
                 <span className="font-bold">{b.rating.toFixed(1)}</span>
                 {b.reviewCount !== undefined && (
                   <span className="text-stone-600">({b.reviewCount} reviews)</span>
@@ -175,7 +175,7 @@ export default async function BusinessDetailPage({
               />
               <button
                 type="button"
-                className="w-full sm:w-auto px-6 py-3 bg-black text-yp border-2 border-black font-display font-bold hover:bg-stone-900"
+                className="w-full sm:w-auto px-6 py-3 bg-black text-black border-2 border-black font-display font-bold hover:bg-stone-900"
               >
                 Send Inquiry
               </button>
@@ -189,7 +189,7 @@ export default async function BusinessDetailPage({
             {b.phone && (
               <a
                 href={`tel:${b.phone.replace(/\D/g, "")}`}
-                className="flex items-center gap-3 p-3 bg-yp border-2 border-black rounded font-bold text-lg hover:bg-yellow-300"
+                className="flex items-center gap-3 p-3 bg-white border-2 border-black rounded font-bold text-lg hover:bg-stone-100"
               >
                 <Phone className="w-5 h-5" /> {b.phone}
               </a>
@@ -233,7 +233,7 @@ export default async function BusinessDetailPage({
             )}
           </div>
 
-          <div className="bg-yellow-100 border-2 border-black rounded-lg p-4 text-sm">
+          <div className="bg-white border-2 border-black rounded-lg p-4 text-sm">
             <p className="font-bold mb-1">Safety tip</p>
             <p className="text-stone-800">
               Always verify a business before sending money or personal information.
