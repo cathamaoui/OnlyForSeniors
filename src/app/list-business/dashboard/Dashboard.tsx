@@ -176,9 +176,14 @@ export function Dashboard() {
             Welcome back
           </p>
           <h1 className="text-2xl sm:text-3xl font-display font-black text-stone-900">
-            {acct.businessName || acct.contactName || "Your business"}
+            {acct.businessName || "Your business"}
           </h1>
           <p className="text-base text-stone-700 mt-1">
+            {acct.contactName && (
+              <>
+                Hi <strong>{acct.contactName}</strong> ·{" "}
+              </>
+            )}
             Signed in as <strong>{acct.email}</strong>
           </p>
         </div>
