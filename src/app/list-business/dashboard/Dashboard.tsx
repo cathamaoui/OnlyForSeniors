@@ -187,17 +187,17 @@ export function Dashboard() {
             Signed in as <strong>{acct.email}</strong>
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col gap-2 w-full sm:w-auto sm:items-stretch">
           <Link
             href="/list-business/dashboard/new-listing/"
-            className="inline-flex items-center justify-center gap-2 min-h-touch px-5 py-3 text-base font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800"
+            className="inline-flex items-center justify-center gap-2 min-h-touch px-6 py-3 text-lg font-bold text-white bg-blue-700 border-2 border-blue-700 rounded-lg hover:bg-blue-800 w-full sm:w-auto"
           >
             <Plus className="w-5 h-5" /> New listing
           </Link>
           <button
             type="button"
             onClick={onLogout}
-            className="inline-flex items-center justify-center gap-2 min-h-touch px-5 py-3 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100"
+            className="inline-flex items-center justify-center gap-2 min-h-touch px-4 py-2 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100 w-full sm:w-auto"
           >
             <LogOut className="w-4 h-4" /> Sign out
           </button>
