@@ -29,7 +29,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-stone-50">
       {/* Hero / Search */}
-      <section className="border-b-2 border-black bg-gradient-to-b from-white to-stone-50">
+      <section className="border-b-4 border-black bg-gradient-to-b from-blue-50 to-stone-50 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
           {/* Eyebrow — subtle accent label above the H1 */}
           <div className="flex items-center gap-3 mb-5">
@@ -90,17 +90,17 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Trust strip — quick value props */}
+          {/* Trust strip — quick value props (all icons unified to blue) */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl">
             <div className="flex items-start gap-2 text-base">
-              <BadgeCheck className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
+              <BadgeCheck className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">Verified businesses</p>
                 <p className="text-stone-800">Every listing is reviewed.</p>
               </div>
             </div>
             <div className="flex items-start gap-2 text-base">
-              <Heart className="w-5 h-5 text-rose-600 flex-shrink-0 mt-0.5" />
+              <Heart className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">No ads, ever</p>
                 <p className="text-stone-800">We never sell your data.</p>
@@ -154,7 +154,12 @@ export default function HomePage() {
               <h3 className="font-display font-bold   text-base">Need help?</h3>
             </div>
             <p className="text-base mb-2">Call our free senior help line.</p>
-            <a href="tel:1-855-555-0123" className="block text-2xl font-display font-black underline">
+            <a
+              href="tel:1-855-555-0123"
+              aria-label="Call our free senior help line at 1-855-555-0123"
+              className="inline-flex items-center gap-2 text-2xl font-display font-black text-stone-900"
+            >
+              <Phone className="w-6 h-6 text-blue-700" strokeWidth={2.5} />
               1-855-555-0123
             </a>
             <p className="text-base mt-1">Mon–Fri 8am–8pm ET</p>

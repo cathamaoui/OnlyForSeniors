@@ -5,7 +5,7 @@ export function Footer() {
   const cats = getAllCategories();
 
   return (
-    <footer className="border-t border-stone-200 bg-stone-900 text-stone-200 mt-16">
+    <footer className="border-t-2 border-stone-400 bg-stone-900 text-stone-200 mt-16">
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div>
           <div className="flex items-center gap-2">

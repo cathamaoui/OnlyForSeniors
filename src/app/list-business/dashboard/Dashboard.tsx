@@ -148,7 +148,7 @@ export function Dashboard() {
         );
       case "pending":
         return (
-          <span className="inline-flex items-center gap-1 text-base font-semibold text-stone-800 bg-stone-200 border-2 border-stone-500 rounded-full px-3 py-0.5">
+          <span className="inline-flex items-center gap-1 text-base font-semibold text-amber-900 bg-amber-100 border-2 border-amber-700 rounded-full px-3 py-0.5">
             <Clock className="w-4 h-4" /> Pending review
           </span>
         );
@@ -160,7 +160,7 @@ export function Dashboard() {
         );
       case "draft":
         return (
-          <span className="inline-flex items-center gap-1 text-base font-semibold text-stone-800 bg-white border-2 border-stone-500 rounded-full px-3 py-0.5">
+          <span className="inline-flex items-center gap-1 text-base font-semibold text-stone-900 bg-stone-100 border-2 border-stone-600 rounded-full px-3 py-0.5">
             Draft
           </span>
         );
