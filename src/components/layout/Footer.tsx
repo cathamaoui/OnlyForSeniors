@@ -22,6 +22,7 @@ export function Footer() {
             <li><Link href="/categories/news/" className="text-stone-300 hover:text-white">News</Link></li>
             <li><Link href="/contact/" className="text-stone-300 hover:text-white">Contact</Link></li>
             <li><Link href="/how-it-works/" className="text-stone-300 hover:text-white">How It Works</Link></li>
+            <li><Link href="/for-businesses/" className="text-stone-300 hover:text-white">For Businesses</Link></li>
             <li><Link href="/pricing/" className="text-stone-300 hover:text-white">Pricing</Link></li>
             <li><Link href="/help/" className="text-stone-300 hover:text-white">Help</Link></li>
           </ul>
@@ -41,6 +42,7 @@ export function Footer() {
         <div>
           <h4 className="font-display font-bold mb-3 text-white">For Business Owners</h4>
           <ul className="space-y-1.5 text-sm">
+            <li><Link href="/for-businesses/" className="text-stone-300 hover:text-white">Why List With Us</Link></li>
             <li><Link href="/list-business/" className="text-stone-300 hover:text-white">Post a Listing ($10/mo)</Link></li>
             <li><Link href="/pricing/" className="text-stone-300 hover:text-white">Pricing</Link></li>
           </ul>

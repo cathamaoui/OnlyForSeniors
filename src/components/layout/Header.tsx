@@ -33,6 +33,12 @@ export function Header() {
             Browse
           </Link>
           <Link
+            href="/for-businesses/"
+            className="hidden md:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
+          >
+            Businesses
+          </Link>
+          <Link
             href="/contact/"
             className="hidden sm:inline-block px-3 py-2 text-sm font-semibold text-stone-800 hover:text-black"
           >
