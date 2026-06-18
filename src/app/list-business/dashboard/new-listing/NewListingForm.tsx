@@ -6,7 +6,10 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
+  Check,
   CheckCircle2,
+  ChevronDown,
+  ChevronUp,
   Eye,
   Globe,
   Image as ImageIcon,
@@ -138,6 +141,7 @@ export function NewListingForm() {
   const [success, setSuccess] = useState<{ id: string; name: string } | null>(null);
   const [showPreview, setShowPreview] = useState(false);
   const [provinceChangeNote, setProvinceChangeNote] = useState<string | null>(null);
+  const [langPanelOpen, setLangPanelOpen] = useState(false);
 
   useEffect(() => {
     const s = loadSignup();
@@ -795,66 +799,150 @@ export function NewListingForm() {
           </div>
         )}
 
-        {/* Languages spoken — multi-select dropdown */}
+        {/* Languages spoken — clickable chips. The list of languages is
+            hidden until the user clicks "Pick languages". Picked languages
+            appear in a separate "Selected" panel with × buttons to remove. */}
         <fieldset>
           <legend className="text-base font-bold text-stone-900 mb-1 flex items-center gap-2">
             <Languages className="w-5 h-5" /> Languages spoken
           </legend>
           <p className="text-base text-stone-700 mb-3">
-            Hold <kbd className="px-1.5 py-0.5 text-base font-bold bg-stone-100 border border-stone-500 rounded">Ctrl</kbd> (or <kbd className="px-1.5 py-0.5 text-base font-bold bg-stone-100 border border-stone-500 rounded">⌘</kbd> on Mac) to pick more than one. Helps families find you.
+            Helps families find you. You can pick more than one.
           </p>
-          <select
-            id="nfield-languages"
-            multiple
-            size={Math.min(8, LANGUAGES.length)}
-            value={form.languages}
-            onChange={(e) => {
-              const codes = Array.from(e.target.selectedOptions).map((o) => o.value);
-              setForm((prev) => ({ ...prev, languages: codes }));
-            }}
-            className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+
+          {/* The "Pick languages" toggle button */}
+          <button
+            type="button"
+            onClick={() => setLangPanelOpen((v) => !v)}
+            aria-expanded={langPanelOpen}
+            aria-controls="nfield-languages-panel"
+            className={[
+              "inline-flex items-center gap-2 min-h-touch px-5 py-3 text-base font-semibold border-2 rounded-lg",
+              langPanelOpen
+                ? "border-blue-700 bg-blue-50 text-blue-800"
+                : "border-stone-500 bg-white text-stone-800 hover:bg-stone-100",
+            ].join(" ")}
           >
-            {LANGUAGES.map((l) => (
-              <option key={l.code} value={l.code} className="py-1">
-                {l.name}
-              </option>
-            ))}
-          </select>
+            <Languages className="w-5 h-5" />
+            {langPanelOpen
+              ? "Hide language list"
+              : form.languages.length + (form.otherLanguage.trim() ? 1 : 0) > 0
+              ? `Pick languages (${form.languages.length + (form.otherLanguage.trim() ? 1 : 0)} selected)`
+              : "Pick languages"}
+            {langPanelOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+
+          {/* Hidden until expanded: list of language chips */}
+          {langPanelOpen && (
+            <div
+              id="nfield-languages-panel"
+              className="mt-3 rounded-lg border-2 border-stone-200 bg-stone-50 p-4"
+            >
+              <p className="text-base font-semibold text-stone-900 mb-2">
+                Tap a language to add it. Tap again to remove.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {LANGUAGES.map((l) => {
+                  const active = form.languages.includes(l.code);
+                  return (
+                    <button
+                      key={l.code}
+                      type="button"
+                      onClick={() => {
+                        setForm((prev) => ({
+                          ...prev,
+                          languages: active
+                            ? prev.languages.filter((c) => c !== l.code)
+                            : [...prev.languages, l.code],
+                        }));
+                      }}
+                      aria-pressed={active}
+                      className={[
+                        "min-h-touch px-3 py-2 text-base font-semibold border-2 rounded-lg transition-colors",
+                        active
+                          ? "bg-blue-700 text-white border-blue-700"
+                          : "bg-white text-stone-800 border-stone-500 hover:bg-stone-100",
+                      ].join(" ")}
+                    >
+                      {active && <Check className="w-4 h-4 inline mr-1" strokeWidth={3} />}
+                      {l.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Selected-languages panel — shows what was picked, with × to remove */}
+          {(form.languages.length > 0 || form.otherLanguage.trim().length > 0) && (
+            <div className="mt-3 rounded-lg border-2 border-blue-700 bg-blue-50 p-4">
+              <p className="text-base font-semibold text-stone-900 mb-2 flex items-center gap-2">
+                <Check className="w-4 h-4 text-blue-700" />
+                You speak
+                <span className="text-base font-normal text-stone-700">
+                  ({form.languages.length + (form.otherLanguage.trim() ? 1 : 0)})
+                </span>
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {form.languages.map((code) => (
+                  <span
+                    key={code}
+                    className="inline-flex items-center gap-1 min-h-touch pl-3 pr-1 py-1 text-base font-semibold bg-white text-stone-900 border-2 border-blue-700 rounded-lg"
+                  >
+                    {languageName(code)}
+                    <button
+                      type="button"
+                      aria-label={`Remove ${languageName(code)}`}
+                      onClick={() =>
+                        setForm((prev) => ({
+                          ...prev,
+                          languages: prev.languages.filter((c) => c !== code),
+                        }))
+                      }
+                      className="ml-1 w-7 h-7 inline-flex items-center justify-center text-stone-700 hover:text-red-700 hover:bg-red-50 rounded"
+                    >
+                      <X className="w-4 h-4" strokeWidth={2.5} />
+                    </button>
+                  </span>
+                ))}
+                {form.otherLanguage.trim() && (
+                  <span className="inline-flex items-center gap-1 min-h-touch pl-3 pr-1 py-1 text-base font-semibold bg-white text-stone-900 border-2 border-blue-700 rounded-lg">
+                    {form.otherLanguage}
+                    <button
+                      type="button"
+                      aria-label={`Remove ${form.otherLanguage}`}
+                      onClick={() => setForm((prev) => ({ ...prev, otherLanguage: "" }))}
+                      className="ml-1 w-7 h-7 inline-flex items-center justify-center text-stone-700 hover:text-red-700 hover:bg-red-50 rounded"
+                    >
+                      <X className="w-4 h-4" strokeWidth={2.5} />
+                    </button>
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Free-text "Other language" — always visible so the user can type
+              even without opening the chip list */}
           <div className="mt-4">
             <label htmlFor="nfield-otherLanguage" className="block text-base font-bold text-black mb-2">
-              Other language (optional)
-              <span className="ml-2 text-base font-normal text-stone-700">
-                pick from the list or type your own
-              </span>
+              Other language <span className="font-normal text-stone-700">(optional, type your own)</span>
             </label>
-            <div className="flex gap-2">
-              <input
-                id="nfield-otherLanguage"
-                type="text"
-                list="other-languages"
-                value={form.otherLanguage}
-                onChange={onChange("otherLanguage")}
-                className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
-                placeholder="e.g. Maltese"
-              />
-              <datalist id="other-languages">
-                {OTHER_LANGUAGES.map((l) => (
-                  <option key={l} value={l} />
-                ))}
-              </datalist>
-            </div>
+            <input
+              id="nfield-otherLanguage"
+              type="text"
+              list="other-languages"
+              value={form.otherLanguage}
+              onChange={onChange("otherLanguage")}
+              className="w-full min-h-touch px-4 py-3 text-lg bg-white text-black border-2 border-stone-500 rounded-lg focus:border-blue-700 focus:ring-4 focus:ring-blue-100 placeholder:text-stone-600"
+              placeholder="e.g. Maltese"
+            />
+            <datalist id="other-languages">
+              {OTHER_LANGUAGES.map((l) => (
+                <option key={l} value={l} />
+              ))}
+            </datalist>
           </div>
-          {(form.languages.length > 0 || form.otherLanguage) && (
-            <p className="mt-3 text-base text-stone-800">
-              <span className="font-bold">You speak: </span>
-              {[
-                ...form.languages.map((c) => languageName(c)),
-                form.otherLanguage,
-              ]
-                .filter(Boolean)
-                .join(", ")}
-            </p>
-          )}
         </fieldset>
 
         <div>
