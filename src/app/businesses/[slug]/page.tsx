@@ -12,8 +12,12 @@ import {
   Clock,
   Tag,
 } from "lucide-react";
-import { getBusinessById, getCategoryBySlug, getSubcategory } from "@/lib/businesses";
+import { getBusinessById, getCategoryBySlug, getSubcategory, getAllBusinesses } from "@/lib/businesses";
 import { DetailActions } from "@/components/ui/DetailActions";
+
+export function generateStaticParams() {
+  return getAllBusinesses().map((b) => ({ slug: b.id }));
+}
 
 export async function generateMetadata({
   params,

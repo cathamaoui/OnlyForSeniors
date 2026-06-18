@@ -4,8 +4,15 @@ import { ArrowLeft } from "lucide-react";
 import {
   getCategoryBySlug,
   getBusinessesByCategory,
+  getAllCategories,
 } from "@/lib/businesses";
 import { BusinessCard } from "@/components/ui/BusinessCard";
+
+export function generateStaticParams() {
+  return getAllCategories()
+    .filter((c) => c.slug !== "news")
+    .map((c) => ({ slug: c.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -16,28 +23,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-type Search = Promise<{ [key: string]: string | string[] | undefined }>;
+type Search = { [key: string]: string | string[] | undefined };
 
 export default async function CategoryPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Search;
 }) {
   const { slug } = await params;
   const cat = getCategoryBySlug(slug);
   if (!cat) notFound();
 
-  const sp = await searchParams;
-  const sortRaw = Array.isArray(sp.sort) ? sp.sort[0] : sp.sort;
-  const sort = sortRaw === "oldest" ? "oldest" : "newest";
-
-  const all = getBusinessesByCategory(slug);
-  const sorted = [...all].sort((a, b) => {
+  // Static export: always sort newest first.
+  const sorted = [...getBusinessesByCategory(slug)].sort((a, b) => {
     const ad = a.dateAdded ? Date.parse(a.dateAdded) : 0;
     const bd = b.dateAdded ? Date.parse(b.dateAdded) : 0;
-    return sort === "newest" ? bd - ad : ad - bd;
+    return bd - ad;
   });
 
   return (
@@ -90,21 +91,6 @@ export default async function CategoryPage({
           <p className="text-stone-700">
             <span className="font-bold">{sorted.length}</span> listing{sorted.length === 1 ? "" : "s"} in this category
           </p>
-          <div className="flex items-center gap-2 text-sm">
-            <span className="text-stone-600">Sort:</span>
-            <Link
-              href={`/categories/${cat.slug}?sort=newest`}
-              className={`px-3 py-1.5 border-2 border-black ${sort === "newest" ? "bg-black text-yp font-bold" : "bg-white hover:bg-yp"}`}
-            >
-              Newest
-            </Link>
-            <Link
-              href={`/categories/${cat.slug}?sort=oldest`}
-              className={`px-3 py-1.5 border-2 border-black ${sort === "oldest" ? "bg-black text-yp font-bold" : "bg-white hover:bg-yp"}`}
-            >
-              Oldest
-            </Link>
-          </div>
         </div>
 
         {/* Grid */}
