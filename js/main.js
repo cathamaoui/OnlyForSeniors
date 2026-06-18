@@ -285,8 +285,8 @@
           gsap.to(card, { opacity: 1, scale: 1, duration: 0.25 });
         } else {
           gsap.to(card, {
-            opacity: 0.2, scale: 0.97, duration: 0.25,
-            onComplete: function () { card.style.display = ''; }
+            opacity: 0, scale: 0.97, duration: 0.25,
+            onComplete: function () { card.style.display = 'none'; }
           });
         }
       });
