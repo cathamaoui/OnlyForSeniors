@@ -16,8 +16,10 @@ export const metadata = {
  * description (if any) or to a generic placeholder.
  */
 const CATEGORY_BLURBS: Record<string, string> = {
-  "active-aging":
-    "Fitness, travel, encore careers, and classes to keep you active and connected.",
+  "active-aging-recreation":
+    "Fitness, travel, and intergenerational programs to keep you active and connected.",
+  "training-careers":
+    "Career coaching, skills training, and volunteer-to-paid pathways for encore careers.",
   community:
     "Senior centres, day programs, recreation, and caregiver relief.",
   dating: "Senior dating sites, matchmaking, and companionship clubs.",

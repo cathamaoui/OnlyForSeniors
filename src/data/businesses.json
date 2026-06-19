@@ -57,15 +57,11 @@
       ]
     },
     {
-      "slug": "active-aging",
-      "name": "Active Aging, Recreation & Encore Careers",
+      "slug": "active-aging-recreation",
+      "name": "Active Aging and Recreation",
       "icon": "🎭",
       "color": "#5b21b6",
       "subcategories": [
-        {
-          "slug": "encore-career",
-          "name": "Encore Career Consulting"
-        },
         {
           "slug": "intergenerational",
           "name": "Intergenerational Social Networks"
@@ -77,6 +73,26 @@
         {
           "slug": "adaptive-fitness",
           "name": "Adaptive Sports & Fitness Instructors"
+        }
+      ]
+    },
+    {
+      "slug": "training-careers",
+      "name": "Training and Careers",
+      "icon": "💼",
+      "color": "#7c3aed",
+      "subcategories": [
+        {
+          "slug": "encore-career",
+          "name": "Career Coaching & Consulting"
+        },
+        {
+          "slug": "job-training",
+          "name": "Skills Training & Workshops"
+        },
+        {
+          "slug": "volunteer-work",
+          "name": "Volunteer-to-Paid Pathways"
         }
       ]
     },

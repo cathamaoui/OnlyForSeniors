@@ -296,13 +296,12 @@ export const CATEGORY_INTENTS: CategoryIntent[] = [
     ],
   },
   {
-    slug: "active-aging",
+    slug: "active-aging-recreation",
     keywords: [
       "fitness", "exercise", "yoga", "tai chi", "stretch",
       "recreation", "hobby", "hobbies", "class", "classes",
       "travel", "tour", "vacation", "trip",
-      "encore", "career", "work", "job", "retirement job",
-      "volunteer", "intergenerational",
+      "intergenerational",
       "adaptive", "sport", "sports",
     ],
     subHints: [
@@ -311,10 +310,28 @@ export const CATEGORY_INTENTS: CategoryIntent[] = [
       "yoga for older adults",
       "travel for seniors",
       "i want to travel",
+    ],
+  },
+  {
+    slug: "training-careers",
+    keywords: [
+      "encore", "career", "work", "job", "retirement job",
+      "training", "skills", "workshop", "course",
+      "volunteer", "volunteering", "paid work",
+    ],
+    subHints: [
       "i want to work again",
       "encore career",
       "i want a part time job",
+      "skills training for older adults",
+      "volunteer to paid work",
     ],
+  },
+  {
+    // Legacy slug — preserved so any old URLs still resolve.
+    slug: "active-aging",
+    keywords: ["fitness", "career", "encore"],
+    subHints: [],
   },
   {
     slug: "pastoral",

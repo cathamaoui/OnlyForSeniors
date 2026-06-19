@@ -27,15 +27,21 @@ export const SUB_CATEGORY_BLURBS: Record<string, string> = {
   "home-adaptations/errand-concierges":
     "Reliable help with errands, deliveries, and pickups.",
 
-  // active-aging
-  "active-aging/encore-career":
-    "Coaching for a meaningful second career after retirement.",
-  "active-aging/intergenerational":
+  // active-aging-recreation
+  "active-aging-recreation/intergenerational":
     "Social groups that bring generations together.",
-  "active-aging/senior-travel":
+  "active-aging-recreation/senior-travel":
     "Travel experts who specialize in senior-friendly trips.",
-  "active-aging/adaptive-fitness":
+  "active-aging-recreation/adaptive-fitness":
     "Fitness trainers and adaptive sports for every ability.",
+
+  // training-careers
+  "training-careers/encore-career":
+    "Coaching for a meaningful second career after retirement.",
+  "training-careers/job-training":
+    "Workshops and skills training for older adults returning to work.",
+  "training-careers/volunteer-work":
+    "Volunteer roles that can grow into paid employment pathways.",
 
   // wellness-comfort
   "wellness-comfort/mobile-beauty":

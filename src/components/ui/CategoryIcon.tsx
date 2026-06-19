@@ -43,7 +43,9 @@ const SLUG_TO_ICON: Record<string, LucideIcon> = {
   // The 5 main age-banded categories (homepage sidebar)
   "transition-downsizing": Package,
   "home-adaptations": Wrench,
-  "active-aging": Theater,
+  "active-aging-recreation": Theater,
+  "training-careers": Briefcase,
+  "active-aging": Theater, // legacy
   "wellness-comfort": Brain,
   "tech-help-for-seniors": Laptop,
   "senior-concierge-errands": Briefcase,
