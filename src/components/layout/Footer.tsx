@@ -128,7 +128,7 @@ export function Footer() {
             © {new Date().getFullYear()} Only For Seniors · Made with care in Canada
           </p>
           <p className="text-base text-stone-600">
-            Built for Canadians 65+
+            Built for Canadian seniors
           </p>
         </div>
       </div>

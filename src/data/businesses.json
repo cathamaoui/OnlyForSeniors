@@ -10,67 +10,142 @@
     },
     {
       "slug": "transition-downsizing",
-      "name": "Transition, Downsizing & Legacy (Ages 75\u2013100+)",
+      "name": "Transition, Downsizing & Legacy",
       "icon": "📦",
       "color": "#7c2d12",
       "subcategories": [
-        { "slug": "senior-move-managers", "name": "Senior Move Managers" },
-        { "slug": "estate-liquidation", "name": "Estate Liquidation & Digital Decluttering" },
-        { "slug": "legacy-memoir", "name": "Legacy & Memoir Services" },
-        { "slug": "grandparent-gift-logistics", "name": "Grandparent Gift Logistics" }
+        {
+          "slug": "senior-move-managers",
+          "name": "Senior Move Managers"
+        },
+        {
+          "slug": "estate-liquidation",
+          "name": "Estate Liquidation & Digital Decluttering"
+        },
+        {
+          "slug": "legacy-memoir",
+          "name": "Legacy & Memoir Services"
+        },
+        {
+          "slug": "grandparent-gift-logistics",
+          "name": "Grandparent Gift Logistics"
+        }
       ]
     },
     {
       "slug": "home-adaptations",
-      "name": "Home Adaptations & Lifestyle Conveniences (Ages 70\u201390)",
-      "icon": "🛠\ufe0f",
+      "name": "Home Adaptations & Lifestyle Conveniences",
+      "icon": "🛠️",
       "color": "#92400e",
       "subcategories": [
-        { "slug": "senior-handyman", "name": "Senior-Friendly Handyman Services" },
-        { "slug": "mobile-grooming-vets", "name": "Mobile Grooming & Mobile Vets" },
-        { "slug": "smart-home-techs", "name": "Smart-Home Technicians" },
-        { "slug": "errand-concierges", "name": "Errand Concierges" }
+        {
+          "slug": "senior-handyman",
+          "name": "Senior-Friendly Handyman Services"
+        },
+        {
+          "slug": "mobile-grooming-vets",
+          "name": "Mobile Grooming & Mobile Vets"
+        },
+        {
+          "slug": "smart-home-techs",
+          "name": "Smart-Home Technicians"
+        },
+        {
+          "slug": "errand-concierges",
+          "name": "Errand Concierges"
+        }
       ]
     },
     {
       "slug": "active-aging",
-      "name": "Active Aging, Recreation & Encore Careers (Ages 60\u201375)",
+      "name": "Active Aging, Recreation & Encore Careers",
       "icon": "🎭",
       "color": "#5b21b6",
       "subcategories": [
-        { "slug": "encore-career", "name": "Encore Career Consulting" },
-        { "slug": "intergenerational", "name": "Intergenerational Social Networks" },
-        { "slug": "senior-travel", "name": "Senior-Centric Travel Experts" },
-        { "slug": "adaptive-fitness", "name": "Adaptive Sports & Fitness Instructors" }
+        {
+          "slug": "encore-career",
+          "name": "Encore Career Consulting"
+        },
+        {
+          "slug": "intergenerational",
+          "name": "Intergenerational Social Networks"
+        },
+        {
+          "slug": "senior-travel",
+          "name": "Senior-Centric Travel Experts"
+        },
+        {
+          "slug": "adaptive-fitness",
+          "name": "Adaptive Sports & Fitness Instructors"
+        }
       ]
     },
     {
       "slug": "wellness-comfort",
-      "name": "Wellness, Comfort & Mental Health (Ages 60\u2013100)",
+      "name": "Wellness, Comfort & Mental Health",
       "icon": "🧠",
       "color": "#155e75",
       "subcategories": [
-        { "slug": "mobile-beauty", "name": "Mobile Hair & Beauty Care" },
-        { "slug": "adult-day-clubs", "name": "Adult Day Clubs & Social Hubs" },
-        { "slug": "loneliness-grief", "name": "Senior Loneliness & Grief Support" }
+        {
+          "slug": "mobile-beauty",
+          "name": "Mobile Hair & Beauty Care"
+        },
+        {
+          "slug": "adult-day-clubs",
+          "name": "Adult Day Clubs & Social Hubs"
+        },
+        {
+          "slug": "loneliness-grief",
+          "name": "Senior Loneliness & Grief Support"
+        }
       ]
     },
     {
       "slug": "concierge-tech",
       "name": "Senior Concierge & Tech Help",
-      "icon": "🧑\u200d\u200d💼",
+      "icon": "🧑‍‍💼",
       "color": "#0e7490",
       "subcategories": [
-        { "slug": "adult-day-centres", "name": "Adult Day Centres" },
-        { "slug": "senior-concierge", "name": "Senior Concierge Services" },
-        { "slug": "fraud-prevention", "name": "Fraud & Scam Prevention" },
-        { "slug": "tech-training", "name": "Tech Literacy Mentoring" },
-        { "slug": "digital-organization", "name": "Digital Document Organization" },
-        { "slug": "smartphone-help", "name": "Smartphone & Tablet Help" },
-        { "slug": "video-calls", "name": "Video Call Setup (Zoom, FaceTime)" },
-        { "slug": "online-banking", "name": "Online Banking Help" },
-        { "slug": "companion-drivers", "name": "On-Demand Companion Drivers" },
-        { "slug": "errand-services", "name": "Errand & Concierge Services" }
+        {
+          "slug": "adult-day-centres",
+          "name": "Adult Day Centres"
+        },
+        {
+          "slug": "senior-concierge",
+          "name": "Senior Concierge Services"
+        },
+        {
+          "slug": "fraud-prevention",
+          "name": "Fraud & Scam Prevention"
+        },
+        {
+          "slug": "tech-training",
+          "name": "Tech Literacy Mentoring"
+        },
+        {
+          "slug": "digital-organization",
+          "name": "Digital Document Organization"
+        },
+        {
+          "slug": "smartphone-help",
+          "name": "Smartphone & Tablet Help"
+        },
+        {
+          "slug": "video-calls",
+          "name": "Video Call Setup (Zoom, FaceTime)"
+        },
+        {
+          "slug": "online-banking",
+          "name": "Online Banking Help"
+        },
+        {
+          "slug": "companion-drivers",
+          "name": "On-Demand Companion Drivers"
+        },
+        {
+          "slug": "errand-services",
+          "name": "Errand & Concierge Services"
+        }
       ]
     },
     {
@@ -79,15 +154,42 @@
       "icon": "🚨",
       "color": "#dc2626",
       "subcategories": [
-        { "slug": "fall-detection", "name": "Fall Detection Devices" },
-        { "slug": "medical-alerts", "name": "Medical Alert Pendants & Watches" },
-        { "slug": "gps-trackers", "name": "GPS Trackers (Wandering)" },
-        { "slug": "grab-bars", "name": "Grab Bars & Handrails" },
-        { "slug": "non-slip", "name": "Non-Slip Mats & Flooring" },
-        { "slug": "bed-exit-alarms", "name": "Bed-Exit & Chair Alarms" },
-        { "slug": "hip-protectors", "name": "Hip Protectors" },
-        { "slug": "walkers-rollators", "name": "Walkers, Rollators & Canes" },
-        { "slug": "home-assessments", "name": "In-Home Fall Risk Assessments" }
+        {
+          "slug": "fall-detection",
+          "name": "Fall Detection Devices"
+        },
+        {
+          "slug": "medical-alerts",
+          "name": "Medical Alert Pendants & Watches"
+        },
+        {
+          "slug": "gps-trackers",
+          "name": "GPS Trackers (Wandering)"
+        },
+        {
+          "slug": "grab-bars",
+          "name": "Grab Bars & Handrails"
+        },
+        {
+          "slug": "non-slip",
+          "name": "Non-Slip Mats & Flooring"
+        },
+        {
+          "slug": "bed-exit-alarms",
+          "name": "Bed-Exit & Chair Alarms"
+        },
+        {
+          "slug": "hip-protectors",
+          "name": "Hip Protectors"
+        },
+        {
+          "slug": "walkers-rollators",
+          "name": "Walkers, Rollators & Canes"
+        },
+        {
+          "slug": "home-assessments",
+          "name": "In-Home Fall Risk Assessments"
+        }
       ]
     },
     {
@@ -96,13 +198,34 @@
       "icon": "🐕",
       "color": "#9d174d",
       "subcategories": [
-        { "slug": "therapy-animal-visits", "name": "Therapy Animal Visits" },
-        { "slug": "service-dogs", "name": "Service Dog Training" },
-        { "slug": "pet-sitting", "name": "Pet Sitting for Seniors" },
-        { "slug": "dog-walking", "name": "Dog Walking" },
-        { "slug": "pet-grooming", "name": "Mobile Pet Grooming" },
-        { "slug": "veterinary-house-calls", "name": "Veterinary House Calls" },
-        { "slug": "pet-fostering", "name": "Pet Fostering & Adoption" }
+        {
+          "slug": "therapy-animal-visits",
+          "name": "Therapy Animal Visits"
+        },
+        {
+          "slug": "service-dogs",
+          "name": "Service Dog Training"
+        },
+        {
+          "slug": "pet-sitting",
+          "name": "Pet Sitting for Seniors"
+        },
+        {
+          "slug": "dog-walking",
+          "name": "Dog Walking"
+        },
+        {
+          "slug": "pet-grooming",
+          "name": "Mobile Pet Grooming"
+        },
+        {
+          "slug": "veterinary-house-calls",
+          "name": "Veterinary House Calls"
+        },
+        {
+          "slug": "pet-fostering",
+          "name": "Pet Fostering & Adoption"
+        }
       ]
     },
     {
@@ -111,12 +234,30 @@
       "icon": "⛪",
       "color": "#6d28d9",
       "subcategories": [
-        { "slug": "in-home-visits", "name": "In-Home Pastoral Visits" },
-        { "slug": "worship-services", "name": "Worship Services for Seniors" },
-        { "slug": "sacramental-care", "name": "Sacramental & End-of-Life Care" },
-        { "slug": "bible-study", "name": "Bible Study & Faith Groups" },
-        { "slug": "interfaith", "name": "Interfaith & Spiritual Care" },
-        { "slug": "chaplaincy", "name": "Hospital & Care-Home Chaplaincy" }
+        {
+          "slug": "in-home-visits",
+          "name": "In-Home Pastoral Visits"
+        },
+        {
+          "slug": "worship-services",
+          "name": "Worship Services for Seniors"
+        },
+        {
+          "slug": "sacramental-care",
+          "name": "Sacramental & End-of-Life Care"
+        },
+        {
+          "slug": "bible-study",
+          "name": "Bible Study & Faith Groups"
+        },
+        {
+          "slug": "interfaith",
+          "name": "Interfaith & Spiritual Care"
+        },
+        {
+          "slug": "chaplaincy",
+          "name": "Hospital & Care-Home Chaplaincy"
+        }
       ]
     },
     {
@@ -126,13 +267,34 @@
       "color": "#15803d",
       "description": "Find volunteer opportunities near you — or post one if your organization is looking for help.",
       "subcategories": [
-        { "slug": "for-individuals", "name": "For Individuals" },
-        { "slug": "for-companies", "name": "For Companies & Groups" },
-        { "slug": "seeking-volunteers", "name": "Organizations Seeking Volunteers" },
-        { "slug": "board-members", "name": "Board & Committee Roles" },
-        { "slug": "peer-support", "name": "Peer Support & Befriending" },
-        { "slug": "skills-based", "name": "Skills-Based Volunteering" },
-        { "slug": "one-time-events", "name": "One-Time Event Volunteering" }
+        {
+          "slug": "for-individuals",
+          "name": "For Individuals"
+        },
+        {
+          "slug": "for-companies",
+          "name": "For Companies & Groups"
+        },
+        {
+          "slug": "seeking-volunteers",
+          "name": "Organizations Seeking Volunteers"
+        },
+        {
+          "slug": "board-members",
+          "name": "Board & Committee Roles"
+        },
+        {
+          "slug": "peer-support",
+          "name": "Peer Support & Befriending"
+        },
+        {
+          "slug": "skills-based",
+          "name": "Skills-Based Volunteering"
+        },
+        {
+          "slug": "one-time-events",
+          "name": "One-Time Event Volunteering"
+        }
       ]
     },
     {
@@ -141,10 +303,22 @@
       "icon": "🏠",
       "color": "#1e40af",
       "subcategories": [
-        { "slug": "personal-care", "name": "Personal Care" },
-        { "slug": "meal-services", "name": "Meal & Grocery" },
-        { "slug": "housekeeping", "name": "Housekeeping" },
-        { "slug": "companionship", "name": "Companionship" }
+        {
+          "slug": "personal-care",
+          "name": "Personal Care"
+        },
+        {
+          "slug": "meal-services",
+          "name": "Meal & Grocery"
+        },
+        {
+          "slug": "housekeeping",
+          "name": "Housekeeping"
+        },
+        {
+          "slug": "companionship",
+          "name": "Companionship"
+        }
       ]
     },
     {
@@ -153,11 +327,26 @@
       "icon": "🛠️",
       "color": "#b45309",
       "subcategories": [
-        { "slug": "handyman", "name": "Handyman & Repairs" },
-        { "slug": "snow-removal", "name": "Snow & Ice Removal" },
-        { "slug": "lawn-care", "name": "Lawn & Garden" },
-        { "slug": "home-modifications", "name": "Grab Bars & Ramps" },
-        { "slug": "house-cleaning", "name": "Deep Cleaning" }
+        {
+          "slug": "handyman",
+          "name": "Handyman & Repairs"
+        },
+        {
+          "slug": "snow-removal",
+          "name": "Snow & Ice Removal"
+        },
+        {
+          "slug": "lawn-care",
+          "name": "Lawn & Garden"
+        },
+        {
+          "slug": "home-modifications",
+          "name": "Grab Bars & Ramps"
+        },
+        {
+          "slug": "house-cleaning",
+          "name": "Deep Cleaning"
+        }
       ]
     },
     {
@@ -166,14 +355,38 @@
       "icon": "🩺",
       "color": "#047857",
       "subcategories": [
-        { "slug": "nursing-care", "name": "Nursing Care" },
-        { "slug": "physiotherapy", "name": "Physiotherapy" },
-        { "slug": "foot-care", "name": "Foot Care" },
-        { "slug": "dental", "name": "Dental & Denturist" },
-        { "slug": "dental-care", "name": "Dental Care" },
-        { "slug": "hearing-vision", "name": "Hearing & Vision" },
-        { "slug": "massage", "name": "Massage Therapy" },
-        { "slug": "patient-advocates", "name": "Patient Advocates" }
+        {
+          "slug": "nursing-care",
+          "name": "Nursing Care"
+        },
+        {
+          "slug": "physiotherapy",
+          "name": "Physiotherapy"
+        },
+        {
+          "slug": "foot-care",
+          "name": "Foot Care"
+        },
+        {
+          "slug": "dental",
+          "name": "Dental & Denturist"
+        },
+        {
+          "slug": "dental-care",
+          "name": "Dental Care"
+        },
+        {
+          "slug": "hearing-vision",
+          "name": "Hearing & Vision"
+        },
+        {
+          "slug": "massage",
+          "name": "Massage Therapy"
+        },
+        {
+          "slug": "patient-advocates",
+          "name": "Patient Advocates"
+        }
       ]
     },
     {
@@ -182,10 +395,22 @@
       "icon": "🚐",
       "color": "#7c3aed",
       "subcategories": [
-        { "slug": "medical-transport", "name": "Medical Transport" },
-        { "slug": "rides", "name": "Rides & Errands" },
-        { "slug": "wheelchair-van", "name": "Wheelchair Van" },
-        { "slug": "mobility-equipment", "name": "Mobility Equipment" }
+        {
+          "slug": "medical-transport",
+          "name": "Medical Transport"
+        },
+        {
+          "slug": "rides",
+          "name": "Rides & Errands"
+        },
+        {
+          "slug": "wheelchair-van",
+          "name": "Wheelchair Van"
+        },
+        {
+          "slug": "mobility-equipment",
+          "name": "Mobility Equipment"
+        }
       ]
     },
     {
@@ -194,10 +419,22 @@
       "icon": "📋",
       "color": "#991b1b",
       "subcategories": [
-        { "slug": "estate-law", "name": "Wills & Estates" },
-        { "slug": "financial-planning", "name": "Financial Planning" },
-        { "slug": "tax-services", "name": "Tax Services" },
-        { "slug": "benefits-help", "name": "Benefits & OAS" }
+        {
+          "slug": "estate-law",
+          "name": "Wills & Estates"
+        },
+        {
+          "slug": "financial-planning",
+          "name": "Financial Planning"
+        },
+        {
+          "slug": "tax-services",
+          "name": "Tax Services"
+        },
+        {
+          "slug": "benefits-help",
+          "name": "Benefits & OAS"
+        }
       ]
     },
     {
@@ -206,10 +443,22 @@
       "icon": "🤝",
       "color": "#0369a1",
       "subcategories": [
-        { "slug": "senior-centres", "name": "Senior Centres" },
-        { "slug": "day-programs", "name": "Adult Day Programs" },
-        { "slug": "recreation", "name": "Recreation & Fitness" },
-        { "slug": "caregiver-relief", "name": "Caregiver Relief" }
+        {
+          "slug": "senior-centres",
+          "name": "Senior Centres"
+        },
+        {
+          "slug": "day-programs",
+          "name": "Adult Day Programs"
+        },
+        {
+          "slug": "recreation",
+          "name": "Recreation & Fitness"
+        },
+        {
+          "slug": "caregiver-relief",
+          "name": "Caregiver Relief"
+        }
       ]
     },
     {
@@ -218,10 +467,22 @@
       "icon": "🏘️",
       "color": "#0f766e",
       "subcategories": [
-        { "slug": "retirement-living", "name": "Retirement Living" },
-        { "slug": "long-term-care", "name": "Long-Term Care" },
-        { "slug": "assisted-living", "name": "Assisted Living" },
-        { "slug": "respite-care", "name": "Respite Care" }
+        {
+          "slug": "retirement-living",
+          "name": "Retirement Living"
+        },
+        {
+          "slug": "long-term-care",
+          "name": "Long-Term Care"
+        },
+        {
+          "slug": "assisted-living",
+          "name": "Assisted Living"
+        },
+        {
+          "slug": "respite-care",
+          "name": "Respite Care"
+        }
       ]
     },
     {
@@ -230,13 +491,34 @@
       "icon": "❤️",
       "color": "#be123c",
       "subcategories": [
-        { "slug": "senior-dating-sites", "name": "Senior Dating Sites" },
-        { "slug": "matchmaking", "name": "Matchmaking Services" },
-        { "slug": "social-clubs", "name": "Senior Social Clubs" },
-        { "slug": "companionship-dates", "name": "Companionship & Outings" },
-        { "slug": "romantic-travel", "name": "Romantic Travel for Couples" },
-        { "slug": "friendship-pen-pals", "name": "Friendship & Pen Pals" },
-        { "slug": "second-marriage", "name": "Second-Marriage Resources" }
+        {
+          "slug": "senior-dating-sites",
+          "name": "Senior Dating Sites"
+        },
+        {
+          "slug": "matchmaking",
+          "name": "Matchmaking Services"
+        },
+        {
+          "slug": "social-clubs",
+          "name": "Senior Social Clubs"
+        },
+        {
+          "slug": "companionship-dates",
+          "name": "Companionship & Outings"
+        },
+        {
+          "slug": "romantic-travel",
+          "name": "Romantic Travel for Couples"
+        },
+        {
+          "slug": "friendship-pen-pals",
+          "name": "Friendship & Pen Pals"
+        },
+        {
+          "slug": "second-marriage",
+          "name": "Second-Marriage Resources"
+        }
       ]
     },
     {
@@ -245,12 +527,30 @@
       "icon": "🩺",
       "color": "#9d174d",
       "subcategories": [
-        { "slug": "pelvic-floor", "name": "Pelvic Floor Therapy" },
-        { "slug": "menopause", "name": "Menopause Specialists" },
-        { "slug": "ed-clinics", "name": "ED & Men's Health Clinics" },
-        { "slug": "sexual-health-edu", "name": "Sexual Health Educators" },
-        { "slug": "couples-counseling", "name": "Couples & Intimacy Counseling" },
-        { "slug": "sti-testing", "name": "STI Testing & Sexual Health Clinics" }
+        {
+          "slug": "pelvic-floor",
+          "name": "Pelvic Floor Therapy"
+        },
+        {
+          "slug": "menopause",
+          "name": "Menopause Specialists"
+        },
+        {
+          "slug": "ed-clinics",
+          "name": "ED & Men's Health Clinics"
+        },
+        {
+          "slug": "sexual-health-edu",
+          "name": "Sexual Health Educators"
+        },
+        {
+          "slug": "couples-counseling",
+          "name": "Couples & Intimacy Counseling"
+        },
+        {
+          "slug": "sti-testing",
+          "name": "STI Testing & Sexual Health Clinics"
+        }
       ]
     },
     {
@@ -260,12 +560,30 @@
       "color": "#831843",
       "description": "All-inclusive directory for emotional closeness, dating, and physical wellness in later life.",
       "subcategories": [
-        { "slug": "love-connection", "name": "Love & Connection" },
-        { "slug": "friendship-clubs", "name": "Friendship Clubs" },
-        { "slug": "intimacy-aids", "name": "Intimacy Aids & Products" },
-        { "slug": "bedroom-safety", "name": "Bedroom Safety & Accessibility" },
-        { "slug": "relationship-coaching", "name": "Relationship Coaching" },
-        { "slug": "mature-wellness", "name": "Mature Wellness" }
+        {
+          "slug": "love-connection",
+          "name": "Love & Connection"
+        },
+        {
+          "slug": "friendship-clubs",
+          "name": "Friendship Clubs"
+        },
+        {
+          "slug": "intimacy-aids",
+          "name": "Intimacy Aids & Products"
+        },
+        {
+          "slug": "bedroom-safety",
+          "name": "Bedroom Safety & Accessibility"
+        },
+        {
+          "slug": "relationship-coaching",
+          "name": "Relationship Coaching"
+        },
+        {
+          "slug": "mature-wellness",
+          "name": "Mature Wellness"
+        }
       ]
     },
     {
@@ -274,10 +592,22 @@
       "icon": "🛒",
       "color": "#a16207",
       "subcategories": [
-        { "slug": "pharmacy-delivery", "name": "Pharmacy Delivery" },
-        { "slug": "grocery-delivery", "name": "Grocery Delivery" },
-        { "slug": "medical-supplies", "name": "Medical Supplies" },
-        { "slug": "adaptive-clothing", "name": "Adaptive Clothing" }
+        {
+          "slug": "pharmacy-delivery",
+          "name": "Pharmacy Delivery"
+        },
+        {
+          "slug": "grocery-delivery",
+          "name": "Grocery Delivery"
+        },
+        {
+          "slug": "medical-supplies",
+          "name": "Medical Supplies"
+        },
+        {
+          "slug": "adaptive-clothing",
+          "name": "Adaptive Clothing"
+        }
       ]
     },
     {
@@ -288,12 +618,30 @@
       "paidPosting": true,
       "postingFeePerDay": 5,
       "subcategories": [
-        { "slug": "senior-fairs", "name": "Senior Fairs & Expos" },
-        { "slug": "workshops-classes", "name": "Workshops & Classes" },
-        { "slug": "social-events", "name": "Social Events & Dances" },
-        { "slug": "outdoor-trips", "name": "Day Trips & Outings" },
-        { "slug": "fundraisers", "name": "Fundraisers & Galas" },
-        { "slug": "support-groups", "name": "Support Group Meetings" }
+        {
+          "slug": "senior-fairs",
+          "name": "Senior Fairs & Expos"
+        },
+        {
+          "slug": "workshops-classes",
+          "name": "Workshops & Classes"
+        },
+        {
+          "slug": "social-events",
+          "name": "Social Events & Dances"
+        },
+        {
+          "slug": "outdoor-trips",
+          "name": "Day Trips & Outings"
+        },
+        {
+          "slug": "fundraisers",
+          "name": "Fundraisers & Galas"
+        },
+        {
+          "slug": "support-groups",
+          "name": "Support Group Meetings"
+        }
       ]
     }
   ],
@@ -318,7 +666,13 @@
       "isVerified": true,
       "rating": 4.9,
       "reviewCount": 142,
-      "tags": ["PSW", "RN", "24/7", "Dementia", "Veterans"],
+      "tags": [
+        "PSW",
+        "RN",
+        "24/7",
+        "Dementia",
+        "Veterans"
+      ],
       "hours": "Open 24 hours"
     },
     {
@@ -340,7 +694,12 @@
       "isVerified": true,
       "rating": 4.7,
       "reviewCount": 89,
-      "tags": ["Carpet", "Upholstery", "$35/room", "Same-day"],
+      "tags": [
+        "Carpet",
+        "Upholstery",
+        "$35/room",
+        "Same-day"
+      ],
       "hours": "Mon–Sat 8am–6pm"
     },
     {
@@ -362,7 +721,11 @@
       "isVerified": true,
       "rating": 4.8,
       "reviewCount": 64,
-      "tags": ["Move-in/out", "Deep clean", "Senior discount 15%"],
+      "tags": [
+        "Move-in/out",
+        "Deep clean",
+        "Senior discount 15%"
+      ],
       "hours": "Mon–Fri 7am–7pm"
     },
     {
@@ -383,7 +746,11 @@
       "isVerified": true,
       "rating": 4.6,
       "reviewCount": 38,
-      "tags": ["Windows", "Screens", "Senior 10% off"],
+      "tags": [
+        "Windows",
+        "Screens",
+        "Senior 10% off"
+      ],
       "hours": "Mon–Sat 8am–5pm"
     },
     {
@@ -404,7 +771,11 @@
       "isVerified": true,
       "rating": 4.5,
       "reviewCount": 22,
-      "tags": ["Eco", "Deep clean", "Move-in/out"],
+      "tags": [
+        "Eco",
+        "Deep clean",
+        "Move-in/out"
+      ],
       "hours": "Mon–Sat 7am–8pm"
     },
     {
@@ -425,7 +796,12 @@
       "isVerified": true,
       "rating": 4.8,
       "reviewCount": 117,
-      "tags": ["Same-day", "Carpet", "Dryer vent", "Pet odour"],
+      "tags": [
+        "Same-day",
+        "Carpet",
+        "Dryer vent",
+        "Pet odour"
+      ],
       "hours": "Open 7 days"
     },
     {
@@ -444,9 +820,13 @@
       "priceRange": "$$$",
       "isFeatured": true,
       "isVerified": true,
-      "rating": 5.0,
+      "rating": 5,
       "reviewCount": 73,
-      "tags": ["In-home", "Physio", "Direct billing"],
+      "tags": [
+        "In-home",
+        "Physio",
+        "Direct billing"
+      ],
       "hours": "Mon–Fri 8am–6pm"
     },
     {
@@ -467,7 +847,11 @@
       "isVerified": true,
       "rating": 4.9,
       "reviewCount": 156,
-      "tags": ["Wheelchair", "Stretcher", "GTA"],
+      "tags": [
+        "Wheelchair",
+        "Stretcher",
+        "GTA"
+      ],
       "hours": "Open 24 hours"
     },
     {
@@ -489,7 +873,11 @@
       "isVerified": true,
       "rating": 4.7,
       "reviewCount": 91,
-      "tags": ["Free delivery", "Blister pack", "OHIP"],
+      "tags": [
+        "Free delivery",
+        "Blister pack",
+        "OHIP"
+      ],
       "hours": "Mon–Sat 8am–9pm"
     },
     {
@@ -511,7 +899,12 @@
       "isVerified": true,
       "rating": 4.6,
       "reviewCount": 42,
-      "tags": ["Independent", "Assisted", "Memory care", "24/7 nursing"],
+      "tags": [
+        "Independent",
+        "Assisted",
+        "Memory care",
+        "24/7 nursing"
+      ],
       "hours": "Tours Mon–Sat"
     },
     {
@@ -532,7 +925,11 @@
       "isVerified": true,
       "rating": 4.5,
       "reviewCount": 28,
-      "tags": ["Snow", "Salting", "65+ 20% off"],
+      "tags": [
+        "Snow",
+        "Salting",
+        "65+ 20% off"
+      ],
       "hours": "24/7 in winter"
     },
     {
@@ -554,7 +951,11 @@
       "isVerified": true,
       "rating": 4.9,
       "reviewCount": 56,
-      "tags": ["Wills", "POA", "Free consult"],
+      "tags": [
+        "Wills",
+        "POA",
+        "Free consult"
+      ],
       "hours": "Mon–Fri 9am–5pm"
     }
   ]

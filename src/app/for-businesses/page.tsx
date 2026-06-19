@@ -53,7 +53,7 @@ const whatsIncluded = [
 ];
 
 const whyItWorks = [
-  { stat: "65+", label: "audience", body: "Every visitor is 65+ or looking for a senior in their life. No wasted impressions." },
+  { stat: "100%", label: "audience", body: "Every visitor is a senior — or an adult child or caregiver looking for one. No wasted impressions." },
   { stat: "$10/mo", label: "flat fee", body: "One flat monthly rate. Cancel anytime. No contracts, no setup fees, no commission." },
   { stat: "0", label: "ads on the site", body: "Your listing isn't competing with banner ads or pay-to-rank placements." },
   { stat: "24h", label: "to go live", body: "Submit your profile, our team verifies, you're listed within one business day." },
@@ -81,7 +81,7 @@ const steps = [
 
 const faqs = [
   { q: "Is this a pay-per-lead site?", a: "No. One flat $10/month, no per-lead fees, no commission on jobs. Seniors contact you directly." },
-  { q: "Who sees my listing?", a: "Anyone using onlyforseniors.ca — primarily seniors 65+ and the adult children helping them. We don't run external ad networks or sell your data." },
+  { q: "Who sees my listing?", a: "Anyone using onlyforseniors.ca — seniors and the adult children or caregivers helping them. We don't run external ad networks or sell your data." },
   { q: "What categories can I list in?", a: "Home care, health & wellness, transportation, daily living, recreation, legal & financial, dating & companionship, faith & pastoral, pet therapy, and more." },
   { q: "How long does setup take?", a: "Most profiles are live within 24 hours of receiving your details. We do the writing, photo selection, and category mapping for you during launch." },
   { q: "Can I cancel anytime?", a: "Yes. Monthly plan, no contract. Cancel from your dashboard and your profile goes offline at the end of the billing period." },

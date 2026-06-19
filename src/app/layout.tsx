@@ -9,13 +9,13 @@ export const metadata: Metadata = {
     template: "%s | Only For Seniors",
   },
   description:
-    "The friendly Canadian directory for seniors 65+. Find trusted home care, transportation, health services, products, and delivery — all in one place.",
+    "The friendly Canadian directory for seniors. Find trusted home care, transportation, health services, products, and delivery — all in one place.",
   keywords: [
     "seniors Canada",
     "senior services",
     "home care",
     "senior directory",
-    "65+ services",
+    "senior services",
     "elder care",
   ],
   authors: [{ name: "Only For Seniors" }],
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Only For Seniors",
     title: "Only For Seniors — Canada's Senior Directory",
     description:
-      "The friendly Canadian directory for seniors 65+. Trusted services, products, and delivery.",
+      "The friendly Canadian directory for seniors. Trusted services, products, and delivery.",
   },
 };
 

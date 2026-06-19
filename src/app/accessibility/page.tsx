@@ -12,7 +12,7 @@ export default function AccessibilityPage() {
         <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8 text-stone-900 space-y-4 leading-relaxed">
           <p>
             OnlyForSeniors.ca is built from the ground up for accessibility —
-            especially for users 65 and older.
+            for all users.
           </p>
           <h2 className="font-display font-medium text-2xl text-stone-900 mt-4">What we do</h2>
           <ul className="list-disc pl-6 space-y-1 text-stone-700">
