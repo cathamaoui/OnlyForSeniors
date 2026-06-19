@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, MapPin, ChevronRight, Star, BadgeCheck, Newspaper, Heart, Phone, Briefcase } from "lucide-react";
+import { MapPin, ChevronRight, BadgeCheck, Newspaper, Heart, Phone, Briefcase } from "lucide-react";
 import {
   getAllCategories,
   getAllBusinesses,
@@ -7,6 +7,7 @@ import {
   getCategoryCounts,
 } from "@/lib/businesses";
 import { BusinessCard } from "@/components/ui/BusinessCard";
+import { CategorySearch } from "@/components/ui/CategorySearch";
 
 export const metadata = {
   title: "Only For Seniors — Canada's Senior Marketplace",
@@ -17,100 +18,71 @@ export default function HomePage() {
   const allCats = getAllCategories();
   const businesses = getAllBusinesses();
   const recent = getRecentBusinesses(24, 8);
-  const featured = businesses.filter((b) => b.isFeatured);
   const catCounts = getCategoryCounts();
   const totalListings = businesses.length;
 
-  // News + Featured + then everything else, deduped
-  const news = recent.filter((b) => !b.isFeatured).slice(0, 4);
-  const featuredOnly = featured.slice(0, 8);
-  const allCards = businesses.filter((b) => !featured.includes(b));
+  // What's new (last 24h)
+  const news = recent.slice(0, 4);
 
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Hero / Search */}
-      <section className="border-b-4 border-black bg-gradient-to-b from-blue-50 to-stone-50 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
+      {/* Hero / Search — taste-skill-inspired. Calm stone background, massive
+          Bitter serif headline with italic accent, single big search input
+          with a categories dropdown that opens to the full list. */}
+      <section className="bg-stone-50">
+        <div className="max-w-6xl mx-auto px-4 pt-6 pb-10 md:pt-10 md:pb-16">
           {/* Eyebrow — subtle accent label above the H1 */}
           <div className="flex items-center gap-3 mb-5">
-            <span className="block w-8 h-[3px] bg-blue-700" aria-hidden="true" />
-            <p className="text-base font-semibold text-stone-800">
+            <span className="block w-8 h-[3px] bg-stone-900" aria-hidden="true" />
+            <p className="text-base font-semibold text-stone-700">
               For Canadians 65 and older
             </p>
           </div>
 
-          {/* H1 — value proposition */}
-          <h1 className="mt-4 text-4xl md:text-6xl font-display font-black leading-[1.05] tracking-tight max-w-3xl">
-            Find help you can{" "}
-            <span className="text-blue-700">trust</span>.
-            <br className="hidden sm:block" />
-            From people who{" "}
-            <span className="text-blue-700">care</span>.
+          {/* H1 — value proposition. Massive serif with italic accent. */}
+          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] tracking-tight max-w-4xl text-stone-900">
+            Trusted help,{" "}
+            <span className="italic font-display font-black text-stone-900">
+              when you need it.
+            </span>
           </h1>
 
-          {/* H2 — supporting subhead */}
-          <h2 className="mt-4 text-base md:text-xl text-stone-700 max-w-2xl leading-relaxed">
-            Browse verified home care, transportation, health, and daily living services
-            across Canada. No ads, no spam — just real businesses and real reviews.
+          {/* Subhead */}
+          <h2 className="mt-5 text-lg md:text-xl text-stone-700 max-w-2xl leading-relaxed">
+            Browse verified home care, transportation, health, and daily living
+            services across Canada. No ads, no spam — just real businesses and
+            real reviews.
           </h2>
 
-          {/* Primary search CTA */}
-          <form action="/search" method="GET" className="mt-8 flex flex-col sm:flex-row gap-3 max-w-3xl">
-            <label htmlFor="hero-search" className="sr-only">Search listings</label>
-            <div className="flex-1 flex items-center bg-white border-2 border-black rounded-xl px-4 shadow-sm focus-within:ring-4 focus-within:ring-blue-200">
-              <Search className="w-5 h-5 text-stone-700" />
-              <input
-                id="hero-search"
-                type="text"
-                name="q"
-                placeholder="What do you need help with today?"
-                className="flex-1 min-h-touch px-3 py-3 text-lg outline-none bg-transparent"
-                aria-label="Search"
-              />
-            </div>
-            <button
-              type="submit"
-              className="px-8 py-3 bg-blue-700 text-white border-2 border-black rounded-xl font-display font-bold text-lg hover:bg-blue-800 min-h-touch shadow-sm"
-            >
-              Search
-            </button>
-          </form>
-
-          {/* Quick-pick popular searches */}
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="text-base font-semibold text-stone-800">Popular:</span>
-            {["Personal Care", "House Cleaning", "Rides", "Snow Removal", "Physiotherapy", "Pharmacy Delivery"].map((tag) => (
-              <Link
-                key={tag}
-                href={`/search/?q=${encodeURIComponent(tag)}`}
-                className="text-base px-3 py-1.5 bg-white border border-stone-500 text-stone-800 rounded-full hover:border-black hover:bg-stone-50 transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
+          {/* Primary search CTA — single big input with category dropdown */}
+          <div className="mt-8 max-w-4xl">
+            <CategorySearch categories={allCats} />
+            <p className="mt-2 text-base text-stone-700">
+              Pick a category to narrow your search, or type what you need.
+            </p>
           </div>
 
           {/* Trust strip — quick value props (all icons unified to blue) */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl">
-            <div className="flex items-start gap-2 text-base">
-              <BadgeCheck className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
+            <div className="flex items-start gap-3 text-base">
+              <BadgeCheck className="w-6 h-6 text-blue-700 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">Verified businesses</p>
-                <p className="text-stone-800">Every listing is reviewed.</p>
+                <p className="text-stone-700">Every listing is reviewed.</p>
               </div>
             </div>
-            <div className="flex items-start gap-2 text-base">
-              <Heart className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 text-base">
+              <Heart className="w-6 h-6 text-blue-700 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">No ads, ever</p>
-                <p className="text-stone-800">We never sell your data.</p>
+                <p className="text-stone-700">We never sell your data.</p>
               </div>
             </div>
-            <div className="flex items-start gap-2 text-base">
-              <MapPin className="w-5 h-5 text-blue-700 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 text-base">
+              <MapPin className="w-6 h-6 text-blue-700 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">Local to you</p>
-                <p className="text-stone-800">Filter by city and province.</p>
+                <p className="text-stone-700">Filter by city and province.</p>
               </div>
             </div>
           </div>
@@ -191,49 +163,52 @@ export default function HomePage() {
             </section>
           )}
 
-          {/* Featured */}
-          {featuredOnly.length > 0 && (
-            <section>
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="flex items-center gap-2 text-xl md:text-2xl font-display font-black">
-                  <Star className="w-6 h-6 fill-stone-900 stroke-stone-900" />
-                  Featured Listings
-                </h2>
-                <span className="text-base text-stone-800">{totalListings} total listings</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {featuredOnly.map((b) => (
-                  <BusinessCard key={b.id} business={b} />
-                ))}
-              </div>
-            </section>
-          )}
+          {/* Featured (removed in PR4 — the search bar with category dropdown
+              is the new primary way to find listings, and the All Categories
+              list below replaces the curated featured set). */}
 
-          {/* All listings */}
+          {/* Browse all categories — a clean grid of the 22 categories. Each
+              card shows the icon, name, and how many listings are in it. */}
           <section>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="flex items-center gap-2 text-xl md:text-2xl font-display font-black">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="flex items-center gap-2 text-2xl md:text-3xl font-display font-black text-stone-900">
                 <Briefcase className="w-6 h-6" />
-                All Listings
+                Browse all categories
               </h2>
-              <Link
-                href="/businesses"
-                className="text-base font-bold hover:underline flex items-center gap-1"
-              >
-                Browse all <ChevronRight className="w-4 h-4" />
-              </Link>
+              <span className="text-base text-stone-700">
+                {totalListings} total listings
+              </span>
             </div>
-            {allCards.length === 0 ? (
-              <div className="bg-white border-2 border-black rounded-lg p-12 text-center text-stone-800">
-                No more listings to show.
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {allCards.map((b) => (
-                  <BusinessCard key={b.id} business={b} />
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {allCats
+                .filter((c) => !c.isNews)
+                .map((cat) => {
+                  const count = catCounts.find((c) => c.category.slug === cat.slug)?.count ?? 0;
+                  return (
+                    <Link
+                      key={cat.slug}
+                      href={`/categories/${cat.slug}/`}
+                      className="group flex items-center gap-3 p-4 bg-white border-2 border-stone-200 rounded-2xl hover:border-stone-900 hover:shadow-sm transition-colors min-h-touch"
+                    >
+                      <span aria-hidden="true" className="text-3xl flex-shrink-0">
+                        {cat.icon}
+                      </span>
+                      <span className="flex-1 min-w-0">
+                        <span className="block font-display font-bold text-stone-900 line-clamp-2 group-hover:underline">
+                          {cat.name}
+                        </span>
+                        <span className="block text-base text-stone-700">
+                          {count} listing{count === 1 ? "" : "s"}
+                        </span>
+                      </span>
+                      <ChevronRight
+                        className="w-5 h-5 text-stone-400 group-hover:text-stone-900 flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  );
+                })}
+            </div>
           </section>
 
           {/* Why this is different */}
