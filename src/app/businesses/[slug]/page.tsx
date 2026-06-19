@@ -97,7 +97,7 @@ export default async function BusinessDetailPage({
                     <span className="font-bold text-black">{b.priceRange}</span>
                   )}
                   {b.isVerified && (
-                    <span className="flex items-center gap-1 text-emerald-700 font-bold">
+                    <span className="flex items-center gap-1 text-stone-900 font-bold">
                       <BadgeCheck className="w-4 h-4" /> Verified
                     </span>
                   )}
