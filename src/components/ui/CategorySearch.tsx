@@ -50,7 +50,7 @@ export function CategorySearch({ categories, placeholder }: Props) {
       aria-label="Search Only For Seniors"
       className="flex flex-col sm:flex-row gap-2"
     >
-      <div className="flex-1 flex items-center bg-white border-2 border-stone-900 rounded-full px-4">
+      <div className="flex-1 flex items-center bg-white border-2 border-stone-900 rounded-full min-h-touch px-4">
         <Search className="w-5 h-5 text-stone-700 flex-shrink-0" strokeWidth={2} />
         <input
           ref={inputRef}
@@ -62,7 +62,7 @@ export function CategorySearch({ categories, placeholder }: Props) {
           aria-label="Search"
           autoComplete="off"
           spellCheck={false}
-          className="flex-1 min-h-touch px-3 py-3 text-lg outline-none bg-white"
+          className="flex-1 px-3 py-2 text-lg outline-none bg-transparent w-full"
         />
       </div>
       <button
