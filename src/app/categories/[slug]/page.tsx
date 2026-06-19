@@ -49,12 +49,12 @@ export default async function CategoryPage({
   if (slug === "news") {
     const feed = [...getAllBusinesses()].reverse();
     return (
-      <div className="min-h-screen bg-stone-50">
-        <div className="border-b border-stone-200 bg-white">
+      <div className="min-h-screen bg-white">
+        <div className="bg-white">
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-3 flex-wrap">
             <Link
               href="/categories/"
-              className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-stone-900 border border-stone-200 rounded-full font-semibold text-base hover:bg-stone-50 hover:border-stone-900"
+              className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black rounded-full font-semibold text-base hover:bg-stone-50 shadow-sm border border-stone-100"
             >
               <ArrowLeft className="w-4 h-4" /> All Categories
             </Link>
@@ -65,14 +65,12 @@ export default async function CategoryPage({
         </div>
 
         {/* Page header */}
-        <div className="bg-stone-50">
+        <div className="bg-white">
           <div className="max-w-6xl mx-auto px-4 pt-8 pb-6 sm:pt-10 sm:pb-8">
             <div className="flex items-start gap-4">
-              <span className="inline-flex items-center justify-center w-12 h-12 bg-black text-white rounded-lg flex-shrink-0">
-                <Newspaper className="w-6 h-6" strokeWidth={2.25} />
-              </span>
+              <Newspaper className="w-14 h-14 text-black flex-shrink-0" strokeWidth={1.5} />
               <div className="min-w-0">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-stone-900 leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-black leading-tight">
                   What&apos;s New
                 </h1>
                 <p className="mt-2 text-base sm:text-lg text-stone-700 max-w-2xl">
@@ -84,10 +82,10 @@ export default async function CategoryPage({
         </div>
 
         <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-          <div className="bg-white border border-stone-200 rounded-2xl p-5 flex items-start gap-3">
-            <Clock className="w-5 h-5 mt-0.5 shrink-0 text-stone-700" />
+          <div className="bg-white rounded-2xl p-5 flex items-start gap-3 shadow-sm">
+            <Clock className="w-5 h-5 mt-0.5 shrink-0 text-black" strokeWidth={1.5} />
             <div>
-              <p className="font-semibold text-stone-900">
+              <p className="font-semibold text-black">
                 Today&apos;s feed — {todayLabel()}
               </p>
               <p className="text-base text-stone-700 mt-1">
@@ -97,8 +95,8 @@ export default async function CategoryPage({
           </div>
 
           {feed.length === 0 ? (
-            <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center">
-              <p className="text-lg text-stone-900 font-bold">No new listings today.</p>
+            <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
+              <p className="text-lg text-black font-bold">No new listings today.</p>
               <p className="text-base text-stone-700 mt-2">Check back tomorrow.</p>
             </div>
           ) : (
@@ -126,13 +124,13 @@ export default async function CategoryPage({
     subs.find((s) => s.subcategory.slug === subSlug)?.count ?? 0;
 
   return (
-    <div className="min-h-screen bg-stone-50">
-      {/* Top bar — Back link + category name */}
-      <div className="border-b border-stone-200 bg-white">
+    <div className="min-h-screen bg-white">
+      {/* Top bar */}
+      <div className="bg-white">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/categories/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-stone-900 border border-stone-200 rounded-full font-semibold text-base hover:bg-stone-50 hover:border-stone-900"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black rounded-full font-semibold text-base hover:bg-stone-50 shadow-sm border border-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> All Categories
           </Link>
@@ -143,12 +141,12 @@ export default async function CategoryPage({
       </div>
 
       {/* Page header — icon, title, optional description */}
-      <div className="bg-stone-50">
+      <div className="bg-white">
         <div className="max-w-6xl mx-auto px-4 pt-8 pb-6 sm:pt-10 sm:pb-8">
           <div className="flex items-start gap-4">
             <CategoryIcon category={cat} size="lg" />
             <div className="min-w-0">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-stone-900 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-black leading-tight">
                 {cat.name}
               </h1>
               {cat.description && (
@@ -165,16 +163,16 @@ export default async function CategoryPage({
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-        {/* Subcategory chips — clean monochrome, with counts on the right */}
+        {/* Subcategory chips */}
         {cat.subcategories.length > 0 && (
-          <div className="bg-white border border-stone-200 rounded-2xl p-5">
-            <h2 className="font-display font-bold text-base mb-3 text-stone-800">
+          <div className="bg-white rounded-2xl p-5 shadow-sm">
+            <h2 className="font-display font-bold text-base mb-3 text-black">
               Browse by sub-category
             </h2>
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/categories/${cat.slug}`}
-                className="px-3 py-2 text-base bg-stone-900 text-white border border-stone-900 font-bold rounded-full"
+                className="px-3 py-2 text-base bg-black text-white font-bold rounded-full"
               >
                 All ({sorted.length})
               </Link>
@@ -184,7 +182,7 @@ export default async function CategoryPage({
                   <Link
                     key={sub.slug}
                     href={`/categories/${cat.slug}/${sub.slug}`}
-                    className="px-3 py-2 text-base bg-white text-stone-900 border border-stone-200 rounded-full hover:bg-stone-50 hover:border-stone-900"
+                    className="px-3 py-2 text-base bg-white text-black rounded-full hover:bg-stone-50 shadow-sm border border-stone-100"
                   >
                     {sub.name}
                     {count > 0 && (
@@ -199,8 +197,8 @@ export default async function CategoryPage({
 
         {/* Listings grid */}
         {sorted.length === 0 ? (
-          <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center">
-            <p className="text-lg text-stone-900 font-bold">No listings in this category yet.</p>
+          <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
+            <p className="text-lg text-black font-bold">No listings in this category yet.</p>
             <p className="text-base text-stone-700 mt-2">Be the first to add one!</p>
           </div>
         ) : (

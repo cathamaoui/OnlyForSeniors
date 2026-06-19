@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="border-b border-stone-200 bg-white">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <Link
@@ -34,7 +34,7 @@ export default function ContactPage() {
           </p>
         </section>
 
-        <section className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8">
+        <section className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
           <h3 className="font-display font-bold text-xl text-stone-900 mb-4">Send a message</h3>
           <form className="space-y-4">
             <div>
@@ -81,7 +81,7 @@ export default function ContactPage() {
         </section>
 
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white border border-stone-200 rounded-2xl p-5 text-center">
+          <div className="bg-white rounded-2xl shadow-sm p-5 text-center">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Mail className="w-5 h-5" strokeWidth={2.25} />
             </span>
@@ -90,14 +90,14 @@ export default function ContactPage() {
               hello@onlyforseniors.ca
             </a>
           </div>
-          <div className="bg-white border border-stone-200 rounded-2xl p-5 text-center">
+          <div className="bg-white rounded-2xl shadow-sm p-5 text-center">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Phone className="w-5 h-5" strokeWidth={2.25} />
             </span>
             <h3 className="font-display font-bold text-base text-stone-900">Phone</h3>
             <p className="text-base text-stone-700">Coming soon</p>
           </div>
-          <div className="bg-white border border-stone-200 rounded-2xl p-5 text-center">
+          <div className="bg-white rounded-2xl shadow-sm p-5 text-center">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <MessageSquare className="w-5 h-5" strokeWidth={2.25} />
             </span>

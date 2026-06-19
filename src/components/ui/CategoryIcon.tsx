@@ -89,9 +89,9 @@ type Props = {
 };
 
 const SIZES = {
-  sm: { box: "w-8 h-8", icon: "w-4 h-4" },
-  md: { box: "w-10 h-10", icon: "w-5 h-5" },
-  lg: { box: "w-12 h-12", icon: "w-6 h-6" },
+  sm: { box: "w-6 h-6", icon: "w-6 h-6" },
+  md: { box: "w-10 h-10", icon: "w-10 h-10" },
+  lg: { box: "w-14 h-14", icon: "w-14 h-14" },
 } as const;
 
 export function CategoryIcon({ category, slug, size = "md", className = "" }: Props) {
@@ -99,11 +99,10 @@ export function CategoryIcon({ category, slug, size = "md", className = "" }: Pr
   const Icon = iconForSlug(useSlug);
   const s = SIZES[size];
   return (
-    <span
+    <Icon
       aria-hidden="true"
-      className={`inline-flex items-center justify-center ${s.box} bg-stone-900 text-white rounded-lg flex-shrink-0 ${className}`}
-    >
-      <Icon className={s.icon} strokeWidth={2.25} />
-    </span>
+      className={`${s.box} text-stone-900 flex-shrink-0 ${className}`}
+      strokeWidth={1.5}
+    />
   );
 }

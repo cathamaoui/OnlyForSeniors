@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="border-b border-stone-200 bg-white">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
@@ -37,7 +37,7 @@ export default function AboutPage() {
         </section>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-white border border-stone-200 rounded-2xl p-5">
+          <div className="bg-white rounded-2xl shadow-sm p-5">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <BadgeCheck className="w-5 h-5" strokeWidth={2.25} />
             </span>
@@ -47,7 +47,7 @@ export default function AboutPage() {
               before publishing.
             </p>
           </div>
-          <div className="bg-white border border-stone-200 rounded-2xl p-5">
+          <div className="bg-white rounded-2xl shadow-sm p-5">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Heart className="w-5 h-5" strokeWidth={2.25} />
             </span>
@@ -57,7 +57,7 @@ export default function AboutPage() {
               being a verified listing.
             </p>
           </div>
-          <div className="bg-white border border-stone-200 rounded-2xl p-5">
+          <div className="bg-white rounded-2xl shadow-sm p-5">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <MapPin className="w-5 h-5" strokeWidth={2.25} />
             </span>
@@ -66,7 +66,7 @@ export default function AboutPage() {
               Filter by city, province, or sub-category to find help close to home.
             </p>
           </div>
-          <div className="bg-white border border-stone-200 rounded-2xl p-5">
+          <div className="bg-white rounded-2xl shadow-sm p-5">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Shield className="w-5 h-5" strokeWidth={2.25} />
             </span>
@@ -77,7 +77,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8">
+        <section className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
           <h3 className="font-display font-bold text-xl text-stone-900">For business owners</h3>
           <p className="text-stone-700 mt-2">
             Listing on Only For Seniors costs <strong>CAD $10/month</strong>. That pays for

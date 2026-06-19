@@ -13,7 +13,7 @@ export default function SearchPage() {
   const businesses = getAllBusinesses();
   const categories = getAllCategories();
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="border-b-2 border-black bg-white">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link

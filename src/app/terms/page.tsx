@@ -2,10 +2,10 @@ export const metadata = { title: "Terms of Service" };
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
         <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-6">Terms of Service</h1>
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 text-stone-900 space-y-4 leading-relaxed">
+        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8 text-stone-900 space-y-4 leading-relaxed">
           <p>
             By using OnlyForSeniors.ca you agree to these terms. Please read them carefully.
           </p>

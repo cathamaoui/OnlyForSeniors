@@ -20,23 +20,23 @@ export default function CategoriesPage() {
   const recent = getRecentBusinesses(24, 5);
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       {/* Top bar */}
-      <div className="border-b border-stone-200 bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-stone-900 border border-stone-200 rounded-full font-semibold text-base hover:bg-stone-50 hover:border-stone-900"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black rounded-full font-semibold text-base hover:bg-stone-50 shadow-sm border border-stone-100"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
         </div>
       </div>
 
-      {/* Page header — large monochrome */}
-      <div className="bg-stone-50">
+      {/* Page header — large monochrome, taste-skill style */}
+      <div className="bg-white">
         <div className="max-w-6xl mx-auto px-4 pt-8 pb-6 sm:pt-10 sm:pb-8 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-stone-900 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-black leading-tight">
             All Categories
           </h1>
           <p className="mt-3 text-base sm:text-lg text-stone-700 max-w-2xl mx-auto">
@@ -46,18 +46,18 @@ export default function CategoriesPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
-        {/* Sidebar — Kijiji-style flat list */}
+        {/* Sidebar */}
         <aside className="space-y-6">
-          {/* What's New (Past 24 Hours) — monochrome */}
-          <div className="bg-white border border-stone-200 rounded-2xl overflow-hidden">
-            <div className="bg-stone-900 text-white px-4 py-2 flex items-center gap-2">
+          {/* What's New — soft card, no border */}
+          <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
+            <div className="bg-black text-white px-4 py-2 flex items-center gap-2">
               <Newspaper className="w-4 h-4" />
               <h2 className="font-display font-bold text-base">
-                What's New (Past 24h)
+                What&apos;s New (Past 24h)
               </h2>
             </div>
             {recent.length === 0 ? (
-              <p className="px-4 py-3 text-base text-stone-800">
+              <p className="px-4 py-3 text-base text-stone-700">
                 No new listings in the last 24 hours.
               </p>
             ) : (
@@ -66,13 +66,13 @@ export default function CategoriesPage() {
                   <li key={b.id}>
                     <Link
                       href={`/businesses/${b.id}`}
-                      className="flex items-start justify-between gap-2 px-4 py-3 border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
+                      className="flex items-start justify-between gap-2 px-4 py-3 border-b border-stone-100 last:border-b-0 hover:bg-stone-50"
                     >
                       <div>
-                        <p className="font-semibold text-base line-clamp-1">{b.name}</p>
-                        <p className="text-base text-stone-800">{b.city}, {b.province}</p>
+                        <p className="font-semibold text-base line-clamp-1 text-black">{b.name}</p>
+                        <p className="text-base text-stone-700">{b.city}, {b.province}</p>
                       </div>
-                      <ChevronRight className="w-4 h-4 mt-1 text-stone-700" />
+                      <ChevronRight className="w-4 h-4 mt-1 text-stone-500" />
                     </Link>
                   </li>
                 ))}
@@ -80,18 +80,18 @@ export default function CategoriesPage() {
             )}
           </div>
 
-          {/* All categories with their subcategories, monochrome */}
+          {/* All categories with their subcategories */}
           {categories.map((cat) => {
             const catCount = catCounts.find((c) => c.category.slug === cat.slug)?.count ?? 0;
             return (
-              <div key={cat.slug} className="bg-white border border-stone-200 rounded-2xl overflow-hidden">
+              <div key={cat.slug} className="bg-white rounded-2xl overflow-hidden shadow-sm">
                 <Link
                   href={`/categories/${cat.slug}`}
-                  className="flex items-center gap-3 px-4 py-3 border-b border-stone-200 bg-stone-900 text-white font-display font-bold text-base hover:bg-stone-700"
+                  className="flex items-center gap-3 px-4 py-3 border-b border-stone-100 hover:bg-stone-50"
                 >
-                  <CategoryIcon category={cat} size="sm" className="!bg-white !text-stone-900" />
-                  <span className="flex-1">{cat.name}</span>
-                  <span className="font-normal text-base opacity-90">({catCount})</span>
+                  <CategoryIcon category={cat} size="sm" />
+                  <span className="flex-1 font-display font-bold text-base text-black">{cat.name}</span>
+                  <span className="font-normal text-base text-stone-500">({catCount})</span>
                 </Link>
                 <ul>
                   {cat.subcategories.map((sub) => {
@@ -100,10 +100,10 @@ export default function CategoriesPage() {
                       <li key={sub.slug}>
                         <Link
                           href={`/categories/${cat.slug}/${sub.slug}`}
-                          className="flex items-center justify-between px-4 py-2 text-base border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
+                          className="flex items-center justify-between px-4 py-2 text-base border-b border-stone-100 last:border-b-0 hover:bg-stone-50 text-black"
                         >
                           <span>{sub.name}</span>
-                          <span className="text-stone-700 text-base">({subCount})</span>
+                          <span className="text-stone-500 text-base">({subCount})</span>
                         </Link>
                       </li>
                     );
@@ -114,53 +114,46 @@ export default function CategoriesPage() {
           })}
 
           {/* Volunteer CTA — monochrome */}
-          <div className="bg-stone-900 text-white border border-stone-200 rounded-2xl p-4">
+          <div className="bg-black text-white rounded-2xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <Heart className="w-4 h-4" />
               <h2 className="font-display font-bold text-base">
                 Want to Volunteer?
               </h2>
             </div>
-            <p className="text-base mb-3 text-stone-200">
+            <p className="text-base mb-3 text-stone-300">
               Give your time, learn new skills, and meet people in your community.
             </p>
             <Link
               href="/categories/volunteer"
-              className="inline-block bg-white text-stone-900 px-3 py-2 font-bold text-base border border-stone-900 hover:bg-stone-100"
+              className="inline-block bg-white text-black px-3 py-2 font-bold text-base rounded-full hover:bg-stone-100"
             >
               Browse volunteer opportunities →
             </Link>
           </div>
         </aside>
 
-        {/* Main — a single "Why this is different" explainer so the
-            right side isn't empty when the sidebar is long. */}
+        {/* Main — "Why this is different" explainer */}
         <main className="space-y-6">
-          <section className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8">
-            <h2 className="text-2xl sm:text-3xl font-display font-black text-stone-900">
+          <section className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm">
+            <h2 className="text-2xl sm:text-3xl font-display font-black text-black">
               Why Only For Seniors?
             </h2>
             <p className="mt-2 text-base text-stone-700">
               We built this directory for one reason: to help Canadian seniors and
               their families find trusted local help without the noise.
             </p>
-            <ul className="mt-5 space-y-3 text-base text-stone-900">
+            <ul className="mt-6 space-y-4 text-base text-black">
               <li className="flex items-start gap-3">
-                <span className="inline-flex items-center justify-center w-7 h-7 bg-stone-900 text-white rounded-md flex-shrink-0 mt-0.5">
-                  <BadgeCheck className="w-4 h-4" strokeWidth={2.5} />
-                </span>
+                <BadgeCheck className="w-6 h-6 text-black flex-shrink-0 mt-0.5" strokeWidth={1.5} />
                 <span><strong className="font-display font-bold">Verified businesses.</strong> Every listing is reviewed by a real person before it goes live.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="inline-flex items-center justify-center w-7 h-7 bg-stone-900 text-white rounded-md flex-shrink-0 mt-0.5">
-                  <Heart className="w-4 h-4" strokeWidth={2.5} />
-                </span>
+                <Heart className="w-6 h-6 text-black flex-shrink-0 mt-0.5" strokeWidth={1.5} />
                 <span><strong className="font-display font-bold">No ads, ever.</strong> We never show ads. We never sell your data.</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="inline-flex items-center justify-center w-7 h-7 bg-stone-900 text-white rounded-md flex-shrink-0 mt-0.5">
-                  <MapPin className="w-4 h-4" strokeWidth={2.5} />
-                </span>
+                <MapPin className="w-6 h-6 text-black flex-shrink-0 mt-0.5" strokeWidth={1.5} />
                 <span><strong className="font-display font-bold">Local to you.</strong> Filter by city and province — find help close to home, anywhere in Canada.</span>
               </li>
             </ul>

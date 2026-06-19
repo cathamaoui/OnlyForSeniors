@@ -90,7 +90,7 @@ const faqs = [
 
 export default function ForBusinessesPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       {/* HERO */}
       <section className="bg-white border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 text-center">
@@ -165,7 +165,7 @@ export default function ForBusinessesPage() {
             return (
               <div
                 key={item.title}
-                className="bg-white border border-stone-200 rounded-2xl p-6 hover:border-stone-900 transition-colors"
+                className="bg-white rounded-2xl shadow-sm p-6 hover:border-stone-900 transition-colors"
               >
                 <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-3">
                   <Icon className="w-5 h-5" strokeWidth={2.25} />
@@ -225,7 +225,7 @@ export default function ForBusinessesPage() {
           {steps.map((s) => (
             <div
               key={s.n}
-              className="bg-white border border-stone-200 rounded-2xl p-6 relative"
+              className="bg-white rounded-2xl shadow-sm p-6 relative"
             >
               <div className="w-10 h-10 bg-stone-900 text-white rounded-lg flex items-center justify-center font-display font-black text-lg mb-3">
                 {s.n}
@@ -300,7 +300,7 @@ export default function ForBusinessesPage() {
           {faqs.map((f) => (
             <details
               key={f.q}
-              className="bg-white border border-stone-200 rounded-2xl group"
+              className="bg-white rounded-2xl shadow-sm group"
             >
               <summary className="cursor-pointer list-none px-5 py-4 font-bold text-stone-900 flex items-center justify-between">
                 {f.q}

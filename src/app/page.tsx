@@ -14,24 +14,24 @@ export default function HomePage() {
   const allCats = getAllCategories();
 
   return (
-    <div className="min-h-screen bg-stone-50">
-      {/* Hero / Search — taste-skill-inspired. Calm stone background, massive
+    <div className="min-h-screen bg-white">
+      {/* Hero / Search — taste-skill-inspired. Pure white background, massive
           Bitter serif headline with italic accent, single big search input
           with a categories dropdown that opens to the full list. */}
-      <section className="bg-stone-50">
+      <section className="bg-white">
         <div className="max-w-6xl mx-auto px-4 pt-6 pb-10 md:pt-10 md:pb-16">
           {/* Eyebrow — subtle accent label above the H1 */}
           <div className="flex items-center gap-3 mb-5">
-            <span className="block w-8 h-[3px] bg-stone-900" aria-hidden="true" />
+            <span className="block w-8 h-[3px] bg-black" aria-hidden="true" />
             <p className="text-base font-semibold text-stone-700">
               For Canadians 65 and older
             </p>
           </div>
 
           {/* H1 — value proposition. Massive serif with italic accent. */}
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] tracking-tight max-w-4xl text-stone-900">
+          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] tracking-tight max-w-4xl text-black">
             Trusted help,{" "}
-            <span className="italic font-display font-black text-stone-900">
+            <span className="italic font-display font-black text-black">
               when you need it.
             </span>
           </h1>
@@ -54,23 +54,23 @@ export default function HomePage() {
           {/* Trust strip — quick value props, monochrome icons */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
             <div className="flex items-start gap-3 text-base">
-              <BadgeCheck className="w-6 h-6 text-stone-900 flex-shrink-0 mt-0.5" />
+              <BadgeCheck className="w-6 h-6 text-black flex-shrink-0 mt-0.5" strokeWidth={1.5} />
               <div>
-                <p className="font-bold text-stone-900">Verified businesses</p>
+                <p className="font-bold text-black">Verified businesses</p>
                 <p className="text-stone-700">Every listing is reviewed.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 text-base">
-              <Heart className="w-6 h-6 text-stone-900 flex-shrink-0 mt-0.5" />
+              <Heart className="w-6 h-6 text-black flex-shrink-0 mt-0.5" strokeWidth={1.5} />
               <div>
-                <p className="font-bold text-stone-900">No ads, ever</p>
+                <p className="font-bold text-black">No ads, ever</p>
                 <p className="text-stone-700">We never sell your data.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 text-base">
-              <MapPin className="w-6 h-6 text-stone-900 flex-shrink-0 mt-0.5" />
+              <MapPin className="w-6 h-6 text-black flex-shrink-0 mt-0.5" strokeWidth={1.5} />
               <div>
-                <p className="font-bold text-stone-900">Local to you</p>
+                <p className="font-bold text-black">Local to you</p>
                 <p className="text-stone-700">Filter by city and province.</p>
               </div>
             </div>
@@ -87,7 +87,7 @@ export default function HomePage() {
       <section className="max-w-4xl mx-auto px-4 pt-10 pb-6 text-center">
         <Link
           href="/categories/"
-          className="inline-flex items-center gap-2 text-lg sm:text-xl font-display font-bold text-stone-900 hover:text-black border-b-2 border-stone-900 pb-1"
+          className="inline-flex items-center gap-2 text-lg sm:text-xl font-display font-bold text-black hover:text-stone-700 border-b-2 border-black pb-1"
         >
           Browse all 22 categories
           <ArrowRight className="w-5 h-5" />
@@ -99,27 +99,27 @@ export default function HomePage() {
 
       {/* Why this is different — kept brief, monochrome icons */}
       <section className="max-w-4xl mx-auto px-4 py-10 sm:py-12">
-        <h2 className="text-2xl sm:text-3xl font-display font-black text-stone-900 text-center mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl font-display font-black text-black text-center mb-6 sm:mb-8">
           Why Only For Seniors?
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
           <div>
-            <BadgeCheck className="w-7 h-7 text-stone-900" strokeWidth={2.25} />
-            <h3 className="font-display font-bold text-lg mt-2 text-stone-900">Verified businesses</h3>
+            <BadgeCheck className="w-7 h-7 text-black" strokeWidth={1.5} />
+            <h3 className="font-display font-bold text-lg mt-2 text-black">Verified businesses</h3>
             <p className="text-base text-stone-700 mt-1">
               Every business is reviewed by a real person before being listed.
             </p>
           </div>
           <div>
-            <Heart className="w-7 h-7 text-stone-900" strokeWidth={2.25} />
-            <h3 className="font-display font-bold text-lg mt-2 text-stone-900">No ads, ever</h3>
+            <Heart className="w-7 h-7 text-black" strokeWidth={1.5} />
+            <h3 className="font-display font-bold text-lg mt-2 text-black">No ads, ever</h3>
             <p className="text-base text-stone-700 mt-1">
               We never show ads. We never sell your data. Listings are paid for by the businesses themselves.
             </p>
           </div>
           <div>
-            <MapPin className="w-7 h-7 text-stone-900" strokeWidth={2.25} />
-            <h3 className="font-display font-bold text-lg mt-2 text-stone-900">Local to you</h3>
+            <MapPin className="w-7 h-7 text-black" strokeWidth={1.5} />
+            <h3 className="font-display font-bold text-lg mt-2 text-black">Local to you</h3>
             <p className="text-base text-stone-700 mt-1">
               Filter by city and province. Find help close to home, anywhere in Canada.
             </p>
@@ -130,11 +130,11 @@ export default function HomePage() {
       {/* Help line — small, monochrome, at the bottom */}
       <section className="max-w-4xl mx-auto px-4 py-8 sm:py-10 text-center border-t border-stone-200">
         <div className="inline-flex items-center gap-2 text-base text-stone-700">
-          <Phone className="w-5 h-5 text-stone-900" />
+          <Phone className="w-5 h-5 text-black" strokeWidth={1.5} />
           <span>Need help? Call our free senior help line:</span>
           <a
             href="tel:1-855-555-0123"
-            className="font-display font-black text-stone-900 text-lg hover:underline"
+            className="font-display font-black text-black text-lg hover:underline"
           >
             1-855-555-0123
           </a>

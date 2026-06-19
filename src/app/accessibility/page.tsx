@@ -4,12 +4,12 @@ export const metadata = {
 
 export default function AccessibilityPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
         <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-6">
           Accessibility Statement
         </h1>
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 text-stone-900 space-y-4 leading-relaxed">
+        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8 text-stone-900 space-y-4 leading-relaxed">
           <p>
             OnlyForSeniors.ca is built from the ground up for accessibility —
             especially for users 65 and older.

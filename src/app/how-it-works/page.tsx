@@ -36,7 +36,7 @@ const STEPS = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 py-12 sm:py-16">
         <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-3 text-center">
           How Only For Seniors Works
@@ -51,7 +51,7 @@ export default function HowItWorksPage() {
             return (
               <div
                 key={s.title}
-                className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-6 flex items-start gap-4 sm:gap-5"
+                className="bg-white rounded-2xl shadow-sm p-5 sm:p-6 flex items-start gap-4 sm:gap-5"
               >
                 <span
                   aria-hidden="true"

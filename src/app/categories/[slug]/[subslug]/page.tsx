@@ -51,7 +51,7 @@ export default async function SubcategoryPage({
   });
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="border-b border-stone-200 bg-white">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
@@ -94,7 +94,7 @@ export default async function SubcategoryPage({
         </div>
 
         {sorted.length === 0 ? (
-          <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center">
+          <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
             <p className="text-lg text-stone-900 font-bold">No listings in this sub-category yet.</p>
           </div>
         ) : (

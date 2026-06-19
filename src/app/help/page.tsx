@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function HelpPage() {
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
         <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-3 text-center">
           Help &amp; Support
@@ -20,7 +20,7 @@ export default function HelpPage() {
         <div className="grid gap-4 sm:grid-cols-2">
           <a
             href="tel:1-800-555-0199"
-            className="bg-white border border-stone-200 rounded-2xl p-6 text-center hover:border-stone-900 transition-colors"
+            className="bg-white rounded-2xl shadow-sm p-6 text-center hover:border-stone-900 transition-colors"
           >
             <span aria-hidden="true" className="inline-flex items-center justify-center w-12 h-12 bg-stone-900 text-white rounded-xl mb-3">
               <Phone className="w-6 h-6" strokeWidth={2.25} />
@@ -32,7 +32,7 @@ export default function HelpPage() {
 
           <a
             href="mailto:hello@onlyforseniors.ca"
-            className="bg-white border border-stone-200 rounded-2xl p-6 text-center hover:border-stone-900 transition-colors"
+            className="bg-white rounded-2xl shadow-sm p-6 text-center hover:border-stone-900 transition-colors"
           >
             <span aria-hidden="true" className="inline-flex items-center justify-center w-12 h-12 bg-stone-900 text-white rounded-xl mb-3">
               <Mail className="w-6 h-6" strokeWidth={2.25} />
@@ -43,7 +43,7 @@ export default function HelpPage() {
           </a>
         </div>
 
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 mt-8">
+        <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8 mt-8">
           <h2 className="font-display font-black text-2xl text-stone-900 mb-4 flex items-center gap-3">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-9 h-9 bg-stone-900 text-white rounded-lg">
               <MessageCircle className="w-5 h-5" strokeWidth={2.25} />
