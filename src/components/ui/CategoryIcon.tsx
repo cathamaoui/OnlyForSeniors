@@ -101,7 +101,7 @@ export function CategoryIcon({ category, slug, size = "md", className = "" }: Pr
   return (
     <span
       aria-hidden="true"
-      className={`inline-flex items-center justify-center ${s.box} bg-black text-white rounded-lg flex-shrink-0 ${className}`}
+      className={`inline-flex items-center justify-center ${s.box} bg-stone-900 text-white rounded-lg flex-shrink-0 ${className}`}
     >
       <Icon className={s.icon} strokeWidth={2.25} />
     </span>

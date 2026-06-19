@@ -1,14 +1,9 @@
 import Link from "next/link";
-import { MapPin, ChevronRight, BadgeCheck, Newspaper, Heart, Phone, Briefcase } from "lucide-react";
+import { MapPin, BadgeCheck, Heart, Phone, ArrowRight } from "lucide-react";
 import {
   getAllCategories,
-  getAllBusinesses,
-  getRecentBusinesses,
-  getCategoryCounts,
 } from "@/lib/businesses";
-import { BusinessCard } from "@/components/ui/BusinessCard";
 import { CategorySearch } from "@/components/ui/CategorySearch";
-import { CategoryIcon } from "@/components/ui/CategoryIcon";
 
 export const metadata = {
   title: "Only For Seniors — Canada's Senior Marketplace",
@@ -17,13 +12,6 @@ export const metadata = {
 
 export default function HomePage() {
   const allCats = getAllCategories();
-  const businesses = getAllBusinesses();
-  const recent = getRecentBusinesses(24, 8);
-  const catCounts = getCategoryCounts();
-  const totalListings = businesses.length;
-
-  // What's new (last 24h)
-  const news = recent.slice(0, 4);
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -63,24 +51,24 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Trust strip — quick value props (all icons unified to blue) */}
+          {/* Trust strip — quick value props, monochrome icons */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
             <div className="flex items-start gap-3 text-base">
-              <BadgeCheck className="w-6 h-6 text-blue-700 flex-shrink-0 mt-0.5" />
+              <BadgeCheck className="w-6 h-6 text-stone-900 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">Verified businesses</p>
                 <p className="text-stone-700">Every listing is reviewed.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 text-base">
-              <Heart className="w-6 h-6 text-blue-700 flex-shrink-0 mt-0.5" />
+              <Heart className="w-6 h-6 text-stone-900 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">No ads, ever</p>
                 <p className="text-stone-700">We never sell your data.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 text-base">
-              <MapPin className="w-6 h-6 text-blue-700 flex-shrink-0 mt-0.5" />
+              <MapPin className="w-6 h-6 text-stone-900 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold text-stone-900">Local to you</p>
                 <p className="text-stone-700">Filter by city and province.</p>
@@ -90,151 +78,69 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* On mobile: main (hero + search) first, sidebar below.
-          On desktop: side-by-side. */}
-      <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col-reverse gap-6 lg:grid lg:grid-cols-[260px_1fr]">
-        {/* Sidebar — All categories (flat list) */}
-        <aside className="space-y-4">
-          <div className="bg-white border-2 border-black rounded-lg overflow-hidden">
-            <div className="bg-black text-white px-4 py-2 font-display font-bold   text-base">
-              All Categories
-            </div>
-            <ul>
-              {allCats.map((cat) => {
-                const count = catCounts.find((c) => c.category.slug === cat.slug)?.count ?? 0;
-                return (
-                  <li key={cat.slug}>
-                    <Link
-                      href={`/categories/${cat.slug}`}
-                      className="flex items-center justify-between gap-2 px-4 py-3 border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
-                    >
-                      <span className="flex items-center gap-3 text-base min-w-0">
-                        <CategoryIcon category={cat} size="sm" />
-                        <span className="line-clamp-1">{cat.name}</span>
-                      </span>
-                      <span className="text-base text-stone-700">({count})</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+      {/* Below the hero — single column, minimal.
+          The big search bar above is the primary way to find anything.
+          This section offers two secondary paths: a "browse all" link
+          and a small "Why OFS" explainer. */}
+
+      {/* Browse all categories — text link, not a grid */}
+      <section className="max-w-4xl mx-auto px-4 pt-10 pb-6 text-center">
+        <Link
+          href="/categories/"
+          className="inline-flex items-center gap-2 text-lg sm:text-xl font-display font-bold text-stone-900 hover:text-black border-b-2 border-stone-900 pb-1"
+        >
+          Browse all 22 categories
+          <ArrowRight className="w-5 h-5" />
+        </Link>
+        <p className="mt-2 text-base text-stone-700">
+          Or use the search bar above to find a specific service.
+        </p>
+      </section>
+
+      {/* Why this is different — kept brief, monochrome icons */}
+      <section className="max-w-4xl mx-auto px-4 py-10 sm:py-12">
+        <h2 className="text-2xl sm:text-3xl font-display font-black text-stone-900 text-center mb-6 sm:mb-8">
+          Why Only For Seniors?
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+          <div>
+            <BadgeCheck className="w-7 h-7 text-stone-900" strokeWidth={2.25} />
+            <h3 className="font-display font-bold text-lg mt-2 text-stone-900">Verified businesses</h3>
+            <p className="text-base text-stone-700 mt-1">
+              Every business is reviewed by a real person before being listed.
+            </p>
           </div>
-
-          {/* Help line */}
-          <div className="bg-emerald-700 text-white border-2 border-black rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Phone className="w-4 h-4" />
-              <h3 className="font-display font-bold   text-base">Need help?</h3>
-            </div>
-            <p className="text-base mb-2">Call our free senior help line.</p>
-            <a
-              href="tel:1-855-555-0123"
-              aria-label="Call our free senior help line at 1-855-555-0123"
-              className="inline-flex items-center gap-2 text-2xl font-display font-black text-stone-900"
-            >
-              <Phone className="w-6 h-6 text-blue-700" strokeWidth={2.5} />
-              1-855-555-0123
-            </a>
-            <p className="text-base mt-1">Mon–Fri 8am–8pm ET</p>
+          <div>
+            <Heart className="w-7 h-7 text-stone-900" strokeWidth={2.25} />
+            <h3 className="font-display font-bold text-lg mt-2 text-stone-900">No ads, ever</h3>
+            <p className="text-base text-stone-700 mt-1">
+              We never show ads. We never sell your data. Listings are paid for by the businesses themselves.
+            </p>
           </div>
-        </aside>
+          <div>
+            <MapPin className="w-7 h-7 text-stone-900" strokeWidth={2.25} />
+            <h3 className="font-display font-bold text-lg mt-2 text-stone-900">Local to you</h3>
+            <p className="text-base text-stone-700 mt-1">
+              Filter by city and province. Find help close to home, anywhere in Canada.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        {/* Main */}
-        <main className="space-y-8">
-          {/* What's New (Past 24 Hours) */}
-          {news.length > 0 && (
-            <section>
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="flex items-center gap-2 text-xl md:text-2xl font-display font-black">
-                  <Newspaper className="w-6 h-6 text-blue-700" />
-                  What's New (Past 24 Hours)
-                </h2>
-                <Link
-                  href="/categories/news"
-                  className="text-base font-bold text-blue-700 hover:underline flex items-center gap-1"
-                >
-                  See all <ChevronRight className="w-4 h-4" />
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {news.map((b) => (
-                  <BusinessCard key={b.id} business={b} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Featured (removed in PR4 — the search bar with category dropdown
-              is the new primary way to find listings, and the All Categories
-              list below replaces the curated featured set). */}
-
-          {/* Browse all categories — a clean grid of the 22 categories. Each
-              card shows the icon, name, and how many listings are in it. */}
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="flex items-center gap-2 text-2xl md:text-3xl font-display font-black text-stone-900">
-                <Briefcase className="w-6 h-6" />
-                Browse all categories
-              </h2>
-              <span className="text-base text-stone-700">
-                {totalListings} total listings
-              </span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {allCats
-                .filter((c) => !c.isNews)
-                .map((cat) => {
-                  const count = catCounts.find((c) => c.category.slug === cat.slug)?.count ?? 0;
-                  return (
-                    <Link
-                      key={cat.slug}
-                      href={`/categories/${cat.slug}/`}
-                      className="group flex items-center gap-3 p-4 bg-white border-2 border-stone-200 rounded-2xl hover:border-stone-900 hover:shadow-sm transition-colors min-h-touch"
-                    >
-                      <CategoryIcon category={cat} size="md" />
-                      <span className="flex-1 min-w-0">
-                        <span className="block font-display font-bold text-stone-900 line-clamp-2 group-hover:underline">
-                          {cat.name}
-                        </span>
-                        <span className="block text-base text-stone-700">
-                          {count} listing{count === 1 ? "" : "s"}
-                        </span>
-                      </span>
-                      <ChevronRight
-                        className="w-5 h-5 text-stone-400 group-hover:text-stone-900 flex-shrink-0"
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  );
-                })}
-            </div>
-          </section>
-
-          {/* Why this is different */}
-          <section className="bg-white border-2 border-black rounded-lg p-6">
-            <h2 className="text-xl md:text-2xl font-display font-black mb-3">
-              Why Only For Seniors?
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <BadgeCheck className="w-6 h-6 text-emerald-700" />
-                <h3 className="font-bold mt-1">Verified Businesses</h3>
-                <p className="text-base text-stone-700">Every business is reviewed before being listed.</p>
-              </div>
-              <div>
-                <Heart className="w-6 h-6 text-rose-700" />
-                <h3 className="font-bold mt-1">No Ads, Ever</h3>
-                <p className="text-base text-stone-700">We never show ads. We never sell your data.</p>
-              </div>
-              <div>
-                <MapPin className="w-6 h-6 text-blue-700" />
-                <h3 className="font-bold mt-1">Local to You</h3>
-                <p className="text-base text-stone-700">Filter by city and province across Canada.</p>
-              </div>
-            </div>
-          </section>
-        </main>
-      </div>
+      {/* Help line — small, monochrome, at the bottom */}
+      <section className="max-w-4xl mx-auto px-4 py-8 sm:py-10 text-center border-t border-stone-200">
+        <div className="inline-flex items-center gap-2 text-base text-stone-700">
+          <Phone className="w-5 h-5 text-stone-900" />
+          <span>Need help? Call our free senior help line:</span>
+          <a
+            href="tel:1-855-555-0123"
+            className="font-display font-black text-stone-900 text-lg hover:underline"
+          >
+            1-855-555-0123
+          </a>
+        </div>
+        <p className="text-base text-stone-700 mt-1">Mon–Fri 8am–8pm ET</p>
+      </section>
     </div>
   );
 }

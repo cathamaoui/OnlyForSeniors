@@ -88,7 +88,7 @@ export function CategorySearch({ categories }: { categories: Category[] }) {
             {picked ? (
               <CategoryIcon category={picked} size="sm" />
             ) : (
-              <span aria-hidden="true" className="inline-flex items-center justify-center w-8 h-8 bg-black text-white rounded-lg flex-shrink-0">
+              <span aria-hidden="true" className="inline-flex items-center justify-center w-8 h-8 bg-stone-900 text-white rounded-lg flex-shrink-0">
                 {(() => {
                   const I = iconForSlug("default");
                   return <I className="w-4 h-4" strokeWidth={2.25} />;
@@ -168,7 +168,7 @@ export function CategorySearch({ categories }: { categories: Category[] }) {
                 !picked ? "bg-stone-100" : ""
               }`}
             >
-              <span aria-hidden="true" className="inline-flex items-center justify-center w-7 h-7 bg-black text-white rounded-md flex-shrink-0">
+              <span aria-hidden="true" className="inline-flex items-center justify-center w-7 h-7 bg-stone-900 text-white rounded-md flex-shrink-0">
                 {(() => {
                   const I = iconForSlug("default");
                   return <I className="w-3.5 h-3.5" strokeWidth={2.25} />;
