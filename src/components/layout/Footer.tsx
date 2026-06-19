@@ -19,11 +19,6 @@ export function Footer() {
     { href: "/contact/", label: "Contact" },
   ];
 
-  const accountLinks = [
-    { href: "/list-business/", label: "Create account" },
-    { href: "/list-business/login/", label: "Sign in" },
-  ];
-
   const legalLinks = [
     { href: "/help/", label: "Help" },
     { href: "/privacy/", label: "Privacy" },
@@ -83,26 +78,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 2 — your account */}
-          <div>
-            <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
-              Your Account
-            </h3>
-            <ul className="flex flex-col gap-1">
-              {accountLinks.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="inline-flex items-center min-h-touch py-1 text-lg text-stone-700 hover:text-black hover:underline"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3 — support & legal */}
+          {/* Column 2 — support & legal */}
           <div>
             <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
               Support
