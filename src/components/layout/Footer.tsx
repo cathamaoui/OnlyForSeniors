@@ -11,7 +11,7 @@ import Link from "next/link";
 export function Footer() {
   const primaryLinks = [
     { href: "/about/", label: "About" },
-    { href: "/categories/news/", label: "News" },
+    { href: "/categories/news/", label: "Events" },
     { href: "/categories/", label: "Browse" },
     { href: "/how-it-works/", label: "How It Works" },
     { href: "/for-businesses/", label: "For Businesses" },

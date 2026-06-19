@@ -2,8 +2,8 @@
   "categories": [
     {
       "slug": "news",
-      "name": "What's New (Past 24 Hours)",
-      "icon": "📰",
+      "name": "Calendar of Events",
+      "icon": "📅",
       "color": "#1d4ed8",
       "isNews": true,
       "subcategories": []

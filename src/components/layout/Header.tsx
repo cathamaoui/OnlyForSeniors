@@ -33,7 +33,7 @@ export function Header() {
             href="/categories/news/"
             className="text-base font-semibold text-stone-800 hover:text-black hover:underline underline-offset-4 decoration-2"
           >
-            News
+            Events
           </Link>
           <span aria-hidden="true" className="text-stone-300">·</span>
           <Link

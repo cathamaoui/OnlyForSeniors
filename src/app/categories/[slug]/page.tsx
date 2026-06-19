@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Newspaper, Clock } from "lucide-react";
+import { ArrowLeft, CalendarDays, Sparkles, ArrowUpRight } from "lucide-react";
 import {
   getCategoryBySlug,
   getBusinessesByCategory,
@@ -12,18 +12,18 @@ import { BusinessCard } from "@/components/ui/BusinessCard";
 import { CategoryIcon } from "@/components/ui/CategoryIcon";
 import { SubcategoryCard } from "@/components/ui/SubcategoryCard";
 import { getSubcategoryBlurb } from "@/lib/subcategoryBlurbs";
+import {
+  getAllEvents,
+  getBoostedEvents,
+  getUpcomingEvents,
+  formatEventDateLong,
+  formatEventTimeRange,
+} from "@/lib/events";
+import { EventCard } from "@/components/ui/EventCard";
+import { CalendarGrid } from "@/components/ui/CalendarGrid";
 
 export function generateStaticParams() {
   return getAllCategories().map((c) => ({ slug: c.slug }));
-}
-
-function todayLabel() {
-  return new Date().toLocaleDateString("en-CA", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -46,10 +46,14 @@ export default async function CategoryPage({
   const cat = getCategoryBySlug(slug);
   if (!cat) notFound();
 
-  // News is a special route — it acts as a feed of everything posted or
-  // changed in the past 24 hours, across all categories.
+  // /categories/news/ is the Calendar of Events.
+  // The data category is still slug "news" for backwards compat, but
+  // the page itself is a full calendar with month grid + featured strip
+  // + upcoming list.
   if (slug === "news") {
-    const feed = [...getAllBusinesses()].reverse();
+    const allEvents = getAllEvents();
+    const upcoming = getUpcomingEvents();
+    const boosted = getBoostedEvents();
     return (
       <div className="min-h-screen bg-cream">
         <div className="bg-white">
@@ -60,9 +64,13 @@ export default async function CategoryPage({
             >
               <ArrowLeft className="w-4 h-4" /> All Categories
             </Link>
-            <p className="text-base text-stone-700">
-              {feed.length} update{feed.length === 1 ? "" : "s"}
-            </p>
+            <Link
+              href="/for-businesses/"
+              className="inline-flex items-center gap-2 min-h-touch text-base font-semibold text-black hover:underline"
+            >
+              <Sparkles className="w-4 h-4 text-amber-500" /> Boost your event
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
 
@@ -70,44 +78,66 @@ export default async function CategoryPage({
         <div className="bg-white">
           <div className="max-w-6xl mx-auto px-4 pt-8 pb-6 sm:pt-10 sm:pb-8">
             <div className="flex items-start gap-4">
-              <Newspaper className="w-14 h-14 text-black flex-shrink-0" strokeWidth={1.5} />
+              <CalendarDays className="w-14 h-14 text-black flex-shrink-0" strokeWidth={1.5} />
               <div className="min-w-0">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-black leading-tight">
-                  What&apos;s New
+                  Calendar of Events
                 </h1>
                 <p className="mt-2 text-base sm:text-lg text-stone-700 max-w-2xl">
-                  Everything new or updated across the directory in the last 24 hours.
+                  Free workshops, support groups, clinics, and meetups for Canadian seniors.
+                  Click any day to see what&apos;s on, or browse the upcoming list below.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-          <div className="bg-white rounded-2xl p-5 flex items-start gap-3 shadow-sm">
-            <Clock className="w-5 h-5 mt-0.5 shrink-0 text-black" strokeWidth={1.5} />
-            <div>
-              <p className="font-semibold text-black">
-                Today&apos;s feed — {todayLabel()}
-              </p>
-              <p className="text-base text-stone-700 mt-1">
-                Listings appear in reverse chronological order.
-              </p>
-            </div>
-          </div>
-
-          {feed.length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 text-center shadow-sm">
-              <p className="text-lg text-black font-bold">No new listings today.</p>
-              <p className="text-base text-stone-700 mt-2">Check back tomorrow.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {feed.map((b) => (
-                <BusinessCard key={b.id} business={b} />
-              ))}
-            </div>
+        <div className="max-w-6xl mx-auto px-4 py-8 space-y-12">
+          {/* Boosted events — pinned, prominent */}
+          {boosted.length > 0 && (
+            <section>
+              <div className="flex items-center gap-2 mb-5">
+                <Sparkles className="w-5 h-5 text-amber-500" strokeWidth={2} />
+                <h2 className="text-2xl font-display font-medium text-black">
+                  Featured this month
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {boosted.slice(0, 3).map((e) => (
+                  <EventCard key={e.id} event={e} />
+                ))}
+              </div>
+            </section>
           )}
+
+          {/* Calendar grid */}
+          <section>
+            <h2 className="text-2xl font-display font-medium text-black mb-4">
+              Browse the calendar
+            </h2>
+            <CalendarGrid events={allEvents} />
+          </section>
+
+          {/* All upcoming events, chronological list */}
+          <section>
+            <h2 className="text-2xl font-display font-medium text-black mb-5">
+              All upcoming events
+            </h2>
+            {upcoming.length === 0 ? (
+              <div className="bg-white rounded-2xl p-10 text-center shadow-sm">
+                <p className="text-lg text-black font-bold">No events scheduled.</p>
+                <p className="text-base text-stone-700 mt-2">
+                  Check back soon — new events are added every week.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {upcoming.map((e) => (
+                  <EventCard key={e.id} event={e} />
+                ))}
+              </div>
+            )}
+          </section>
         </div>
       </div>
     );

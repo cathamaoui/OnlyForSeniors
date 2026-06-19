@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ArrowLeft, ChevronRight, Newspaper, Heart, MapPin, BadgeCheck } from "lucide-react";
+import { ArrowLeft, ChevronRight, CalendarDays, Sparkles, Heart, MapPin, BadgeCheck } from "lucide-react";
 import {
   getAllCategories,
   getAllSubcategoriesWithCounts,
   getCategoryCounts,
-  getRecentBusinesses,
 } from "@/lib/businesses";
 import { CategoryIcon } from "@/components/ui/CategoryIcon";
+import { getUpcomingEvents, formatEventDate, formatEventTime } from "@/lib/events";
 
 export const metadata = {
   title: "All Categories — Only For Seniors",
@@ -17,7 +17,7 @@ export default function CategoriesPage() {
   const categories = getAllCategories().filter((c) => c.slug !== "news");
   const subs = getAllSubcategoriesWithCounts();
   const catCounts = getCategoryCounts();
-  const recent = getRecentBusinesses(24, 5);
+  const upcoming = getUpcomingEvents().slice(0, 5);
 
   return (
     <div className="min-h-screen bg-cream">
@@ -48,31 +48,49 @@ export default function CategoriesPage() {
       <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
         {/* Sidebar */}
         <aside className="space-y-6">
-          {/* What's New — soft card, no border */}
+          {/* Upcoming Events — drives traffic to the calendar */}
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-            <div className="bg-black text-white px-4 py-2 flex items-center gap-2">
-              <Newspaper className="w-4 h-4" />
-              <h2 className="font-display font-medium text-base">
-                What&apos;s New (Past 24h)
+            <Link
+              href="/categories/news/"
+              className="bg-black text-white px-4 py-2 flex items-center gap-2 hover:bg-stone-800"
+            >
+              <CalendarDays className="w-4 h-4" />
+              <h2 className="font-display font-medium text-base flex-1">
+                Upcoming Events
               </h2>
-            </div>
-            {recent.length === 0 ? (
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+            {upcoming.length === 0 ? (
               <p className="px-4 py-3 text-base text-stone-700">
-                No new listings in the last 24 hours.
+                No upcoming events. Check back soon.
               </p>
             ) : (
               <ul>
-                {recent.map((b) => (
-                  <li key={b.id}>
+                {upcoming.map((e) => (
+                  <li key={e.id}>
                     <Link
-                      href={`/businesses/${b.id}`}
-                      className="flex items-start justify-between gap-2 px-4 py-3 border-b border-stone-100 last:border-b-0 hover:bg-stone-50"
+                      href={e.url ?? "/categories/news/"}
+                      className="flex items-start gap-3 px-4 py-3 border-b border-stone-100 last:border-b-0 hover:bg-stone-50"
                     >
-                      <div>
-                        <p className="font-semibold text-base line-clamp-1 text-black">{b.name}</p>
-                        <p className="text-base text-stone-700">{b.city}, {b.province}</p>
+                      <div className="flex-shrink-0 w-12 text-center">
+                        <p className="text-[10px] uppercase font-bold text-stone-500">
+                          {formatEventDate(e.startDate).split(",")[0]}
+                        </p>
+                        <p className="text-lg font-display font-bold text-black leading-tight">
+                          {Number(e.startDate.split("-")[2])}
+                        </p>
                       </div>
-                      <ChevronRight className="w-4 h-4 mt-1 text-stone-500" />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold text-sm text-black line-clamp-1">
+                          {e.title}
+                        </p>
+                        <p className="text-xs text-stone-600 line-clamp-1">
+                          {e.city}
+                          {e.isBoosted && (
+                            <Sparkles className="inline w-3 h-3 ml-1 text-amber-500" />
+                          )}
+                        </p>
+                      </div>
                     </Link>
                   </li>
                 ))}
