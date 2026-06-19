@@ -66,7 +66,7 @@ export default async function CategoryPage({
             </Link>
             <Link
               href="/for-businesses/"
-              className="inline-flex items-center gap-2 min-h-touch text-base font-semibold text-black hover:underline"
+              className="inline-flex items-center gap-2 min-h-touch text-base font-semibold text-black hover:underline no-print"
             >
               <Sparkles className="w-4 h-4 text-amber-500" /> Boost your event
               <ArrowUpRight className="w-4 h-4" />
@@ -93,9 +93,11 @@ export default async function CategoryPage({
         </div>
 
         <div className="max-w-6xl mx-auto px-4 py-8 space-y-12">
-          {/* Boosted events — pinned, prominent */}
+          {/* Boosted events — pinned, prominent. Screen-only marketing
+              surface; hidden on print since the printed list already
+              includes every event for the month. */}
           {boosted.length > 0 && (
-            <section>
+            <section className="no-print">
               <div className="flex items-center gap-2 mb-5">
                 <Sparkles className="w-5 h-5 text-amber-500" strokeWidth={2} />
                 <h2 className="text-2xl font-display font-medium text-black">
@@ -111,15 +113,16 @@ export default async function CategoryPage({
           )}
 
           {/* Calendar grid */}
-          <section>
+          <section className="no-print">
             <h2 className="text-2xl font-display font-medium text-black mb-4">
               Browse the calendar
             </h2>
             <CalendarGrid events={allEvents} />
           </section>
 
-          {/* All upcoming events, chronological list */}
-          <section>
+          {/* All upcoming events, chronological list. Screen-only;
+              the printed list already shows every event for the month. */}
+          <section className="no-print">
             <h2 className="text-2xl font-display font-medium text-black mb-5">
               All upcoming events
             </h2>

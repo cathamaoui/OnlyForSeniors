@@ -96,11 +96,18 @@ export function getEventsForMonth(year: number, month0: number): Event[] {
 }
 
 /**
- * Non-boosted events for a given month. Used by the printable list
- * so promoted/featured ads don't show up on printouts.
+ * Events for a given month, sorted the same way as the on-screen
+ * calendar: boosted/featured first, then by date and time. Used by
+ * the printable list. All events (boosted or not) are included so
+ * the printout reflects every public event for the month.
  */
 export function getPrintableEventsForMonth(year: number, month0: number): Event[] {
-  return getEventsForMonth(year, month0).filter((e) => !e.isBoosted);
+  return [...getEventsForMonth(year, month0)].sort((a, b) => {
+    if (a.isBoosted !== b.isBoosted) return a.isBoosted ? -1 : 1;
+    const dc = a.startDate.localeCompare(b.startDate);
+    if (dc !== 0) return dc;
+    return a.startTime.localeCompare(b.startTime);
+  });
 }
 
 /** Lookup a single event by id. */

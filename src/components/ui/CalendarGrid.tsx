@@ -82,7 +82,8 @@ export function CalendarGrid({ events, initialDate }: Props) {
   }
 
   const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
-  // Printable events: non-boosted only, for the currently-displayed month.
+  // Printable events: all events (boosted + non-boosted) for the
+  // currently-displayed month. Sort: boosted first, then by date/time.
   const printMonthEvents = getPrintableEventsForMonth(year, month0);
   // Group consecutive events that share the same startDate into one
   // "day" so the print view is easy to scan.
@@ -261,7 +262,7 @@ export function CalendarGrid({ events, initialDate }: Props) {
                   Print preview — {MONTH_NAMES[month0]} {year}
                 </h2>
                 <p className="text-sm text-stone-600 mt-1">
-                  Choose a layout. Boosted/promoted events are excluded.
+                  Choose a layout. All events for the month are included.
                 </p>
               </div>
               <button
