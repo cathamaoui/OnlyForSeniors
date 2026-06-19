@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 
@@ -16,15 +16,8 @@ import { Search } from "lucide-react";
 export function CategorySearch() {
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  // Autofocus on desktop, never on mobile (annoying for keyboard users).
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia("(min-width: 640px)").matches) {
-      inputRef.current?.focus();
-    }
-  }, []);
 
   function submit() {
     const q = query.trim();
@@ -49,6 +42,19 @@ export function CategorySearch() {
         <label htmlFor="hero-search" className="sr-only">
           Search listings
         </label>
+
+        {/* Search icon on the left of the input — permanent visual cue
+            that this is the right place to type. Hides on focus to give
+            the text room to breathe. */}
+        <span
+          aria-hidden="true"
+          className={`flex items-center justify-center pl-3 text-stone-500 transition-opacity ${
+            focused ? "opacity-0 w-0 pl-0" : "opacity-100"
+          }`}
+        >
+          <Search className="w-5 h-5" strokeWidth={2} />
+        </span>
+
         <input
           ref={inputRef}
           id="hero-search"
@@ -56,8 +62,12 @@ export function CategorySearch() {
           name="q"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          autoComplete="off"
+          spellCheck={false}
           placeholder="What do you need help with today?"
-          className="flex-1 min-h-touch px-4 py-2 text-lg sm:text-xl outline-none bg-transparent text-stone-900 placeholder:text-stone-500"
+          className="hero-search-input flex-1 min-h-touch px-3 py-2 text-lg sm:text-xl outline-none bg-transparent text-stone-900 placeholder:text-stone-500"
           aria-label="Search"
         />
 

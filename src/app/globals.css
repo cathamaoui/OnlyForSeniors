@@ -65,6 +65,22 @@ strong, b {
   color: #fff;
 }
 
+/* Defeat the browser's autofill background (yellow/blue/red/etc.) on the
+   hero search input — keeps our pure-white design consistent and prevents
+   the password manager's overlay from showing through as a red box. The
+   long `-webkit-box-shadow` trick overrides the default autofill tint
+   without disabling the field. */
+.hero-search-input:-webkit-autofill,
+.hero-search-input:-webkit-autofill:hover,
+.hero-search-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0a0a0a;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  background-color: #ffffff !important;
+  caret-color: #0a0a0a;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
