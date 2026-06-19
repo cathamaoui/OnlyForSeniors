@@ -67,12 +67,12 @@ export function Footer() {
             <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
               Site
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-1">
               {primaryLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-lg text-stone-700 hover:text-black hover:underline"
+                    className="inline-flex items-center min-h-touch py-1 text-lg text-stone-700 hover:text-black hover:underline"
                   >
                     {l.label}
                   </Link>
@@ -86,12 +86,12 @@ export function Footer() {
             <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
               Your Account
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-1">
               {accountLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-lg text-stone-700 hover:text-black hover:underline"
+                    className="inline-flex items-center min-h-touch py-1 text-lg text-stone-700 hover:text-black hover:underline"
                   >
                     {l.label}
                   </Link>
@@ -105,12 +105,12 @@ export function Footer() {
             <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
               Support
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-1">
               {legalLinks.map((l) => (
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="text-lg text-stone-700 hover:text-black hover:underline"
+                    className="inline-flex items-center min-h-touch py-1 text-lg text-stone-700 hover:text-black hover:underline"
                   >
                     {l.label}
                   </Link>

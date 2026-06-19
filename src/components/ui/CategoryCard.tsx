@@ -48,13 +48,14 @@ export function CategoryCard({ category, description }: Props) {
         {subCount > 0 ? `${subCount} service${subCount === 1 ? "" : "s"}` : "Category"}
       </p>
 
-      {/* Description (optional) */}
+      {/* Description (optional) — clamped to 3 lines so cards stay
+          scannable on mobile. Full text is in the category description. */}
       {description ? (
-        <p className="mt-4 text-base text-stone-700 leading-relaxed">
+        <p className="mt-4 text-base text-stone-700 leading-relaxed line-clamp-3">
           {description}
         </p>
       ) : category.description ? (
-        <p className="mt-4 text-base text-stone-700 leading-relaxed">
+        <p className="mt-4 text-base text-stone-700 leading-relaxed line-clamp-3">
           {category.description}
         </p>
       ) : null}

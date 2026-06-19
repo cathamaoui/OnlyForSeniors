@@ -77,7 +77,7 @@ export default function HomePage() {
             For Canadian seniors
           </p>
 
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium leading-[0.95] tracking-tight max-w-4xl text-black">
+          <h1 className="mt-3 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium leading-[1.05] sm:leading-[0.95] tracking-tight max-w-4xl text-black text-balance">
             Your Trusted Hub for{" "}
             <span className="italic font-display font-medium text-black">
               Senior Living

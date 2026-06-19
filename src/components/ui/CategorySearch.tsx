@@ -66,9 +66,10 @@ export function CategorySearch() {
           onBlur={() => setFocused(false)}
           autoComplete="off"
           spellCheck={false}
-          placeholder="What do you need help with today?"
+          placeholder="Search for help…"
           className="hero-search-input flex-1 min-h-touch px-3 py-2 text-lg sm:text-xl outline-none bg-transparent text-stone-900 placeholder:text-stone-500"
-          aria-label="Search"
+          aria-label="Search listings"
+          aria-placeholder="What do you need help with today?"
         />
 
         <button

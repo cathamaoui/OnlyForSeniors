@@ -57,9 +57,9 @@ export function SubcategoryCard({
           : "Subcategory"}
       </p>
 
-      {/* Description */}
+      {/* Description — clamped to 3 lines so cards stay scannable on mobile. */}
       {blurb ? (
-        <p className="mt-4 text-base text-stone-700 leading-relaxed">
+        <p className="mt-4 text-base text-stone-700 leading-relaxed line-clamp-3">
           {blurb}
         </p>
       ) : null}

@@ -174,3 +174,73 @@ strong, b {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================================
+   Mobile / touch optimizations
+   ============================================================================ */
+
+/* Kill the gray flash on tap (iOS Safari + Android Chrome). */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Disable double-tap-to-zoom on buttons (300ms delay removal). */
+button,
+[role="button"],
+a {
+  touch-action: manipulation;
+}
+
+/* Respect iOS safe-area notches on fixed/sticky elements. */
+@supports (padding: max(0px)) {
+  .safe-x {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  .safe-top {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+  .safe-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Anchor scroll offset so sticky header doesn't cover anchor targets. */
+:target {
+  scroll-margin-top: 6rem;
+}
+
+/* Better text wrapping on mobile headings (prevents orphans / awkward breaks). */
+h1, h2 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+/* Smooth scroll for in-page anchors; respects reduced-motion preference. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Sticky-header-aware scroll on focus jumps. */
+:focus-visible {
+  scroll-margin-top: 6rem;
+}
+
+/* Mobile-friendly horizontal scroll on tables and code blocks. */
+table, pre {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make sure the browser autofill background on category cards doesn't
+   leak the yellow/red flash either. */
+.bg-white:-webkit-autofill,
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+}

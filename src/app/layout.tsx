@@ -28,13 +28,22 @@ export const metadata: Metadata = {
     description:
       "The friendly Canadian directory for seniors. Trusted services, products, and delivery.",
   },
+  appleWebApp: {
+    capable: true,
+    title: "Only For Seniors",
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#ffffff",
+  themeColor: "#f3ede4",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
