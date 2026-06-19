@@ -24,6 +24,7 @@ import {
   Building2,
   ShoppingCart,
   Laptop,
+  Plane,
   HeartHandshake,
   ShieldCheck,
   Search,
@@ -36,6 +37,7 @@ const SLUG_TO_ICON: Record<string, LucideIcon> = {
   "home-adaptations": Wrench,
   "active-aging-recreation": Theater,
   "training-careers": Briefcase,
+  "senior-travel": Plane,
   "active-aging": Theater, // legacy
   "wellness-comfort": Brain,
   "tech-help-for-seniors": Laptop,

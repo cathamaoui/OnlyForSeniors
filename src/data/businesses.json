@@ -67,12 +67,36 @@
           "name": "Intergenerational Social Networks"
         },
         {
-          "slug": "senior-travel",
-          "name": "Senior-Centric Travel Experts"
-        },
-        {
           "slug": "adaptive-fitness",
           "name": "Adaptive Sports & Fitness Instructors"
+        }
+      ]
+    },
+    {
+      "slug": "senior-travel",
+      "name": "Senior Travel",
+      "icon": "✈️",
+      "color": "#0891b2",
+      "subcategories": [
+        {
+          "slug": "travel-agents",
+          "name": "Senior Travel Agents"
+        },
+        {
+          "slug": "group-tours",
+          "name": "Group Tours for Seniors"
+        },
+        {
+          "slug": "accessible-travel",
+          "name": "Accessible & Mobility-Friendly Travel"
+        },
+        {
+          "slug": "cruises",
+          "name": "Senior-Friendly Cruises"
+        },
+        {
+          "slug": "day-trips",
+          "name": "Local Day Trips & Excursions"
         }
       ]
     },

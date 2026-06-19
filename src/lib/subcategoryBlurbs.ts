@@ -30,10 +30,20 @@ export const SUB_CATEGORY_BLURBS: Record<string, string> = {
   // active-aging-recreation
   "active-aging-recreation/intergenerational":
     "Social groups that bring generations together.",
-  "active-aging-recreation/senior-travel":
-    "Travel experts who specialize in senior-friendly trips.",
   "active-aging-recreation/adaptive-fitness":
     "Fitness trainers and adaptive sports for every ability.",
+
+  // senior-travel
+  "senior-travel/travel-agents":
+    "Travel agents who specialize in trips for older adults.",
+  "senior-travel/group-tours":
+    "Small-group tours with senior-friendly pacing and support.",
+  "senior-travel/accessible-travel":
+    "Accessible and mobility-friendly travel, cruises, and resorts.",
+  "senior-travel/cruises":
+    "Senior-friendly cruises with accessible cabins and excursions.",
+  "senior-travel/day-trips":
+    "Local day trips and one-day excursions near you.",
 
   // training-careers
   "training-careers/encore-career":

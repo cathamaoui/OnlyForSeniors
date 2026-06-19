@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   Search,
   Laptop,
+  Plane,
   type LucideIcon,
 } from "lucide-react";
 import type { Category } from "@/lib/businesses";
@@ -45,6 +46,7 @@ const SLUG_TO_ICON: Record<string, LucideIcon> = {
   "home-adaptations": Wrench,
   "active-aging-recreation": Theater,
   "training-careers": Briefcase,
+  "senior-travel": Plane,
   "active-aging": Theater, // legacy
   "wellness-comfort": Brain,
   "tech-help-for-seniors": Laptop,

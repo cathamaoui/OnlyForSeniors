@@ -17,9 +17,11 @@ export const metadata = {
  */
 const CATEGORY_BLURBS: Record<string, string> = {
   "active-aging-recreation":
-    "Fitness, travel, and intergenerational programs to keep you active and connected.",
+    "Fitness and intergenerational programs to keep you active and connected.",
   "training-careers":
     "Career coaching, skills training, and volunteer-to-paid pathways for encore careers.",
+  "senior-travel":
+    "Travel agents, group tours, cruises, and accessible trips designed for older travelers.",
   community:
     "Senior centres, day programs, recreation, and caregiver relief.",
   dating: "Senior dating sites, matchmaking, and companionship clubs.",

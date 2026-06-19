@@ -300,7 +300,6 @@ export const CATEGORY_INTENTS: CategoryIntent[] = [
     keywords: [
       "fitness", "exercise", "yoga", "tai chi", "stretch",
       "recreation", "hobby", "hobbies", "class", "classes",
-      "travel", "tour", "vacation", "trip",
       "intergenerational",
       "adaptive", "sport", "sports",
     ],
@@ -308,8 +307,27 @@ export const CATEGORY_INTENTS: CategoryIntent[] = [
       "i want to stay fit",
       "exercise classes for seniors",
       "yoga for older adults",
-      "travel for seniors",
+    ],
+  },
+  {
+    slug: "senior-travel",
+    keywords: [
+      "travel", "traveling", "travelling", "trip", "tour",
+      "vacation", "holiday", "cruise", "cruises",
+      "flight", "flights", "airfare",
+      "passport", "visa",
+      "resort", "destination", "getaway",
+      "accessible travel", "mobility travel",
+      "day trip", "excursion",
+    ],
+    subHints: [
       "i want to travel",
+      "travel for seniors",
+      "i need a travel agent",
+      "accessible travel",
+      "senior cruise",
+      "day trip near me",
+      "group tour",
     ],
   },
   {
