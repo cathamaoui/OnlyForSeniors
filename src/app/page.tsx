@@ -97,7 +97,7 @@ export default function HomePage() {
           {/* Search bar — plain input, no All Categories button. Category
               discovery happens through the tiles below. */}
           <div className="mt-8 max-w-4xl">
-            <CategorySearch />
+            <CategorySearch categories={allCats} />
           </div>
 
           {/* Trust strip */}
