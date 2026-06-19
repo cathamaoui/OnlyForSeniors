@@ -80,11 +80,7 @@ export default function HomePage() {
       {/* HERO */}
       <section className="bg-cream">
         <div className="max-w-6xl mx-auto px-4 pt-6 pb-10 md:pt-10 md:pb-14">
-          <p className="text-base font-semibold text-stone-700 mb-5">
-            For Canadian seniors
-          </p>
-
-          <h1 className="mt-3 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium leading-[1.05] sm:leading-[0.95] tracking-tight max-w-4xl text-black text-balance">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium leading-[1.05] sm:leading-[0.95] tracking-tight max-w-4xl text-black text-balance">
             Your Trusted Hub for{" "}
             <span className="italic font-display font-medium text-black">
               Senior Living
