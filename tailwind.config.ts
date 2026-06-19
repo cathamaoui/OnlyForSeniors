@@ -38,10 +38,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Fraunces — modern variable serif with optical sizing. Used for
-        // headings (display role). Elegant, editorial feel — taste-skill
-        // style — while still being highly legible at 40px+ sizes.
-        display: ['"Fraunces"', "Georgia", "serif"],
+        // Prompt — modern serif designed by Cadson Demak. Soft, elegant
+        // terminals with subtle calligraphic warmth. Used for headings
+        // (display role). Pairs an editorial feel with strong legibility
+        // at display sizes for seniors.
+        display: ['"Prompt"', "Georgia", "serif"],
         // Atkinson Hyperlegible — designed by the Braille Institute
         // specifically for low-vision readers. Kept for body text so
         // paragraphs remain maximally accessible to seniors.
