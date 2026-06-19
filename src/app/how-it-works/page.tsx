@@ -36,7 +36,7 @@ const STEPS = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       <div className="max-w-4xl mx-auto px-4 py-12 sm:py-16">
         <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-3 text-center">
           How Only For Seniors Works

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Type, Check } from "lucide-react";
+import { Check } from "lucide-react";
 
 const STORAGE_KEY = "ofs-font-scale";
 const MIN_SCALE = 0.85;
@@ -73,26 +73,28 @@ export function FontResizer() {
 
   return (
     <div ref={wrapRef} className="relative">
+      {/* Closed state — a plain text link labelled "Text size" so seniors
+          immediately understand what this control does. No icon, no
+          bubble. Mirrors the rest of the header. */}
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Adjust text size"
-        title="Text size"
-        className="inline-flex items-center justify-center min-h-touch min-w-touch p-2 text-stone-800 bg-white border-2 border-stone-500 rounded-lg hover:bg-stone-100 hover:border-black"
+        className="inline-flex items-center gap-1 text-base font-semibold text-stone-800 hover:text-black hover:underline"
       >
-        <Type className="w-5 h-5" strokeWidth={2.25} />
+        Text size
       </button>
 
       {open && (
         <div
           role="menu"
           aria-label="Text size"
-          className="absolute right-0 mt-2 w-56 bg-white border-2 border-black rounded-lg shadow-lg overflow-hidden z-30"
+          className="absolute right-0 mt-2 w-64 bg-white border-2 border-black rounded-lg shadow-lg overflow-hidden z-30"
         >
-          <p className="px-4 py-2 text-base font-semibold text-stone-800 border-b border-stone-200 bg-stone-50">
-            Text size
+          <p className="px-4 py-2 text-base font-bold text-stone-900 border-b border-stone-200 bg-cream-100">
+            Pick a text size
           </p>
           <ul className="py-1">
             {SIZES.map((s) => {
@@ -104,24 +106,36 @@ export function FontResizer() {
                     role="menuitemradio"
                     aria-checked={active}
                     onClick={() => choose(s.value)}
-                    className="w-full flex items-center justify-between gap-3 px-4 py-2 text-left text-base text-stone-800 hover:bg-stone-100"
+                    className={`w-full flex items-center justify-between gap-3 px-4 py-3 text-left text-stone-900 hover:bg-stone-100 ${
+                      active ? "bg-stone-100" : ""
+                    }`}
                   >
-                    <span className="flex items-center gap-3">
+                    {/* Show the literal "Aa" preview rendered at the target
+                        size, so seniors can SEE what they're picking. */}
+                    <span className="flex items-baseline gap-3">
                       <span
-                        className="inline-block font-bold leading-none"
-                        style={{ fontSize: `${14 * s.value}px` }}
+                        className="inline-block font-display font-bold leading-none"
+                        style={{ fontSize: `${16 * s.value}px` }}
                         aria-hidden="true"
                       >
                         Aa
                       </span>
-                      <span>{s.label}</span>
+                      <span
+                        className="font-semibold"
+                        style={{ fontSize: `${14 * s.value}px` }}
+                      >
+                        {s.label}
+                      </span>
                     </span>
-                    {active && <Check className="w-4 h-4 text-blue-700 shrink-0" />}
+                    {active && <Check className="w-5 h-5 text-black shrink-0" />}
                   </button>
                 </li>
               );
             })}
           </ul>
+          <p className="px-4 py-2 text-sm text-stone-700 border-t border-stone-200 bg-cream-100">
+            We&apos;ll remember your choice.
+          </p>
         </div>
       )}
     </div>

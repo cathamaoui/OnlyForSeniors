@@ -4,7 +4,7 @@ export const metadata = {
 
 export default function AccessibilityPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
         <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-6">
           Accessibility Statement

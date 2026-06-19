@@ -44,7 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-CA">
-      <body className="min-h-screen flex flex-col bg-white">
+      <body className="min-h-screen flex flex-col bg-cream">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50

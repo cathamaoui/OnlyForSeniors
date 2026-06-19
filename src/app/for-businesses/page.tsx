@@ -90,7 +90,7 @@ const faqs = [
 
 export default function ForBusinessesPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       {/* HERO */}
       <section className="bg-white border-b border-stone-200">
         <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 text-center">

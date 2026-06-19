@@ -25,7 +25,9 @@ html {
 body {
   font-family: "Atkinson Hyperlegible", system-ui, -apple-system, sans-serif;
   color: #0a0a0a;
-  background: #ffffff;
+  /* Warm cream/parchment — sampled from taste-skill's hero. Feels softer
+     and warmer than pure white, easier on aging eyes. */
+  background: #f3ede4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;

@@ -49,7 +49,7 @@ export default async function CategoryPage({
   if (slug === "news") {
     const feed = [...getAllBusinesses()].reverse();
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-cream">
         <div className="bg-white">
           <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-3 flex-wrap">
             <Link
@@ -124,7 +124,7 @@ export default async function CategoryPage({
     subs.find((s) => s.subcategory.slug === subSlug)?.count ?? 0;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       {/* Top bar */}
       <div className="bg-white">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">

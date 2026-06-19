@@ -20,7 +20,7 @@ export default function CategoriesPage() {
   const recent = getRecentBusinesses(24, 5);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       {/* Top bar */}
       <div className="bg-white">
         <div className="max-w-6xl mx-auto px-4 py-4">

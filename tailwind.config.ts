@@ -23,6 +23,19 @@ const config: Config = {
         ink: "#0a0a0a",
         paper: "#fffdf2",
         dial: "#c8102e",
+        // Warm cream/parchment palette — sampled from taste-skill's
+        // hero (warm sandstone, slight texture). Used as page background
+        // to give the site a softer, warmer feel. Pure white is reserved
+        // for cards, inputs, and any surface that needs contrast.
+        cream: {
+          DEFAULT: "#f3ede4",
+          50: "#fbf8f3",
+          100: "#f7f2ea",
+          200: "#f3ede4",
+          300: "#ebe3d5",
+          400: "#e0d4bf",
+          500: "#cfc1a8",
+        },
       },
       fontFamily: {
         display: ['"Bitter"', "Georgia", "serif"],

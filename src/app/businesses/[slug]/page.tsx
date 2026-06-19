@@ -45,7 +45,7 @@ export default async function BusinessDetailPage({
   const sub = getSubcategory(b.subcategorySlug);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       <div className="border-b-2 border-black bg-white">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link

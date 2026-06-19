@@ -14,19 +14,16 @@ export default function HomePage() {
   const allCats = getAllCategories();
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero / Search — taste-skill-inspired. Pure white background, massive
+    <div className="min-h-screen bg-cream">
+      {/* Hero / Search — taste-skill-inspired. Warm cream background, massive
           Bitter serif headline with italic accent, single big search input
           with a categories dropdown that opens to the full list. */}
-      <section className="bg-white">
+      <section className="bg-cream">
         <div className="max-w-6xl mx-auto px-4 pt-6 pb-10 md:pt-10 md:pb-16">
           {/* Eyebrow — subtle accent label above the H1 */}
-          <div className="flex items-center gap-3 mb-5">
-            <span className="block w-8 h-[3px] bg-black" aria-hidden="true" />
-            <p className="text-base font-semibold text-stone-700">
-              For Canadians 65 and older
-            </p>
-          </div>
+          <p className="text-base font-semibold text-stone-700 mb-5">
+            For Canadians 65 and older
+          </p>
 
           {/* H1 — value proposition. Massive serif with italic accent. */}
           <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] tracking-tight max-w-4xl text-black">
