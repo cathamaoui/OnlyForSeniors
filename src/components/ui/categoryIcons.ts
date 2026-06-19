@@ -25,6 +25,7 @@ import {
   ShoppingCart,
   Laptop,
   Plane,
+  Dumbbell,
   HeartHandshake,
   ShieldCheck,
   Search,
@@ -35,7 +36,7 @@ const SLUG_TO_ICON: Record<string, LucideIcon> = {
   news: Newspaper,
   "transition-downsizing": Package,
   "home-adaptations": Wrench,
-  "active-aging-recreation": Theater,
+  "active-aging-recreation": Dumbbell,
   "training-careers": Briefcase,
   "senior-travel": Plane,
   "active-aging": Theater, // legacy

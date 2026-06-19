@@ -72,7 +72,7 @@ export function MobileMenu() {
           <nav
             id="mobile-menu"
             aria-label="Main navigation"
-            className="fixed top-0 left-0 right-0 z-50 bg-cream border-b-2 border-stone-900 shadow-2xl md:hidden max-h-[90vh] overflow-y-auto"
+            className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-stone-900 shadow-2xl md:hidden max-h-[90vh] overflow-y-auto"
           >
             <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between border-b border-stone-300">
               <Link

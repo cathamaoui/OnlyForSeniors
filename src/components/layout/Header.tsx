@@ -7,7 +7,7 @@ export function Header() {
   return (
     // Header — sits on the cream page background. Wordmark + tagline on
     // the left (no logo tile), desktop nav on the right.
-    <header className="bg-cream sticky top-0 z-20 border-b border-stone-200/70">
+    <header className="bg-white sticky top-0 z-20 border-b border-stone-200/70">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-6">
         {/* Brand block: wordmark only, no tagline */}
         <Link

@@ -25,6 +25,7 @@ import {
   Search,
   Laptop,
   Plane,
+  Dumbbell,
   type LucideIcon,
 } from "lucide-react";
 import type { Category } from "@/lib/businesses";
@@ -44,7 +45,7 @@ const SLUG_TO_ICON: Record<string, LucideIcon> = {
   // The 5 main age-banded categories (homepage sidebar)
   "transition-downsizing": Package,
   "home-adaptations": Wrench,
-  "active-aging-recreation": Theater,
+  "active-aging-recreation": Dumbbell,
   "training-careers": Briefcase,
   "senior-travel": Plane,
   "active-aging": Theater, // legacy
