@@ -60,7 +60,9 @@ export function CategorySearch({ categories, placeholder }: Props) {
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder ?? "Search for any service, by name or by need…"}
           aria-label="Search"
-          className="flex-1 min-h-touch px-3 py-3 text-lg outline-none"
+          autoComplete="off"
+          spellCheck={false}
+          className="flex-1 min-h-touch px-3 py-3 text-lg outline-none bg-white"
         />
       </div>
       <button

@@ -48,8 +48,10 @@ export function SearchClient({ businesses, categories }: Props) {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by keyword or describe what you need…"
-            className="flex-1 min-h-touch px-3 py-3 text-lg outline-none"
             aria-label="Search listings and categories"
+            autoComplete="off"
+            spellCheck={false}
+            className="flex-1 min-h-touch px-3 py-3 text-lg outline-none bg-white"
           />
         </div>
         <button
