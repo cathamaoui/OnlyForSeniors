@@ -23,6 +23,7 @@ import {
   Users,
   Building2,
   ShoppingCart,
+  Laptop,
   HeartHandshake,
   ShieldCheck,
   Search,
@@ -35,7 +36,9 @@ const SLUG_TO_ICON: Record<string, LucideIcon> = {
   "home-adaptations": Wrench,
   "active-aging": Theater,
   "wellness-comfort": Brain,
-  "concierge-tech": Briefcase,
+  "tech-help-for-seniors": Laptop,
+  "senior-concierge-errands": Briefcase,
+  "concierge-tech": Briefcase, // legacy slug — kept for any old references
   "falls-wandering": AlertTriangle,
   "pet-therapy": Dog,
   pastoral: Church,

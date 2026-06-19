@@ -101,30 +101,14 @@
       ]
     },
     {
-      "slug": "concierge-tech",
-      "name": "Senior Concierge & Tech Help",
-      "icon": "🧑‍‍💼",
+      "slug": "tech-help-for-seniors",
+      "name": "Tech Help for Seniors",
+      "icon": "💻",
       "color": "#0e7490",
       "subcategories": [
         {
-          "slug": "adult-day-centres",
-          "name": "Adult Day Centres"
-        },
-        {
-          "slug": "senior-concierge",
-          "name": "Senior Concierge Services"
-        },
-        {
-          "slug": "fraud-prevention",
-          "name": "Fraud & Scam Prevention"
-        },
-        {
           "slug": "tech-training",
           "name": "Tech Literacy Mentoring"
-        },
-        {
-          "slug": "digital-organization",
-          "name": "Digital Document Organization"
         },
         {
           "slug": "smartphone-help",
@@ -139,12 +123,36 @@
           "name": "Online Banking Help"
         },
         {
-          "slug": "companion-drivers",
-          "name": "On-Demand Companion Drivers"
+          "slug": "digital-organization",
+          "name": "Digital Document Organization"
+        }
+      ]
+    },
+    {
+      "slug": "senior-concierge-errands",
+      "name": "Senior Concierge & Errands",
+      "icon": "🧑‍💼",
+      "color": "#155e75",
+      "subcategories": [
+        {
+          "slug": "senior-concierge",
+          "name": "Senior Concierge Services"
         },
         {
           "slug": "errand-services",
           "name": "Errand & Concierge Services"
+        },
+        {
+          "slug": "companion-drivers",
+          "name": "On-Demand Companion Drivers"
+        },
+        {
+          "slug": "adult-day-centres",
+          "name": "Adult Day Centres"
+        },
+        {
+          "slug": "fraud-prevention",
+          "name": "Fraud & Scam Prevention"
         }
       ]
     },

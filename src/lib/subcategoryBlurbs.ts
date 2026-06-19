@@ -45,27 +45,29 @@ export const SUB_CATEGORY_BLURBS: Record<string, string> = {
   "wellness-comfort/loneliness-grief":
     "Friendly visitors, grief support, and companionship.",
 
-  // concierge-tech
-  "concierge-tech/adult-day-centres":
-    "Structured daytime programs with activities and meals.",
-  "concierge-tech/senior-concierge":
-    "Personal concierge help for errands, scheduling, and life admin.",
-  "concierge-tech/fraud-prevention":
-    "Help recognizing scams and securing your accounts.",
-  "concierge-tech/tech-training":
+  // tech-help-for-seniors
+  "tech-help-for-seniors/tech-training":
     "Patient, one-on-one tech lessons for any skill level.",
-  "concierge-tech/digital-organization":
-    "Photo, document, and password organization made simple.",
-  "concierge-tech/smartphone-help":
+  "tech-help-for-seniors/smartphone-help":
     "iPhone and Android setup, lessons, and troubleshooting.",
-  "concierge-tech/video-calls":
+  "tech-help-for-seniors/video-calls":
     "Get set up on Zoom, FaceTime, or WhatsApp video calls.",
-  "concierge-tech/online-banking":
+  "tech-help-for-seniors/online-banking":
     "Patient help with banking apps, transfers, and bill pay.",
-  "concierge-tech/companion-drivers":
-    "Friendly drivers for appointments, errands, and visits.",
-  "concierge-tech/errand-services":
+  "tech-help-for-seniors/digital-organization":
+    "Photo, document, and password organization made simple.",
+
+  // senior-concierge-errands
+  "senior-concierge-errands/senior-concierge":
+    "Personal concierge help for errands, scheduling, and life admin.",
+  "senior-concierge-errands/errand-services":
     "Grocery runs, pharmacy pickup, and personal shopping.",
+  "senior-concierge-errands/companion-drivers":
+    "Friendly drivers for appointments, errands, and visits.",
+  "senior-concierge-errands/adult-day-centres":
+    "Structured daytime programs with activities and meals.",
+  "senior-concierge-errands/fraud-prevention":
+    "Help recognizing scams and securing your accounts.",
 
   // falls-wandering
   "falls-wandering/fall-detection":

@@ -23,6 +23,7 @@ import {
   HeartHandshake,
   ShieldCheck,
   Search,
+  Laptop,
   type LucideIcon,
 } from "lucide-react";
 import type { Category } from "@/lib/businesses";
@@ -44,7 +45,9 @@ const SLUG_TO_ICON: Record<string, LucideIcon> = {
   "home-adaptations": Wrench,
   "active-aging": Theater,
   "wellness-comfort": Brain,
-  "concierge-tech": Briefcase,
+  "tech-help-for-seniors": Laptop,
+  "senior-concierge-errands": Briefcase,
+  "concierge-tech": Briefcase, // legacy
 
   // Equipment / safety
   "falls-wandering": AlertTriangle,

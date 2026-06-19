@@ -53,8 +53,10 @@ const CATEGORY_BLURBS: Record<string, string> = {
     "Senior move managers, estate sales, memoir writers, and legacy services.",
   "volunteer":
     "Volunteer opportunities, board positions, and skills-based giving.",
-  "concierge-tech":
-    "Smartphone help, video calls, online banking, scam protection, and errand running.",
+  "tech-help-for-seniors":
+    "Patient, one-on-one tech help for smartphones, video calls, online banking, and digital organization.",
+  "senior-concierge-errands":
+    "Errands, companion drivers, adult day programs, fraud protection, and personal concierge services.",
   "wellness-comfort":
     "Mobile hair and beauty, adult day clubs, and loneliness and grief support.",
 };
