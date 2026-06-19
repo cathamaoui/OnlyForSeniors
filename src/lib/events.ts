@@ -95,6 +95,14 @@ export function getEventsForMonth(year: number, month0: number): Event[] {
     });
 }
 
+/**
+ * Non-boosted events for a given month. Used by the printable list
+ * so promoted/featured ads don't show up on printouts.
+ */
+export function getPrintableEventsForMonth(year: number, month0: number): Event[] {
+  return getEventsForMonth(year, month0).filter((e) => !e.isBoosted);
+}
+
 /** Lookup a single event by id. */
 export function getEventById(id: string): Event | null {
   return events.find((e) => e.id === id) ?? null;

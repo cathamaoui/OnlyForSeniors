@@ -195,20 +195,96 @@ table, pre {
   display: none;
 }
 
+/* On-screen print preview mirror — visible only when the user opens
+   the modal. Looks like the printed page so they can sanity-check
+   before sending to the printer. Hidden in @media print. */
+.print-only-preview {
+  color: #000;
+  background: #fff;
+  font-size: 11pt;
+  line-height: 1.4;
+  font-family: var(--font-display, Georgia, serif);
+}
+.print-only-preview header h1 {
+  font-size: 22pt;
+  font-weight: 600;
+  margin: 0 0 4pt 0;
+}
+.print-only-preview header p {
+  font-size: 9pt;
+  color: #444;
+  margin: 0 0 14pt 0;
+  border-bottom: 1px solid #999;
+  padding-bottom: 8pt;
+}
+.print-only-preview ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.print-only-preview > ol > li {
+  margin: 0 0 12pt 0;
+  padding: 0 0 8pt 0;
+  border-bottom: 1px solid #ddd;
+}
+.print-only-preview > ol > li:last-child {
+  border-bottom: none;
+}
+.print-only-preview h2 {
+  font-size: 13pt;
+  font-weight: 600;
+  margin: 0 0 6pt 0;
+}
+.print-only-preview article {
+  margin: 0 0 8pt 0;
+}
+.print-only-preview article:last-child {
+  margin-bottom: 0;
+}
+.print-only-preview h3 {
+  font-size: 11.5pt;
+  font-weight: 600;
+  margin: 0 0 3pt 0;
+}
+.print-only-preview p {
+  font-size: 10pt;
+  margin: 0 0 2pt 0;
+}
+.print-only-preview p em {
+  font-style: italic;
+  color: #444;
+}
+/* Condensed: hide description/organizer/price in the on-screen
+   preview so it actually looks condensed. */
+.print-only-preview[data-print-mode="condensed"] .description,
+.print-only-preview[data-print-mode="condensed"] .organizer,
+.print-only-preview[data-print-mode="condensed"] .price {
+  display: none;
+}
+
 /* ───────────────────────────────────────────────────────────────
    PRINT: "Print this month" calendar view
    Hides everything on screen except the .print-only block inside
    the CalendarGrid. Renders a clean printable list of events for
-   the month currently shown.
+   the month currently shown — Detailed or Condensed.
    ─────────────────────────────────────────────────────────────── */
 @media print {
-  /* Screen-only chrome is hidden when printing. */
+  /* Screen-only chrome is hidden when printing, including the
+     on-screen preview modal itself. */
   .no-print,
   header.site-header,
   footer.site-footer,
   nav.site-nav,
   .site-sidebar,
-  .print-hide {
+  .print-hide,
+  .print-only-preview {
+    display: none !important;
+  }
+  /* Hide the entire calendar grid + selected-day list — only the
+     printable event list should appear on paper. */
+  .calendar-grid,
+  .calendar-grid + div,
+  [data-calendar-selected] {
     display: none !important;
   }
   /* The print-only block becomes the page. */
@@ -222,6 +298,19 @@ table, pre {
     font-size: 11pt;
     line-height: 1.4;
   }
+  /* Default: hide both layouts. The matching one is revealed
+     below based on data-print-mode. */
+  .print-only .print-only-detailed,
+  .print-only .print-only-condensed {
+    display: none;
+  }
+  /* Show the active layout. */
+  .print-only[data-print-mode="detailed"] .print-only-detailed {
+    display: block;
+  }
+  .print-only[data-print-mode="condensed"] .print-only-condensed {
+    display: block;
+  }
   /* Strip the surrounding app shell from the printable view. */
   body {
     background: #fff !important;
@@ -232,7 +321,7 @@ table, pre {
     size: Letter;
     margin: 0.6in 0.6in 0.7in 0.6in;
   }
-  /* Print-only typography. */
+  /* Shared typography for both layouts. */
   .print-only header h1 {
     font-family: var(--font-display, Georgia, serif);
     font-size: 22pt;
@@ -252,25 +341,25 @@ table, pre {
     margin: 0;
     padding: 0;
   }
-  .print-only > ol > li {
+  .print-only > div > ol > li {
     page-break-inside: avoid;
     break-inside: avoid;
-    margin: 0 0 14pt 0;
+    margin: 0 0 12pt 0;
     padding: 0 0 8pt 0;
     border-bottom: 1px solid #ddd;
   }
-  .print-only > ol > li:last-child {
+  .print-only > div > ol > li:last-child {
     border-bottom: none;
   }
   .print-only h2 {
     font-family: var(--font-display, Georgia, serif);
     font-size: 13pt;
     font-weight: 600;
-    margin: 0 0 8pt 0;
+    margin: 0 0 6pt 0;
     color: #000;
   }
   .print-only article {
-    margin: 0 0 8pt 0;
+    margin: 0 0 6pt 0;
     padding: 0;
   }
   .print-only article:last-child {
@@ -278,7 +367,7 @@ table, pre {
   }
   .print-only h3 {
     font-family: var(--font-display, Georgia, serif);
-    font-size: 11.5pt;
+    font-size: 11pt;
     font-weight: 600;
     margin: 0 0 3pt 0;
     color: #000;
@@ -308,6 +397,21 @@ table, pre {
     color: #555;
   }
   .print-only footer p {
+    margin: 0;
+  }
+  /* Condensed-only compact rows: no description, no organizer,
+     no price. Just title + time + venue, tight spacing. */
+  .print-only-condensed article.condensed-row {
+    margin: 0 0 4pt 0;
+  }
+  .print-only-condensed article.condensed-row h3 {
+    display: inline;
+    font-size: 10.5pt;
+    margin: 0;
+  }
+  .print-only-condensed article.condensed-row p {
+    display: inline;
+    font-size: 10pt;
     margin: 0;
   }
   /* Hide links and anchors in print (URLs are shown inline next to the title). */

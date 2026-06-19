@@ -1,17 +1,18 @@
 "use client";
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Sparkles, Printer } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, Printer, X, FileText, List } from "lucide-react";
 import {
   Event,
   getEventsForDate,
-  getEventsForMonth,
+  getPrintableEventsForMonth,
   toIsoDate,
   parseLocalDate,
   getCalendarGridStart,
   daysInMonth,
   formatEventDateLong,
   formatEventTimeRange,
+  formatEventDate,
 } from "@/lib/events";
 import { EventCard } from "@/components/ui/EventCard";
 
@@ -39,6 +40,10 @@ export function CalendarGrid({ events, initialDate }: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   /** Ref to the "selected day" container so we can scroll into view. */
   const selectedRef = useRef<HTMLDivElement | null>(null);
+  /** "detailed" = full cards w/ description, "condensed" = title+date+time+venue only. */
+  const [printMode, setPrintMode] = useState<"detailed" | "condensed">("detailed");
+  /** When true, the on-screen print preview overlay is shown. */
+  const [printPreviewOpen, setPrintPreviewOpen] = useState(false);
 
   const year = cursor.getFullYear();
   const month0 = cursor.getMonth();
@@ -77,16 +82,16 @@ export function CalendarGrid({ events, initialDate }: Props) {
   }
 
   const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
-  // All events for the currently-displayed month (for the print view).
-  const monthEvents = getEventsForMonth(year, month0);
+  // Printable events: non-boosted only, for the currently-displayed month.
+  const printMonthEvents = getPrintableEventsForMonth(year, month0);
   // Group consecutive events that share the same startDate into one
   // "day" so the print view is easy to scan.
-  const monthEventsByDate: Record<string, Event[]> = {};
-  for (const e of monthEvents) {
-    if (!monthEventsByDate[e.startDate]) monthEventsByDate[e.startDate] = [];
-    monthEventsByDate[e.startDate].push(e);
+  const printMonthEventsByDate: Record<string, Event[]> = {};
+  for (const e of printMonthEvents) {
+    if (!printMonthEventsByDate[e.startDate]) printMonthEventsByDate[e.startDate] = [];
+    printMonthEventsByDate[e.startDate].push(e);
   }
-  const monthEventDates = Object.keys(monthEventsByDate).sort();
+  const printMonthEventDates = Object.keys(printMonthEventsByDate).sort();
 
   return (
     <div>
@@ -123,7 +128,7 @@ export function CalendarGrid({ events, initialDate }: Props) {
           </button>
           <button
             type="button"
-            onClick={() => window.print()}
+            onClick={() => setPrintPreviewOpen(true)}
             className="px-4 py-2 text-base font-display font-medium bg-white border-2 border-stone-300 rounded-full hover:border-black min-h-touch inline-flex items-center gap-2 no-print"
             aria-label="Print this month's events"
           >
@@ -141,7 +146,7 @@ export function CalendarGrid({ events, initialDate }: Props) {
       </div>
 
       {/* Calendar grid */}
-      <div className="grid grid-cols-7 gap-px bg-stone-200 border-2 border-stone-200 rounded-2xl overflow-hidden">
+      <div className="calendar-grid grid grid-cols-7 gap-px bg-stone-200 border-2 border-stone-200 rounded-2xl overflow-hidden">
         {cells.map((c) => {
           const dayEvents = eventsByDate[c.iso] ?? [];
           const isToday = c.iso === todayIso;
@@ -215,7 +220,7 @@ export function CalendarGrid({ events, initialDate }: Props) {
           scroll-mt-32 leaves room for the sticky site header when the
           page smooth-scrolls here after a calendar cell is clicked. */}
       {selectedDate && (
-        <div ref={selectedRef} className="mt-8 scroll-mt-32">
+        <div ref={selectedRef} className="mt-8 scroll-mt-32" data-calendar-selected>
           <h3 className="text-2xl font-display font-medium text-black">
             {formatEventDateLong(selectedDate)}
           </h3>
@@ -233,57 +238,242 @@ export function CalendarGrid({ events, initialDate }: Props) {
         </div>
       )}
 
-      {/* PRINT-ONLY: full list of events for the displayed month.
-          Hidden on screen; shown by globals.css @media print rules. */}
-      <div className="print-only" aria-hidden="true">
-        <header>
-          <h1>Calendar of Events — {MONTH_NAMES[month0]} {year}</h1>
-          <p>Only For Seniors · onlyforseniors.ca</p>
-        </header>
-        {monthEventDates.length === 0 ? (
-          <p>No events scheduled this month.</p>
-        ) : (
-          <ol>
-            {monthEventDates.map((iso) => (
-              <li key={iso}>
-                <h2>{formatEventDateLong(iso)}</h2>
-                {monthEventsByDate[iso].map((e) => (
-                  <article key={e.id}>
-                    <h3>{e.title}</h3>
-                    <p>
-                      <strong>{formatEventTimeRange(e.startTime, e.endTime)}</strong>
-                      {e.endDate !== e.startDate && (
-                        <em> (multi-day event through {formatEventDateLong(e.endDate)})</em>
-                      )}
-                    </p>
-                    <p>
-                      {e.venue}, {e.address}, {e.city}, {e.province}
-                    </p>
-                    <p>
-                      {e.isFree ? "Free admission" : (e.price ?? "Ticketed event")}
-                      {e.url && (
-                        <>
-                          {" — "}
-                          <a href={e.url}>{e.url}</a>
-                        </>
-                      )}
-                    </p>
-                    <p>
-                      <em>Organized by {e.organizer}.</em>
-                    </p>
-                    <p>{e.description}</p>
-                  </article>
-                ))}
-              </li>
-            ))}
-          </ol>
-        )}
-        <footer>
-          <p>
-            Generated {formatEventDateLong(toIsoDate(new Date()))} ·
-            {" "}Visit onlyforseniors.ca/categories/news/ for the latest.
-          </p>
-        </footer>
+      {/* ON-SCREEN PRINT PREVIEW. Modal-style sheet that mirrors what
+          will be printed. Two tabs: Detailed and Condensed. The active
+          tab is mirrored onto the .print-only block via data-print-mode
+          so @media print renders the same view. */}
+      {printPreviewOpen && (
+        <div
+          className="no-print fixed inset-0 z-50 bg-black/40 flex items-start justify-center p-4 sm:p-8 overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Print preview"
+          onClick={() => setPrintPreviewOpen(false)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Preview header */}
+            <div className="flex items-center justify-between gap-3 p-4 sm:p-6 border-b border-stone-200">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-display font-semibold text-black">
+                  Print preview — {MONTH_NAMES[month0]} {year}
+                </h2>
+                <p className="text-sm text-stone-600 mt-1">
+                  Choose a layout. Boosted/promoted events are excluded.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPrintPreviewOpen(false)}
+                className="p-2 rounded-full hover:bg-stone-100 min-h-touch min-w-touch flex items-center justify-center"
+                aria-label="Close print preview"
+              >
+                <X className="w-5 h-5" strokeWidth={2} />
+              </button>
+            </div>
+
+            {/* Mode tabs */}
+            <div className="flex border-b border-stone-200">
+              <button
+                type="button"
+                onClick={() => setPrintMode("detailed")}
+                className={[
+                  "flex-1 px-4 py-3 text-sm sm:text-base font-display font-medium inline-flex items-center justify-center gap-2",
+                  printMode === "detailed"
+                    ? "border-b-4 border-black text-black"
+                    : "border-b-4 border-transparent text-stone-500 hover:text-black",
+                ].join(" ")}
+              >
+                <FileText className="w-4 h-4" strokeWidth={1.75} />
+                Detailed (full card)
+              </button>
+              <button
+                type="button"
+                onClick={() => setPrintMode("condensed")}
+                className={[
+                  "flex-1 px-4 py-3 text-sm sm:text-base font-display font-medium inline-flex items-center justify-center gap-2",
+                  printMode === "condensed"
+                    ? "border-b-4 border-black text-black"
+                    : "border-b-4 border-transparent text-stone-500 hover:text-black",
+                ].join(" ")}
+              >
+                <List className="w-4 h-4" strokeWidth={1.75} />
+                Condensed (date + time)
+              </button>
+            </div>
+
+            {/* Preview body — uses the same markup as the printed view */}
+            <div className="p-4 sm:p-8 max-h-[60vh] overflow-y-auto bg-stone-50">
+              <div
+                className="print-only-preview bg-white p-6 sm:p-10 shadow-sm"
+                data-print-mode={printMode}
+              >
+                <header>
+                  <h1>Calendar of Events — {MONTH_NAMES[month0]} {year}</h1>
+                  <p>Only For Seniors · onlyforseniors.ca</p>
+                </header>
+                {printMonthEventDates.length === 0 ? (
+                  <p>No events scheduled this month.</p>
+                ) : (
+                  <ol>
+                    {printMonthEventDates.map((iso) => (
+                      <li key={iso}>
+                        <h2>{formatEventDateLong(iso)}</h2>
+                        {printMonthEventsByDate[iso].map((e) => (
+                          <article key={e.id}>
+                            <h3>{e.title}</h3>
+                            <p className="meta">
+                              <strong>{formatEventTimeRange(e.startTime, e.endTime)}</strong>
+                              {e.endDate !== e.startDate && (
+                                <em> (multi-day event through {formatEventDateLong(e.endDate)})</em>
+                              )}
+                            </p>
+                            <p className="venue">
+                              {e.venue}, {e.city}, {e.province}
+                            </p>
+                            <p className="price">
+                              {e.isFree ? "Free admission" : (e.price ?? "Ticketed event")}
+                            </p>
+                            <p className="organizer">
+                              <em>Organized by {e.organizer}.</em>
+                            </p>
+                            <p className="description">{e.description}</p>
+                          </article>
+                        ))}
+                      </li>
+                    ))}
+                  </ol>
+                )}
+                <footer>
+                  <p>
+                    Generated {formatEventDateLong(toIsoDate(new Date()))} ·
+                    {" "}Visit onlyforseniors.ca/categories/news/ for the latest.
+                  </p>
+                </footer>
+              </div>
+            </div>
+
+            {/* Preview footer */}
+            <div className="flex items-center justify-end gap-2 p-4 sm:p-6 border-t border-stone-200 bg-white rounded-b-2xl">
+              <button
+                type="button"
+                onClick={() => setPrintPreviewOpen(false)}
+                className="px-4 py-2 text-base font-display font-medium bg-white border-2 border-stone-300 rounded-full hover:border-black min-h-touch"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  // Make sure the visible mode matches the data attr,
+                  // then fire the system print dialog.
+                  setPrintMode(printMode);
+                  window.print();
+                }}
+                className="px-5 py-2 text-base font-display font-semibold bg-black text-white rounded-full hover:bg-stone-800 min-h-touch inline-flex items-center gap-2"
+              >
+                <Printer className="w-4 h-4" strokeWidth={1.75} />
+                Print now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PRINT-ONLY: mirrors the preview content with both layouts
+          available. The active layout is chosen via data-print-mode,
+          which the user toggles in the preview (and which @media print
+          honors). Hidden on screen. */}
+      <div
+        className="print-only"
+        aria-hidden="true"
+        data-print-mode={printMode}
+      >
+        <div className="print-only-detailed">
+          <header>
+            <h1>Calendar of Events — {MONTH_NAMES[month0]} {year}</h1>
+            <p>Only For Seniors · onlyforseniors.ca</p>
+          </header>
+          {printMonthEventDates.length === 0 ? (
+            <p>No events scheduled this month.</p>
+          ) : (
+            <ol>
+              {printMonthEventDates.map((iso) => (
+                <li key={iso}>
+                  <h2>{formatEventDateLong(iso)}</h2>
+                  {printMonthEventsByDate[iso].map((e) => (
+                    <article key={e.id}>
+                      <h3>{e.title}</h3>
+                      <p>
+                        <strong>{formatEventTimeRange(e.startTime, e.endTime)}</strong>
+                        {e.endDate !== e.startDate && (
+                          <em> (multi-day event through {formatEventDateLong(e.endDate)})</em>
+                        )}
+                      </p>
+                      <p>
+                        {e.venue}, {e.address}, {e.city}, {e.province}
+                      </p>
+                      <p>
+                        {e.isFree ? "Free admission" : (e.price ?? "Ticketed event")}
+                        {e.url && (
+                          <>
+                            {" — "}
+                            <a href={e.url}>{e.url}</a>
+                          </>
+                        )}
+                      </p>
+                      <p>
+                        <em>Organized by {e.organizer}.</em>
+                      </p>
+                      <p>{e.description}</p>
+                    </article>
+                  ))}
+                </li>
+              ))}
+            </ol>
+          )}
+          <footer>
+            <p>
+              Generated {formatEventDateLong(toIsoDate(new Date()))} ·
+              {" "}Visit onlyforseniors.ca/categories/news/ for the latest.
+            </p>
+          </footer>
+        </div>
+        <div className="print-only-condensed">
+          <header>
+            <h1>Calendar of Events — {MONTH_NAMES[month0]} {year}</h1>
+            <p>Only For Seniors · onlyforseniors.ca</p>
+          </header>
+          {printMonthEventDates.length === 0 ? (
+            <p>No events scheduled this month.</p>
+          ) : (
+            <ol>
+              {printMonthEventDates.map((iso) => (
+                <li key={iso}>
+                  <h2>{formatEventDateLong(iso)}</h2>
+                  {printMonthEventsByDate[iso].map((e) => (
+                    <article key={e.id} className="condensed-row">
+                      <h3>{e.title}</h3>
+                      <p>
+                        <strong>{formatEventTimeRange(e.startTime, e.endTime)}</strong>
+                        {" · "}
+                        {e.venue}, {e.city}
+                      </p>
+                    </article>
+                  ))}
+                </li>
+              ))}
+            </ol>
+          )}
+          <footer>
+            <p>
+              Generated {formatEventDateLong(toIsoDate(new Date()))} ·
+              {" "}Visit onlyforseniors.ca/categories/news/ for the latest.
+            </p>
+          </footer>
+        </div>
       </div>
     </div>
   );
