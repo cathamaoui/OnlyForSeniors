@@ -189,6 +189,132 @@ p {
 table, pre {
   -webkit-overflow-scrolling: touch;
 }
+
+/* Hide the print-only block on screen; @media print reveals it. */
+.print-only {
+  display: none;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   PRINT: "Print this month" calendar view
+   Hides everything on screen except the .print-only block inside
+   the CalendarGrid. Renders a clean printable list of events for
+   the month currently shown.
+   ─────────────────────────────────────────────────────────────── */
+@media print {
+  /* Screen-only chrome is hidden when printing. */
+  .no-print,
+  header.site-header,
+  footer.site-footer,
+  nav.site-nav,
+  .site-sidebar,
+  .print-hide {
+    display: none !important;
+  }
+  /* The print-only block becomes the page. */
+  .print-only {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #000;
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+  /* Strip the surrounding app shell from the printable view. */
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  /* Reset page geometry for print. */
+  @page {
+    size: Letter;
+    margin: 0.6in 0.6in 0.7in 0.6in;
+  }
+  /* Print-only typography. */
+  .print-only header h1 {
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 22pt;
+    font-weight: 600;
+    margin: 0 0 4pt 0;
+    color: #000;
+  }
+  .print-only header p {
+    font-size: 9pt;
+    color: #444;
+    margin: 0 0 18pt 0;
+    border-bottom: 1px solid #999;
+    padding-bottom: 10pt;
+  }
+  .print-only ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .print-only > ol > li {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin: 0 0 14pt 0;
+    padding: 0 0 8pt 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .print-only > ol > li:last-child {
+    border-bottom: none;
+  }
+  .print-only h2 {
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 13pt;
+    font-weight: 600;
+    margin: 0 0 8pt 0;
+    color: #000;
+  }
+  .print-only article {
+    margin: 0 0 8pt 0;
+    padding: 0;
+  }
+  .print-only article:last-child {
+    margin-bottom: 0;
+  }
+  .print-only h3 {
+    font-family: var(--font-display, Georgia, serif);
+    font-size: 11.5pt;
+    font-weight: 600;
+    margin: 0 0 3pt 0;
+    color: #000;
+  }
+  .print-only p {
+    font-size: 10pt;
+    margin: 0 0 2pt 0;
+    color: #111;
+  }
+  .print-only p strong {
+    font-weight: 600;
+  }
+  .print-only p em {
+    font-style: italic;
+    color: #444;
+  }
+  .print-only a {
+    color: #000;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+  .print-only footer {
+    margin-top: 16pt;
+    padding-top: 8pt;
+    border-top: 1px solid #999;
+    font-size: 8.5pt;
+    color: #555;
+  }
+  .print-only footer p {
+    margin: 0;
+  }
+  /* Hide links and anchors in print (URLs are shown inline next to the title). */
+  .print-only a[href]::after {
+    content: "";
+  }
+}
 .bg-white:-webkit-autofill,
 input:-webkit-autofill,
 textarea:-webkit-autofill,
