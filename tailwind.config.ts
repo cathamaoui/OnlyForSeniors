@@ -38,7 +38,13 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ['"Bitter"', "Georgia", "serif"],
+        // Fraunces — modern variable serif with optical sizing. Used for
+        // headings (display role). Elegant, editorial feel — taste-skill
+        // style — while still being highly legible at 40px+ sizes.
+        display: ['"Fraunces"', "Georgia", "serif"],
+        // Atkinson Hyperlegible — designed by the Braille Institute
+        // specifically for low-vision readers. Kept for body text so
+        // paragraphs remain maximally accessible to seniors.
         body: ['"Atkinson Hyperlegible"', "system-ui", "sans-serif"],
       },
       fontSize: {
