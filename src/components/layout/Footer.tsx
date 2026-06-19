@@ -1,9 +1,6 @@
 import Link from "next/link";
-import { getAllCategories } from "@/lib/businesses";
 
 export function Footer() {
-  const cats = getAllCategories();
-
   return (
     <footer className="border-t-2 border-stone-400 bg-stone-900 text-stone-200 mt-16">
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -33,29 +30,24 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="font-display font-bold mb-3 text-white">Browse</h4>
+          <h4 className="font-display font-bold mb-3 text-white">For Seniors</h4>
           <ul className="space-y-1.5 text-base">
-            {cats.slice(0, 5).map((c) => (
-              <li key={c.slug}>
-                <Link
-                  href={`/categories/${c.slug}/`}
-                  className="text-stone-300 hover:text-white"
-                >
-                  {c.icon} {c.name}
-                </Link>
-              </li>
-            ))}
+            <li>
+              <Link href="/list-business/" className="text-stone-300 hover:text-white">
+                Create an account
+              </Link>
+            </li>
+            <li>
+              <Link href="/list-business/login/" className="text-stone-300 hover:text-white">
+                Sign in
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div>
           <h4 className="font-display font-bold mb-3 text-white">For Business Owners</h4>
           <ul className="space-y-1.5 text-base">
-            <li>
-              <Link href="/list-business/login/" className="text-stone-300 hover:text-white">
-                Sign in
-              </Link>
-            </li>
             <li>
               <Link href="/for-businesses/" className="text-stone-300 hover:text-white">
                 Why list with us
