@@ -244,14 +244,14 @@ export function CalendarGrid({ events, initialDate }: Props) {
           so @media print renders the same view. */}
       {printPreviewOpen && (
         <div
-          className="no-print fixed inset-0 z-50 bg-black/40 flex items-start justify-center p-4 sm:p-8 overflow-y-auto"
+          className="no-print fixed inset-0 z-50 bg-black/40 flex items-start sm:items-center justify-center p-4 sm:p-6 overflow-y-auto"
           role="dialog"
           aria-modal="true"
           aria-label="Print preview"
           onClick={() => setPrintPreviewOpen(false)}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl my-4 sm:my-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Preview header */}
@@ -304,8 +304,10 @@ export function CalendarGrid({ events, initialDate }: Props) {
               </button>
             </div>
 
-            {/* Preview body — uses the same markup as the printed view */}
-            <div className="p-4 sm:p-8 max-h-[60vh] overflow-y-auto bg-stone-50">
+            {/* Preview body — uses the same markup as the printed view.
+                 No internal scroll: the whole modal scrolls as one piece
+                 so the user always sees the full preview. */}
+            <div className="p-4 sm:p-8 bg-stone-50">
               <div
                 className="print-only-preview bg-white p-6 sm:p-10 shadow-sm"
                 data-print-mode={printMode}
