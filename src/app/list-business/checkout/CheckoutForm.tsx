@@ -636,7 +636,7 @@ export function CheckoutForm() {
 
       {/* RIGHT — order summary */}
       <aside className="bg-white border-2 border-black rounded-lg p-6 h-fit lg:sticky lg:top-24">
-        <h2 className="text-lg font-display font-black text-stone-900 mb-4">
+        <h2 className="text-lg font-display font-medium text-stone-900 mb-4">
           Order summary
         </h2>
         <dl className="text-base text-stone-800 space-y-2">

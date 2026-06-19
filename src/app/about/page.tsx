@@ -25,7 +25,7 @@ export default function AboutPage() {
           <p className="inline-block text-base font-bold   bg-black text-white px-3 py-1 rounded-full">
             Our mission
           </p>
-          <h2 className="mt-3 text-3xl md:text-4xl font-display font-black leading-normal">
+          <h2 className="mt-3 text-3xl md:text-4xl font-display font-medium leading-normal">
             Help that seniors can trust.
           </h2>
           <p className="mt-3 text-lg text-stone-700 leading-relaxed">
@@ -41,7 +41,7 @@ export default function AboutPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <BadgeCheck className="w-5 h-5" strokeWidth={2.25} />
             </span>
-            <h3 className="font-display font-bold text-lg text-stone-900">Verified businesses</h3>
+            <h3 className="font-display font-medium text-lg text-stone-900">Verified businesses</h3>
             <p className="text-base text-stone-700">
               Every listing is reviewed by a real person. We check basic business details
               before publishing.
@@ -51,7 +51,7 @@ export default function AboutPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Heart className="w-5 h-5" strokeWidth={2.25} />
             </span>
-            <h3 className="font-display font-bold text-lg text-stone-900">No ads, ever</h3>
+            <h3 className="font-display font-medium text-lg text-stone-900">No ads, ever</h3>
             <p className="text-base text-stone-700">
               We never show ads. The only way a business appears in search results is by
               being a verified listing.
@@ -61,7 +61,7 @@ export default function AboutPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <MapPin className="w-5 h-5" strokeWidth={2.25} />
             </span>
-            <h3 className="font-display font-bold text-lg text-stone-900">Local to you</h3>
+            <h3 className="font-display font-medium text-lg text-stone-900">Local to you</h3>
             <p className="text-base text-stone-700">
               Filter by city, province, or sub-category to find help close to home.
             </p>
@@ -70,7 +70,7 @@ export default function AboutPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Shield className="w-5 h-5" strokeWidth={2.25} />
             </span>
-            <h3 className="font-display font-bold text-lg text-stone-900">Your data stays yours</h3>
+            <h3 className="font-display font-medium text-lg text-stone-900">Your data stays yours</h3>
             <p className="text-base text-stone-700">
               We do not sell your contact information to third parties. Period.
             </p>
@@ -78,7 +78,7 @@ export default function AboutPage() {
         </section>
 
         <section className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-          <h3 className="font-display font-bold text-xl text-stone-900">For business owners</h3>
+          <h3 className="font-display font-medium text-xl text-stone-900">For business owners</h3>
           <p className="text-stone-700 mt-2">
             Listing on Only For Seniors costs <strong>CAD $10/month</strong>. That pays for
             the review process, hosting, and keeping the site ad-free for users. There is no
@@ -93,7 +93,7 @@ export default function AboutPage() {
         </section>
 
         <section>
-          <h3 className="font-display font-bold text-xl">Get in touch</h3>
+          <h3 className="font-display font-medium text-xl">Get in touch</h3>
           <p className="text-stone-700 mt-2">
             Have a question, a suggestion, or a business to add? We'd love to hear from you.
           </p>

@@ -15,7 +15,7 @@ export default function BusinessLoginPage() {
           <p className="text-base font-semibold text-stone-700 mb-2">
             Business account
           </p>
-          <h1 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+          <h1 className="text-3xl sm:text-4xl font-display font-medium text-stone-900">
             Sign in
           </h1>
           <p className="mt-3 text-base text-stone-700">

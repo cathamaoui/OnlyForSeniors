@@ -73,7 +73,7 @@ export function BoostCenter({ cards, listings }: Props) {
     <section className="bg-white border-2 border-stone-200 rounded-lg p-6 sm:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
         <div>
-          <h2 className="text-xl font-display font-black text-stone-900 flex items-center gap-2">
+          <h2 className="text-xl font-display font-medium text-stone-900 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-blue-700" /> Boost Center
           </h2>
           <p className="text-base text-stone-700 mt-1 max-w-2xl">

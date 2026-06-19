@@ -97,7 +97,7 @@ export default function ForBusinessesPage() {
           <p className="text-base font-bold text-stone-700 mb-3">
             For businesses
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-stone-900 leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-stone-900 leading-tight">
             Reach the seniors <br className="hidden sm:block" />
             who actually need you.
           </h1>
@@ -151,7 +151,7 @@ export default function ForBusinessesPage() {
           <p className="text-base font-bold text-stone-700 mb-2">
             What you get
           </p>
-          <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-stone-900">
             A real profile. Real seniors. Real calls.
           </h2>
           <p className="mt-3 text-lg text-stone-700 max-w-2xl mx-auto">
@@ -170,7 +170,7 @@ export default function ForBusinessesPage() {
                 <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-3">
                   <Icon className="w-5 h-5" strokeWidth={2.25} />
                 </span>
-                <h3 className="text-lg font-display font-bold text-stone-900 mb-2">
+                <h3 className="text-lg font-display font-medium text-stone-900 mb-2">
                   {item.title}
                 </h3>
                 <p className="text-stone-700 leading-relaxed">{item.body}</p>
@@ -187,7 +187,7 @@ export default function ForBusinessesPage() {
             <p className="text-base font-bold text-stone-700 mb-2">
               Who lists here
             </p>
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-display font-medium text-stone-900 mb-4">
               The businesses seniors actually hire.
             </h2>
             <p className="text-lg text-stone-700">
@@ -217,7 +217,7 @@ export default function ForBusinessesPage() {
           <p className="text-base font-bold text-stone-700 mb-2">
             How it works
           </p>
-          <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-stone-900">
             From email to live in 24 hours.
           </h2>
         </div>
@@ -230,7 +230,7 @@ export default function ForBusinessesPage() {
               <div className="w-10 h-10 bg-stone-900 text-white rounded-lg flex items-center justify-center font-display font-black text-lg mb-3">
                 {s.n}
               </div>
-              <h3 className="text-lg font-display font-bold text-stone-900 mb-2">
+              <h3 className="text-lg font-display font-medium text-stone-900 mb-2">
                 {s.title}
               </h3>
               <p className="text-stone-700 leading-relaxed">{s.body}</p>
@@ -245,7 +245,7 @@ export default function ForBusinessesPage() {
           <p className="text-base font-bold text-stone-700 mb-2">
             Pricing
           </p>
-          <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-stone-900 mb-4">
             One flat rate. No surprises.
           </h2>
           <p className="text-lg text-stone-700 mb-8 max-w-xl mx-auto">
@@ -292,7 +292,7 @@ export default function ForBusinessesPage() {
           <p className="text-base font-bold text-stone-700 mb-2">
             FAQ
           </p>
-          <h2 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+          <h2 className="text-3xl sm:text-4xl font-display font-medium text-stone-900">
             Common questions
           </h2>
         </div>
@@ -317,7 +317,7 @@ export default function ForBusinessesPage() {
       {/* FINAL CTA (monochrome) */}
       <section className="bg-stone-900 text-white">
         <div className="max-w-4xl mx-auto px-4 py-14 sm:py-20 text-center">
-          <h2 className="text-3xl sm:text-4xl font-display font-black mb-3 text-white">
+          <h2 className="text-3xl sm:text-4xl font-display font-medium mb-3 text-white">
             Ready to be found by the seniors who need you?
           </h2>
           <p className="text-lg text-stone-300 mb-7 max-w-xl mx-auto">

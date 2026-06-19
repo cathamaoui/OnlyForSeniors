@@ -82,7 +82,7 @@ export default async function BusinessDetailPage({
           <div className="bg-white border-2 border-black rounded-lg p-6">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h1 className="text-3xl md:text-4xl font-display font-black leading-normal">
+                <h1 className="text-3xl md:text-4xl font-display font-medium leading-normal">
                   {b.name}
                 </h1>
                 {b.tagline && (
@@ -129,7 +129,7 @@ export default async function BusinessDetailPage({
             )}
 
             <div className="mt-6">
-              <h2 className="font-display font-bold text-lg mb-2">About this listing</h2>
+              <h2 className="font-display font-medium text-lg mb-2">About this listing</h2>
               <p className="text-stone-800 leading-relaxed whitespace-pre-line">{b.description}</p>
             </div>
 
@@ -156,7 +156,7 @@ export default async function BusinessDetailPage({
 
           {/* Inquiry form */}
           <div className="bg-white border-2 border-black rounded-lg p-6">
-            <h2 className="text-xl font-display font-bold mb-3">Send a message</h2>
+            <h2 className="text-xl font-display font-medium mb-3">Send a message</h2>
             <form className="space-y-3">
               <input
                 type="text"

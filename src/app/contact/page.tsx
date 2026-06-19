@@ -25,7 +25,7 @@ export default function ContactPage() {
           <p className="inline-block text-base font-bold bg-stone-900 text-white px-3 py-1 rounded-full">
             We'd love to hear from you
           </p>
-          <h2 className="mt-3 text-3xl md:text-4xl font-display font-black leading-normal text-stone-900">
+          <h2 className="mt-3 text-3xl md:text-4xl font-display font-medium leading-normal text-stone-900">
             Send us a message.
           </h2>
           <p className="mt-3 text-lg text-stone-700 leading-relaxed">
@@ -35,7 +35,7 @@ export default function ContactPage() {
         </section>
 
         <section className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-          <h3 className="font-display font-bold text-xl text-stone-900 mb-4">Send a message</h3>
+          <h3 className="font-display font-medium text-xl text-stone-900 mb-4">Send a message</h3>
           <form className="space-y-4">
             <div>
               <label className="block text-base font-bold text-stone-900 mb-1">Your name</label>
@@ -85,7 +85,7 @@ export default function ContactPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Mail className="w-5 h-5" strokeWidth={2.25} />
             </span>
-            <h3 className="font-display font-bold text-base text-stone-900">Email</h3>
+            <h3 className="font-display font-medium text-base text-stone-900">Email</h3>
             <a href="mailto:hello@onlyforseniors.ca" className="text-base text-stone-700 hover:text-black hover:underline block">
               hello@onlyforseniors.ca
             </a>
@@ -94,14 +94,14 @@ export default function ContactPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <Phone className="w-5 h-5" strokeWidth={2.25} />
             </span>
-            <h3 className="font-display font-bold text-base text-stone-900">Phone</h3>
+            <h3 className="font-display font-medium text-base text-stone-900">Phone</h3>
             <p className="text-base text-stone-700">Coming soon</p>
           </div>
           <div className="bg-white rounded-2xl shadow-sm p-5 text-center">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-10 h-10 bg-stone-900 text-white rounded-lg mb-2">
               <MessageSquare className="w-5 h-5" strokeWidth={2.25} />
             </span>
-            <h3 className="font-display font-bold text-base text-stone-900">Mailing address</h3>
+            <h3 className="font-display font-medium text-base text-stone-900">Mailing address</h3>
             <p className="text-base text-stone-700">Coming soon</p>
           </div>
         </section>

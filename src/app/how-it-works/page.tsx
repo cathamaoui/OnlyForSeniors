@@ -38,7 +38,7 @@ export default function HowItWorksPage() {
   return (
     <div className="min-h-screen bg-cream">
       <div className="max-w-4xl mx-auto px-4 py-12 sm:py-16">
-        <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-3 text-center">
+        <h1 className="font-display font-medium text-4xl sm:text-5xl text-stone-900 mb-3 text-center">
           How Only For Seniors Works
         </h1>
         <p className="text-lg sm:text-xl text-stone-700 text-center mb-12 max-w-2xl mx-auto">
@@ -60,7 +60,7 @@ export default function HowItWorksPage() {
                   <Icon className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={2.25} />
                 </span>
                 <div className="min-w-0">
-                  <h2 className="font-display font-black text-xl sm:text-2xl text-stone-900 mb-1">
+                  <h2 className="font-display font-medium text-xl sm:text-2xl text-stone-900 mb-1">
                     {s.title}
                   </h2>
                   <p className="text-base sm:text-lg text-stone-700 leading-relaxed">{s.body}</p>

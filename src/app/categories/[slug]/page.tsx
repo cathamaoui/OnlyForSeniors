@@ -10,6 +10,8 @@ import {
 } from "@/lib/businesses";
 import { BusinessCard } from "@/components/ui/BusinessCard";
 import { CategoryIcon } from "@/components/ui/CategoryIcon";
+import { SubcategoryCard } from "@/components/ui/SubcategoryCard";
+import { getSubcategoryBlurb } from "@/lib/subcategoryBlurbs";
 
 export function generateStaticParams() {
   return getAllCategories().map((c) => ({ slug: c.slug }));
@@ -70,7 +72,7 @@ export default async function CategoryPage({
             <div className="flex items-start gap-4">
               <Newspaper className="w-14 h-14 text-black flex-shrink-0" strokeWidth={1.5} />
               <div className="min-w-0">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-black leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-black leading-tight">
                   What&apos;s New
                 </h1>
                 <p className="mt-2 text-base sm:text-lg text-stone-700 max-w-2xl">
@@ -146,7 +148,7 @@ export default async function CategoryPage({
           <div className="flex items-start gap-4">
             <CategoryIcon category={cat} size="lg" />
             <div className="min-w-0">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-black leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-black leading-tight">
                 {cat.name}
               </h1>
               {cat.description && (
@@ -163,36 +165,31 @@ export default async function CategoryPage({
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-        {/* Subcategory chips */}
+        {/* Subcategory tile cards — mirror the homepage layout so seniors
+            get a consistent pattern across the site. */}
         {cat.subcategories.length > 0 && (
-          <div className="bg-white rounded-2xl p-5 shadow-sm">
-            <h2 className="font-display font-bold text-base mb-3 text-black">
-              Browse by sub-category
+          <section>
+            <h2 className="text-2xl sm:text-3xl font-display font-medium text-black mb-4 sm:mb-6">
+              Browse{" "}
+              <span className="italic font-display font-medium text-black">
+                {cat.name.toLowerCase()}.
+              </span>
             </h2>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href={`/categories/${cat.slug}`}
-                className="px-3 py-2 text-base bg-black text-white font-bold rounded-full"
-              >
-                All ({sorted.length})
-              </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
               {cat.subcategories.map((sub) => {
                 const count = subCount(sub.slug);
                 return (
-                  <Link
+                  <SubcategoryCard
                     key={sub.slug}
-                    href={`/categories/${cat.slug}/${sub.slug}`}
-                    className="px-3 py-2 text-base bg-white text-black rounded-full hover:bg-stone-50 shadow-sm border border-stone-100"
-                  >
-                    {sub.name}
-                    {count > 0 && (
-                      <span className="ml-2 text-stone-500">({count})</span>
-                    )}
-                  </Link>
+                    categorySlug={cat.slug}
+                    subcategory={sub}
+                    count={count}
+                    description={getSubcategoryBlurb(cat.slug, sub.slug)}
+                  />
                 );
               })}
             </div>
-          </div>
+          </section>
         )}
 
         {/* Listings grid */}

@@ -38,11 +38,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Prompt — modern sans-serif designed by Cadson Demak. Soft,
-        // elegant strokes with excellent legibility. Used for headings
-        // (display role). Pairs clean geometric forms with strong
-        // readability at display sizes for seniors.
-        display: ['"Prompt"', "Georgia", "serif"],
+        // DM Sans — low-contrast geometric sans designed by Colophon Foundry.
+        // Crisp, clean, never reads as bold. Optical sizing axis (opsz) so
+        // the letterforms stay balanced from 12px captions up to 80px
+        // display sizes. Used for all headings.
+        display: ['"DM Sans"', "system-ui", "-apple-system", "sans-serif"],
         // Atkinson Hyperlegible — designed by the Braille Institute
         // specifically for low-vision readers. Kept for body text so
         // paragraphs remain maximally accessible to seniors.

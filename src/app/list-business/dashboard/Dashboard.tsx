@@ -176,7 +176,7 @@ export function Dashboard() {
           <p className="text-base font-semibold text-blue-700 mb-1">
             Welcome back
           </p>
-          <h1 className="text-2xl sm:text-3xl font-display font-black text-stone-900">
+          <h1 className="text-2xl sm:text-3xl font-display font-medium text-stone-900">
             {acct.businessName || "Your business"}
           </h1>
           <p className="text-base text-stone-700 mt-1">
@@ -209,7 +209,7 @@ export function Dashboard() {
         {/* Business profile card */}
         <section className="lg:col-span-2 bg-white border-2 border-stone-200 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-display font-black text-stone-900 flex items-center gap-2">
+            <h2 className="text-xl font-display font-medium text-stone-900 flex items-center gap-2">
               <Building2 className="w-5 h-5" /> Business profile
             </h2>
             <Link
@@ -302,7 +302,7 @@ export function Dashboard() {
         {/* Expiring add-ons (only date-bounded ones) */}
         {purchases.length > 0 && (
           <aside className="bg-white border-2 border-blue-700 rounded-lg p-6 h-fit">
-            <h2 className="text-xl font-display font-black text-stone-900 flex items-center gap-2 mb-4">
+            <h2 className="text-xl font-display font-medium text-stone-900 flex items-center gap-2 mb-4">
               <Clock className="w-5 h-5 text-blue-700" /> Time-limited add-ons
             </h2>
             <ul className="space-y-3 text-base">
@@ -371,7 +371,7 @@ export function Dashboard() {
 
         {/* Subscription card */}
         <aside className="bg-white border-2 border-stone-200 rounded-lg p-6 h-fit">
-          <h2 className="text-xl font-display font-black text-stone-900 flex items-center gap-2 mb-4">
+          <h2 className="text-xl font-display font-medium text-stone-900 flex items-center gap-2 mb-4">
             <CreditCard className="w-5 h-5" /> Subscription
           </h2>
           <div className="space-y-3 text-base">
@@ -438,7 +438,7 @@ export function Dashboard() {
       {/* Listings section */}
       <section className="bg-white border-2 border-stone-200 rounded-lg p-6 sm:p-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-display font-black text-stone-900">
+          <h2 className="text-xl font-display font-medium text-stone-900">
             Your listings
           </h2>
           <Link
@@ -527,7 +527,7 @@ export function Dashboard() {
 
       {/* Account settings row */}
       <section className="bg-white border-2 border-stone-200 rounded-lg p-6">
-        <h2 className="text-lg font-display font-black text-stone-900 mb-3 flex items-center gap-2">
+        <h2 className="text-lg font-display font-medium text-stone-900 mb-3 flex items-center gap-2">
           <Settings className="w-5 h-5" /> Account
         </h2>
         <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">

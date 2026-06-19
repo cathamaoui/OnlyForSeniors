@@ -36,7 +36,7 @@ export default function CategoriesPage() {
       {/* Page header — large monochrome, taste-skill style */}
       <div className="bg-white">
         <div className="max-w-6xl mx-auto px-4 pt-8 pb-6 sm:pt-10 sm:pb-8 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-black leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-black leading-tight">
             All Categories
           </h1>
           <p className="mt-3 text-base sm:text-lg text-stone-700 max-w-2xl mx-auto">
@@ -52,7 +52,7 @@ export default function CategoriesPage() {
           <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
             <div className="bg-black text-white px-4 py-2 flex items-center gap-2">
               <Newspaper className="w-4 h-4" />
-              <h2 className="font-display font-bold text-base">
+              <h2 className="font-display font-medium text-base">
                 What&apos;s New (Past 24h)
               </h2>
             </div>
@@ -117,7 +117,7 @@ export default function CategoriesPage() {
           <div className="bg-black text-white rounded-2xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <Heart className="w-4 h-4" />
-              <h2 className="font-display font-bold text-base">
+              <h2 className="font-display font-medium text-base">
                 Want to Volunteer?
               </h2>
             </div>
@@ -136,7 +136,7 @@ export default function CategoriesPage() {
         {/* Main — "Why this is different" explainer */}
         <main className="space-y-6">
           <section className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm">
-            <h2 className="text-2xl sm:text-3xl font-display font-black text-black">
+            <h2 className="text-2xl sm:text-3xl font-display font-medium text-black">
               Why Only For Seniors?
             </h2>
             <p className="mt-2 text-base text-stone-700">

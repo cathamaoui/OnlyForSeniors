@@ -77,7 +77,7 @@ export default function HomePage() {
             For Canadians 65 and older
           </p>
 
-          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black leading-[0.95] tracking-tight max-w-4xl text-black">
+          <h1 className="mt-3 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium leading-[0.95] tracking-tight max-w-4xl text-black">
             Trusted help,{" "}
             <span className="italic font-display font-black text-black">
               when you need it.
@@ -128,7 +128,7 @@ export default function HomePage() {
           landing page. 21 categories (news excluded), alphabetical. */}
       <section className="max-w-6xl mx-auto px-4 pb-14 sm:pb-20">
         <div className="mb-8 sm:mb-10">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black text-black leading-[1.05] tracking-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-black leading-[1.05] tracking-tight">
             Current{" "}
             <span className="italic font-display font-black text-black">
               categories.

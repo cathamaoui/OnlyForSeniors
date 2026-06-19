@@ -6,7 +6,7 @@ export default function AccessibilityPage() {
   return (
     <div className="min-h-screen bg-cream">
       <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
-        <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-6">
+        <h1 className="font-display font-medium text-4xl sm:text-5xl text-stone-900 mb-6">
           Accessibility Statement
         </h1>
         <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8 text-stone-900 space-y-4 leading-relaxed">
@@ -14,7 +14,7 @@ export default function AccessibilityPage() {
             OnlyForSeniors.ca is built from the ground up for accessibility —
             especially for users 65 and older.
           </p>
-          <h2 className="font-display font-black text-2xl text-stone-900 mt-4">What we do</h2>
+          <h2 className="font-display font-medium text-2xl text-stone-900 mt-4">What we do</h2>
           <ul className="list-disc pl-6 space-y-1 text-stone-700">
             <li>Base font size of 18px (larger than most sites)</li>
             <li>High-contrast colours and visible 4px focus outlines</li>
@@ -26,7 +26,7 @@ export default function AccessibilityPage() {
             <li>Respects <code>prefers-reduced-motion</code> — animations pause for sensitive users</li>
             <li>Big tap-to-call phone numbers — no tiny links</li>
           </ul>
-          <h2 className="font-display font-black text-2xl text-stone-900 mt-6">If something is hard to use</h2>
+          <h2 className="font-display font-medium text-2xl text-stone-900 mt-6">If something is hard to use</h2>
           <p>
             Call us at <strong>1-800-555-0199</strong> and we&apos;ll help you find what you need
             or improve the site for you. We&apos;re always listening.

@@ -7,7 +7,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-cream">
       <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
-        <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 text-center mb-4">
+        <h1 className="font-display font-medium text-4xl sm:text-5xl text-stone-900 text-center mb-4">
           Simple, Honest Pricing
         </h1>
         <p className="text-lg sm:text-xl text-stone-700 text-center mb-10">
@@ -17,7 +17,7 @@ export default function PricingPage() {
         <div className="grid gap-6 md:grid-cols-2">
           {/* For Seniors — free */}
           <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8">
-            <h2 className="font-display font-black text-2xl text-stone-900">For Seniors</h2>
+            <h2 className="font-display font-medium text-2xl text-stone-900">For Seniors</h2>
             <p className="text-5xl font-display font-black text-stone-900 my-3">Free</p>
             <ul className="space-y-3 text-stone-700 mt-4">
               <li className="flex items-start gap-2">
@@ -52,7 +52,7 @@ export default function PricingPage() {
             <span className="inline-block bg-white text-stone-900 font-bold text-sm uppercase tracking-wide px-2 py-1 rounded mb-3">
               Most Popular
             </span>
-            <h2 className="font-display font-black text-2xl">For Businesses</h2>
+            <h2 className="font-display font-medium text-2xl">For Businesses</h2>
             <p className="text-5xl font-display font-black my-3">
               $10<span className="text-xl text-stone-300"> / month</span>
             </p>

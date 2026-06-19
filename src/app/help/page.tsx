@@ -10,7 +10,7 @@ export default function HelpPage() {
   return (
     <div className="min-h-screen bg-cream">
       <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
-        <h1 className="font-display font-black text-4xl sm:text-5xl text-stone-900 mb-3 text-center">
+        <h1 className="font-display font-medium text-4xl sm:text-5xl text-stone-900 mb-3 text-center">
           Help &amp; Support
         </h1>
         <p className="text-lg sm:text-xl text-stone-700 text-center mb-10">
@@ -25,7 +25,7 @@ export default function HelpPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-12 h-12 bg-stone-900 text-white rounded-xl mb-3">
               <Phone className="w-6 h-6" strokeWidth={2.25} />
             </span>
-            <h2 className="font-display font-black text-xl text-stone-900">Call us</h2>
+            <h2 className="font-display font-medium text-xl text-stone-900">Call us</h2>
             <p className="text-stone-900 font-bold">1-800-555-0199</p>
             <p className="text-base text-stone-700 mt-1">Mon–Fri, 9am–5pm ET</p>
           </a>
@@ -37,14 +37,14 @@ export default function HelpPage() {
             <span aria-hidden="true" className="inline-flex items-center justify-center w-12 h-12 bg-stone-900 text-white rounded-xl mb-3">
               <Mail className="w-6 h-6" strokeWidth={2.25} />
             </span>
-            <h2 className="font-display font-black text-xl text-stone-900">Email us</h2>
+            <h2 className="font-display font-medium text-xl text-stone-900">Email us</h2>
             <p className="text-stone-900 font-bold">hello@onlyforseniors.ca</p>
             <p className="text-base text-stone-700 mt-1">We reply within 1 business day</p>
           </a>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm p-6 sm:p-8 mt-8">
-          <h2 className="font-display font-black text-2xl text-stone-900 mb-4 flex items-center gap-3">
+          <h2 className="font-display font-medium text-2xl text-stone-900 mb-4 flex items-center gap-3">
             <span aria-hidden="true" className="inline-flex items-center justify-center w-9 h-9 bg-stone-900 text-white rounded-lg">
               <MessageCircle className="w-5 h-5" strokeWidth={2.25} />
             </span>

@@ -414,7 +414,7 @@ export function NewListingForm() {
           <div className="inline-flex w-14 h-14 items-center justify-center rounded-full bg-blue-100 mb-4">
             <CheckCircle2 className="w-9 h-9 text-blue-700" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+          <h1 className="text-3xl sm:text-4xl font-display font-medium text-stone-900">
             Listing received
           </h1>
           <p className="mt-3 text-lg text-stone-700 max-w-xl mx-auto">
@@ -464,7 +464,7 @@ export function NewListingForm() {
         >
           <ArrowLeft className="w-4 h-4" /> Back to dashboard
         </Link>
-        <h1 className="mt-3 text-3xl sm:text-4xl font-display font-black text-stone-900">
+        <h1 className="mt-3 text-3xl sm:text-4xl font-display font-medium text-stone-900">
           Create a listing
         </h1>
         <p className="mt-2 text-lg text-stone-700">
@@ -1516,7 +1516,7 @@ function PreviewModal({
         <div className="flex items-center justify-between p-4 border-b-2 border-stone-200 sticky top-0 bg-white rounded-t-lg z-10">
           <div>
             <p className="text-base font-semibold text-blue-700">Preview</p>
-            <h2 id="preview-title" className="text-xl font-display font-black text-stone-900">
+            <h2 id="preview-title" className="text-xl font-display font-medium text-stone-900">
               How seniors will see your listing
             </h2>
           </div>
@@ -1548,7 +1548,7 @@ function PreviewModal({
             </div>
             <div className="p-4 space-y-3">
               <div className="flex items-start justify-between gap-2">
-                <h3 className="text-xl font-display font-black text-stone-900">
+                <h3 className="text-xl font-display font-medium text-stone-900">
                   {form.name || "Listing name"}
                 </h3>
               </div>

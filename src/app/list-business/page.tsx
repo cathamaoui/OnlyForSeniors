@@ -17,7 +17,7 @@ export default function ListBusinessPage() {
           <p className="text-base font-semibold text-stone-800 mb-2">
             Step 1 of 4
           </p>
-          <h1 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+          <h1 className="text-3xl sm:text-4xl font-display font-medium text-stone-900">
             Create your business account
           </h1>
           <p className="mt-3 text-lg text-stone-700">

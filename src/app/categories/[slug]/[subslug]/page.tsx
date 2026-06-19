@@ -75,7 +75,7 @@ export default async function SubcategoryPage({
               <p className="text-base font-semibold text-stone-700">
                 {category.name}
               </p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-stone-900 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-stone-900 leading-tight">
                 {subcategory.name}
               </h1>
               <p className="mt-2 text-base text-stone-700 sm:hidden">

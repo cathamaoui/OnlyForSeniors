@@ -39,7 +39,7 @@ export function CategoryCard({ category, description }: Props) {
       </div>
 
       {/* Title */}
-      <h3 className="font-display font-black text-xl text-black leading-tight">
+      <h3 className="font-display font-medium text-xl text-black leading-tight">
         {category.name}
       </h3>
 

@@ -97,7 +97,7 @@ export function Confirmation() {
         <div className="inline-flex w-14 h-14 items-center justify-center rounded-full bg-blue-100 mb-4">
           <CheckCircle2 className="w-9 h-9 text-blue-700" />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-display font-black text-stone-900">
+        <h1 className="text-3xl sm:text-4xl font-display font-medium text-stone-900">
           You&apos;re in.
         </h1>
         <p className="mt-3 text-lg text-stone-700 max-w-xl mx-auto">
@@ -293,7 +293,7 @@ export function Confirmation() {
 
       {/* Next steps */}
       <div className="bg-white border-2 border-stone-200 rounded-lg p-6 sm:p-8">
-        <h2 className="text-xl font-display font-black text-stone-900 mb-3">
+        <h2 className="text-xl font-display font-medium text-stone-900 mb-3">
           What happens next
         </h2>
         <ol className="space-y-3 text-base text-stone-800">

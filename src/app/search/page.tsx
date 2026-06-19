@@ -22,7 +22,7 @@ export default function SearchPage() {
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>
-          <h1 className="text-xl md:text-2xl font-display font-bold">Search</h1>
+          <h1 className="text-xl md:text-2xl font-display font-medium">Search</h1>
           <div className="w-24" />
         </div>
       </div>

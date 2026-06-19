@@ -64,7 +64,7 @@ export function Footer() {
         >
           {/* Column 1 — site */}
           <div>
-            <h3 className="text-base font-display font-bold text-black mb-3 uppercase tracking-wide">
+            <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
               Site
             </h3>
             <ul className="flex flex-col gap-2">
@@ -83,7 +83,7 @@ export function Footer() {
 
           {/* Column 2 — your account */}
           <div>
-            <h3 className="text-base font-display font-bold text-black mb-3 uppercase tracking-wide">
+            <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
               Your Account
             </h3>
             <ul className="flex flex-col gap-2">
@@ -102,7 +102,7 @@ export function Footer() {
 
           {/* Column 3 — support & legal */}
           <div>
-            <h3 className="text-base font-display font-bold text-black mb-3 uppercase tracking-wide">
+            <h3 className="text-base font-display font-medium text-black mb-3 uppercase tracking-wide">
               Support
             </h3>
             <ul className="flex flex-col gap-2">
