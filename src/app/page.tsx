@@ -8,6 +8,7 @@ import {
 } from "@/lib/businesses";
 import { BusinessCard } from "@/components/ui/BusinessCard";
 import { CategorySearch } from "@/components/ui/CategorySearch";
+import { CategoryIcon } from "@/components/ui/CategoryIcon";
 
 export const metadata = {
   title: "Only For Seniors — Canada's Senior Marketplace",
@@ -107,8 +108,8 @@ export default function HomePage() {
                       href={`/categories/${cat.slug}`}
                       className="flex items-center justify-between gap-2 px-4 py-3 border-b border-stone-200 last:border-b-0 hover:bg-stone-50"
                     >
-                      <span className="flex items-center gap-2 text-base">
-                        <span aria-hidden>{cat.icon}</span>
+                      <span className="flex items-center gap-3 text-base min-w-0">
+                        <CategoryIcon category={cat} size="sm" />
                         <span className="line-clamp-1">{cat.name}</span>
                       </span>
                       <span className="text-base text-stone-700">({count})</span>
@@ -190,9 +191,7 @@ export default function HomePage() {
                       href={`/categories/${cat.slug}/`}
                       className="group flex items-center gap-3 p-4 bg-white border-2 border-stone-200 rounded-2xl hover:border-stone-900 hover:shadow-sm transition-colors min-h-touch"
                     >
-                      <span aria-hidden="true" className="text-3xl flex-shrink-0">
-                        {cat.icon}
-                      </span>
+                      <CategoryIcon category={cat} size="md" />
                       <span className="flex-1 min-w-0">
                         <span className="block font-display font-bold text-stone-900 line-clamp-2 group-hover:underline">
                           {cat.name}

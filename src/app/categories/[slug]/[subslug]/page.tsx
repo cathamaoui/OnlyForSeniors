@@ -7,6 +7,7 @@ import {
   getAllCategories,
 } from "@/lib/businesses";
 import { BusinessCard } from "@/components/ui/BusinessCard";
+import { CategoryIcon } from "@/components/ui/CategoryIcon";
 
 export function generateStaticParams() {
   const out: Array<{ slug: string; subslug: string }> = [];
@@ -51,22 +52,41 @@ export default async function SubcategoryPage({
 
   return (
     <div className="min-h-screen bg-stone-50">
-      <div className="border-b-2 border-black bg-white">
+      <div className="border-b border-stone-200 bg-white">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href={`/categories/${slug}`}
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-stone-900 border border-stone-200 rounded-full font-semibold text-base hover:bg-stone-50 hover:border-stone-900"
           >
             <ArrowLeft className="w-4 h-4" /> {category.name}
           </Link>
-          <h1 className="text-xl md:text-2xl font-display font-bold truncate">
-            {category.icon} {subcategory.name}
-          </h1>
-          <div className="w-24" />
+          <p className="text-base text-stone-700 hidden sm:block">
+            {sorted.length} listing{sorted.length === 1 ? "" : "s"}
+          </p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
+      {/* Page header — icon, parent category, subcategory */}
+      <div className="bg-stone-50">
+        <div className="max-w-6xl mx-auto px-4 pt-8 pb-6 sm:pt-10 sm:pb-8">
+          <div className="flex items-start gap-4">
+            <CategoryIcon category={category} size="lg" />
+            <div className="min-w-0">
+              <p className="text-base font-semibold text-stone-700">
+                {category.name}
+              </p>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-stone-900 leading-tight">
+                {subcategory.name}
+              </h1>
+              <p className="mt-2 text-base text-stone-700 sm:hidden">
+                {sorted.length} listing{sorted.length === 1 ? "" : "s"}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <p className="text-stone-700">
             <span className="font-bold">{sorted.length}</span> listing{sorted.length === 1 ? "" : "s"} in {subcategory.name}
@@ -74,8 +94,8 @@ export default async function SubcategoryPage({
         </div>
 
         {sorted.length === 0 ? (
-          <div className="bg-white border-2 border-black rounded-lg p-12 text-center">
-            <p className="text-lg text-stone-800">No listings in this sub-category yet.</p>
+          <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center">
+            <p className="text-lg text-stone-900 font-bold">No listings in this sub-category yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

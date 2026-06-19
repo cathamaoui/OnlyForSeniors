@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, ChevronDown, X, Check } from "lucide-react";
 import type { Category } from "@/lib/businesses";
+import { CategoryIcon, iconForSlug } from "@/components/ui/CategoryIcon";
 
 export function CategorySearch({ categories }: { categories: Category[] }) {
   const router = useRouter();
@@ -84,9 +85,16 @@ export function CategorySearch({ categories }: { categories: Category[] }) {
           className="inline-flex items-center justify-between gap-2 px-4 py-3 sm:py-2 text-lg sm:text-base font-bold text-stone-900 bg-stone-100 hover:bg-stone-200 border border-stone-200 rounded-xl sm:rounded-full min-h-touch"
         >
           <span className="flex items-center gap-2 min-w-0">
-            <span aria-hidden="true" className="text-xl">
-              {picked ? picked.icon : "📂"}
-            </span>
+            {picked ? (
+              <CategoryIcon category={picked} size="sm" />
+            ) : (
+              <span aria-hidden="true" className="inline-flex items-center justify-center w-8 h-8 bg-black text-white rounded-lg flex-shrink-0">
+                {(() => {
+                  const I = iconForSlug("default");
+                  return <I className="w-4 h-4" strokeWidth={2.25} />;
+                })()}
+              </span>
+            )}
             <span className="truncate">
               {picked ? picked.name : "All categories"}
             </span>
@@ -160,7 +168,12 @@ export function CategorySearch({ categories }: { categories: Category[] }) {
                 !picked ? "bg-stone-100" : ""
               }`}
             >
-              <span aria-hidden="true" className="text-xl w-7 text-center">📂</span>
+              <span aria-hidden="true" className="inline-flex items-center justify-center w-7 h-7 bg-black text-white rounded-md flex-shrink-0">
+                {(() => {
+                  const I = iconForSlug("default");
+                  return <I className="w-3.5 h-3.5" strokeWidth={2.25} />;
+                })()}
+              </span>
               <span className="flex-1 font-bold text-stone-900">All categories</span>
               {!picked && <Check className="w-4 h-4 text-stone-900" aria-hidden="true" />}
             </button>
@@ -176,9 +189,7 @@ export function CategorySearch({ categories }: { categories: Category[] }) {
                     active ? "bg-stone-100" : ""
                   }`}
                 >
-                  <span aria-hidden="true" className="text-xl w-7 text-center">
-                    {cat.icon}
-                  </span>
+                  <CategoryIcon category={cat} size="sm" />
                   <span className="flex-1 text-stone-900 line-clamp-1">
                     {cat.name}
                   </span>

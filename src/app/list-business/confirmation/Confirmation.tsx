@@ -19,6 +19,7 @@ import {
 import { getProvince, type ProvinceCode, PROVINCES } from "@/lib/canadaTax";
 import { getAllCategories } from "@/lib/businesses";
 import { formatDateShort, formatInterval, getAddon, normaliseAddonList } from "@/lib/addons";
+import { CategoryIcon } from "@/components/ui/CategoryIcon";
 
 function today(): string {
   return new Date().toLocaleDateString("en-CA", {
@@ -171,8 +172,16 @@ export function Confirmation() {
               Only For Seniors — Business Listing
             </p>
             <p className="text-base text-stone-800">Monthly · renews automatically</p>
-            <p className="text-base text-stone-800">
-              Category: {category ? `${category.icon} ${category.name}` : "—"}
+            <p className="text-base text-stone-800 flex items-center gap-2">
+              <span className="font-bold">Category:</span>
+              {category ? (
+                <>
+                  <CategoryIcon category={category} size="sm" />
+                  <span>{category.name}</span>
+                </>
+              ) : (
+                "—"
+              )}
             </p>
             {sub && (
               <p className="text-base text-stone-800">Sub-category: {sub.name}</p>

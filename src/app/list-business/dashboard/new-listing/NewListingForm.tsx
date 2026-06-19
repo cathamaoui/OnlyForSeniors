@@ -28,6 +28,7 @@ import {
   X,
 } from "lucide-react";
 import { getAllCategories } from "@/lib/businesses";
+import { CategoryIcon } from "@/components/ui/CategoryIcon";
 import { PROVINCES, type ProvinceCode } from "@/lib/canadaTax";
 import { loadSignup } from "@/lib/signup";
 import {
@@ -1671,9 +1672,16 @@ function PreviewModal({
 
           {/* Category + service area line */}
           <div className="bg-stone-50 border-2 border-stone-200 rounded-lg p-4 text-base text-stone-800">
-            <p>
-              <span className="font-bold">Category:</span>{" "}
-              {cat ? `${cat.icon} ${cat.name}` : "Not selected"}{" "}
+            <p className="flex items-center gap-2 flex-wrap">
+              <span className="font-bold">Category:</span>
+              {cat ? (
+                <>
+                  <CategoryIcon category={cat} size="sm" />
+                  <span>{cat.name}</span>
+                </>
+              ) : (
+                <span>Not selected</span>
+              )}
               {sub && <span className="text-stone-700">· {sub.name}</span>}
             </p>
             {form.serviceArea && (

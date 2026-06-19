@@ -29,6 +29,7 @@ import {
 } from "@/lib/signup";
 import { getProvince, type ProvinceCode, PROVINCES } from "@/lib/canadaTax";
 import { getAllCategories } from "@/lib/businesses";
+import { CategoryIcon } from "@/components/ui/CategoryIcon";
 import {
   getUserListingsFor,
   deleteUserListing,
@@ -256,9 +257,16 @@ export function Dashboard() {
             </div>
             <div>
               <dt className="font-bold text-stone-700">Category</dt>
-              <dd className="text-stone-900">
-                {category ? `${category.icon} ${category.name}` : "—"}
-                {sub && <span className="text-stone-700"> · {sub.name}</span>}
+              <dd className="text-stone-900 flex items-center gap-2">
+                {category ? (
+                  <>
+                    <CategoryIcon category={category} size="sm" />
+                    <span>{category.name}</span>
+                  </>
+                ) : (
+                  "—"
+                )}
+                {sub && <span className="text-stone-700 ml-1">· {sub.name}</span>}
               </dd>
             </div>
             <div>
@@ -477,7 +485,14 @@ export function Dashboard() {
                       </p>
                     )}
                     <p className="text-base text-stone-700 mt-1 flex flex-wrap items-center gap-2">
-                      <span>{cat ? `${cat.icon} ${cat.name}` : "Uncategorized"}</span>
+                      {cat ? (
+                        <>
+                          <CategoryIcon category={cat} size="sm" />
+                          <span>{cat.name}</span>
+                        </>
+                      ) : (
+                        <span>Uncategorized</span>
+                      )}
                       {l.city && (
                         <>
                           <span>·</span>

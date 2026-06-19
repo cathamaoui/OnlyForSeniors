@@ -6,6 +6,7 @@ import {
   getCategoryCounts,
   getRecentBusinesses,
 } from "@/lib/businesses";
+import { CategoryIcon } from "@/components/ui/CategoryIcon";
 
 export const metadata = {
   title: "All Categories — Only For Seniors",
@@ -76,11 +77,10 @@ export default function CategoriesPage() {
               <div key={cat.slug} className="bg-white border-2 border-black rounded-lg overflow-hidden">
                 <Link
                   href={`/categories/${cat.slug}`}
-                  className="block px-4 py-3 border-b-2 border-black font-display font-bold text-base hover:underline"
-                  style={{ backgroundColor: cat.color, color: "white" }}
+                  className="flex items-center gap-3 px-4 py-3 border-b-2 border-black bg-stone-900 text-white font-display font-bold text-base hover:bg-stone-700"
                 >
-                  <span className="mr-2">{cat.icon}</span>
-                  {cat.name}{" "}
+                  <CategoryIcon category={cat} size="sm" className="!bg-white !text-stone-900" />
+                  <span className="flex-1">{cat.name}</span>
                   <span className="font-normal text-base opacity-90">({catCount})</span>
                 </Link>
                 <ul>
@@ -139,17 +139,12 @@ export default function CategoriesPage() {
                   <Link
                     key={cat.slug}
                     href={`/categories/${cat.slug}`}
-                    className="block border-2 border-black rounded-lg p-4 hover:shadow-yp transition-shadow"
+                    className="block border-2 border-stone-200 rounded-lg p-4 hover:border-stone-900 hover:shadow-sm transition-colors"
                   >
-                    <div
-                      className="text-2xl mb-2 inline-flex items-center justify-center w-10 h-10 rounded"
-                      style={{ backgroundColor: cat.color, color: "white" }}
-                    >
-                      {cat.icon}
-                    </div>
-                    <h3 className="font-display font-bold text-lg">{cat.name}</h3>
-                    <p className="text-base text-stone-800">
-                      {cat.subcategories.length} sub-categories · {catCount} listing{catCount === 1 ? "" : "s"}
+                    <CategoryIcon category={cat} size="md" className="mb-2" />
+                    <h3 className="font-display font-bold text-lg text-stone-900">{cat.name}</h3>
+                    <p className="text-base text-stone-700">
+                      {cat.subcategories.length} sub-categor{cat.subcategories.length === 1 ? "y" : "ies"} · {catCount} listing{catCount === 1 ? "" : "s"}
                     </p>
                   </Link>
                 );
