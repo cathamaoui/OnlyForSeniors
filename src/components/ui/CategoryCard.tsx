@@ -33,9 +33,9 @@ export function CategoryCard({ category, description }: Props) {
       href={`/categories/${category.slug}/`}
       className="group flex flex-col items-center text-center bg-white rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
     >
-      {/* Black icon tile — taste-skill style */}
-      <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center mb-5">
-        <Icon className="w-7 h-7 text-white" strokeWidth={1.75} aria-hidden="true" />
+      {/* Icon — transparent background, black stroke. No tile, no border. */}
+      <div className="mb-5">
+        <Icon className="w-12 h-12 text-black" strokeWidth={1.5} aria-hidden="true" />
       </div>
 
       {/* Title */}
