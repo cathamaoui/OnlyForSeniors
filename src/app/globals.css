@@ -8,6 +8,11 @@
   --ink: #0a0a0a;
   --dial-red: #c8102e;
 
+  /* Heading font family — must match tailwind.config.ts fontFamily.display.
+     Read by the h1-h6 rule below. Kept as a CSS variable so the .config.ts
+     can change the font in one place. */
+  --font-display: "Prompt", Georgia, serif;
+
   /* Senior-friendly type scale (all in rem so 150% browser zoom scales cleanly).
      Reference: 1rem = 18px (set on <html>). */
   --fs-h1: 2.25rem;    /* 40.5px  — H1 max */
@@ -36,9 +41,11 @@ body {
 }
 
 /* Senior-friendly type scale — locked in. Anything using <h1>-<h6> is sized in
-   rem so 150% browser zoom scales the whole layout without breaking. */
+   rem so 150% browser zoom scales the whole layout without breaking.
+   Font family pulls from the Tailwind `font-display` token so a single
+   swap in tailwind.config.ts re-skins every heading. */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Bitter", Georgia, serif;
+  font-family: var(--font-display, "Prompt"), Georgia, serif;
   font-weight: 700;
   letter-spacing: -0.005em;
   line-height: 1.3;

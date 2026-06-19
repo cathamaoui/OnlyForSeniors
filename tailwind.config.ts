@@ -38,10 +38,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Prompt — modern serif designed by Cadson Demak. Soft, elegant
-        // terminals with subtle calligraphic warmth. Used for headings
-        // (display role). Pairs an editorial feel with strong legibility
-        // at display sizes for seniors.
+        // Prompt — modern sans-serif designed by Cadson Demak. Soft,
+        // elegant strokes with excellent legibility. Used for headings
+        // (display role). Pairs clean geometric forms with strong
+        // readability at display sizes for seniors.
         display: ['"Prompt"', "Georgia", "serif"],
         // Atkinson Hyperlegible — designed by the Braille Institute
         // specifically for low-vision readers. Kept for body text so
