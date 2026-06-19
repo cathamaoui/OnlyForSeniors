@@ -17,7 +17,7 @@ export default function AllBusinessesPage() {
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 text-black font-display text-base hover:underline"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>

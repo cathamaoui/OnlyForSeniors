@@ -50,7 +50,7 @@ export default async function BusinessDetailPage({
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href={cat ? `/categories/${cat.slug}` : "/businesses"}
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black border-2 border-black font-display   text-base shadow-sm hover:bg-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 text-black font-display text-base hover:underline"
           >
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
@@ -72,7 +72,7 @@ export default async function BusinessDetailPage({
               priority
             />
             {b.isFeatured && (
-              <span className="absolute top-3 left-3 bg-white text-black text-base font-bold px-3 py-1.5 rounded border-2 border-black shadow-sm">
+              <span className="absolute top-3 left-3 text-black text-base font-bold px-3 py-1.5 rounded hover:underline">
                 Featured
               </span>
             )}

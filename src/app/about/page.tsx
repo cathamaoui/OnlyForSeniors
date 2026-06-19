@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, BadgeCheck, Heart, MapPin, Shield, Mail, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, Heart, MapPin, Shield, Mail, Sparkles } from "lucide-react";
 
 export const metadata = {
   title: "About — Only For Seniors",
@@ -13,7 +13,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-stone-900 border border-stone-200 rounded-full font-semibold text-base hover:bg-stone-50 hover:border-stone-900"
+            className="inline-flex items-center gap-2 min-h-touch text-base font-semibold text-stone-800 hover:text-black hover:underline"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>
@@ -22,7 +22,7 @@ export default function AboutPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
         <section>
-          <p className="inline-block text-base font-bold   bg-black text-white px-3 py-1 rounded-full">
+          <p className="inline-block text-sm font-semibold uppercase tracking-wider text-stone-500">
             Our mission
           </p>
           <h2 className="mt-3 text-3xl md:text-4xl font-display font-medium leading-normal">
@@ -86,9 +86,10 @@ export default function AboutPage() {
           </p>
           <Link
             href="/list-business/"
-            className="inline-block mt-4 px-6 py-3 bg-stone-900 text-white font-display font-bold rounded-full hover:bg-black min-h-touch"
+            className="inline-flex items-center gap-2 mt-4 min-h-touch text-lg font-semibold text-black hover:underline underline-offset-4"
           >
             Post a Listing — $10/mo
+            <ArrowRight className="w-5 h-5" />
           </Link>
         </section>
 

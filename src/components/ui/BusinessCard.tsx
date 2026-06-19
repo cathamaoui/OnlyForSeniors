@@ -32,7 +32,7 @@ export function BusinessCard({ business }: Props) {
         )}
         {/* Nudge arrow -- appears on hover to signal clickability */}
         <span
-          className="absolute top-2 right-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/95 border-2 border-black opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute top-2 right-2 inline-flex items-center justify-center w-8 h-8 /95 opacity-0 group-hover:opacity-100 transition-opacity hover:underline"
           aria-hidden="true"
         >
           <ArrowUpRight className="w-4 h-4 text-black" strokeWidth={2.5} />

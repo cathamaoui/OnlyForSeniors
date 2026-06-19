@@ -37,20 +37,22 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
         {/* Brand */}
         <div className="md:max-w-md">
-          <Link href="/" className="inline-flex items-center gap-3" aria-label="Only For Seniors — home">
-            <span className="w-10 h-10 bg-black text-white font-display font-black flex items-center justify-center rounded-lg text-base">
-              OFS
+          <Link href="/" aria-label="Only For Seniors — home">
+            <span className="font-display font-bold text-black text-xl">
+              Only For Seniors
             </span>
-            <span className="font-display font-bold text-black text-xl">Only For Seniors</span>
           </Link>
           <p className="mt-3 text-lg text-stone-700 leading-relaxed">
             Canada&apos;s senior marketplace. No ads. No spam. Just the people who can help.
           </p>
-          <p className="mt-3 text-base text-stone-500">
-            Call our free senior help line:{" "}
+          {/* Phone on its own line — no inline crowding */}
+          <p className="mt-4 text-base text-stone-600">
+            Call our free senior help line:
+          </p>
+          <p className="mt-1">
             <a
               href="tel:1-855-555-0123"
-              className="font-display font-black text-black text-lg hover:underline"
+              className="font-display font-black text-black text-2xl hover:underline whitespace-nowrap"
             >
               1-855-555-0123
             </a>

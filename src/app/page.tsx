@@ -1,4 +1,5 @@
-import { MapPin, BadgeCheck, Heart, Phone } from "lucide-react";
+import Link from "next/link";
+import { MapPin, BadgeCheck, Heart, Phone, ArrowRight } from "lucide-react";
 import { getAllCategories } from "@/lib/businesses";
 import { CategorySearch } from "@/components/ui/CategorySearch";
 import { CategoryCard } from "@/components/ui/CategoryCard";
@@ -154,17 +155,19 @@ export default function HomePage() {
 
       {/* Help line */}
       <section className="max-w-4xl mx-auto px-4 py-8 sm:py-10 text-center border-t border-stone-200">
-        <div className="inline-flex items-center gap-2 text-base text-stone-700">
-          <Phone className="w-5 h-5 text-black" strokeWidth={1.5} />
-          <span>Need help? Call our free senior help line:</span>
+        <div className="inline-flex flex-col items-center gap-2 text-stone-700">
+          <div className="inline-flex items-center gap-2 text-base">
+            <Phone className="w-5 h-5 text-black" strokeWidth={1.5} />
+            <span>Need help? Call our free senior help line.</span>
+          </div>
           <a
             href="tel:1-855-555-0123"
-            className="font-display font-black text-black text-lg hover:underline"
+            className="font-display font-black text-black text-3xl sm:text-4xl hover:underline whitespace-nowrap"
           >
             1-855-555-0123
           </a>
+          <p className="text-base text-stone-600">Mon–Fri 8am–8pm ET</p>
         </div>
-        <p className="text-base text-stone-700 mt-1">Mon–Fri 8am–8pm ET</p>
       </section>
     </div>
   );

@@ -26,7 +26,7 @@ export default function CategoriesPage() {
         <div className="max-w-6xl mx-auto px-4 py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-black rounded-full font-semibold text-base hover:bg-stone-50 shadow-sm border border-stone-100"
+            className="inline-flex items-center gap-2 min-h-touch text-base font-semibold text-stone-800 hover:text-black hover:underline"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
@@ -126,7 +126,7 @@ export default function CategoriesPage() {
             </p>
             <Link
               href="/categories/volunteer"
-              className="inline-block bg-white text-black px-3 py-2 font-bold text-base rounded-full hover:bg-stone-100"
+              className="inline-flex items-center px-3 py-2 text-base font-semibold text-black hover:underline underline-offset-4"
             >
               Browse volunteer opportunities →
             </Link>

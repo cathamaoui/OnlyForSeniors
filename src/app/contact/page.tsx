@@ -13,7 +13,7 @@ export default function ContactPage() {
         <div className="max-w-3xl mx-auto px-4 py-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 min-h-touch px-4 py-2 bg-white text-stone-900 border border-stone-200 rounded-full font-semibold text-base hover:bg-stone-50 hover:border-stone-900"
+            className="inline-flex items-center gap-2 min-h-touch text-base font-semibold text-stone-800 hover:text-black hover:underline"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>
@@ -22,7 +22,7 @@ export default function ContactPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-10 sm:py-12 space-y-8">
         <section>
-          <p className="inline-block text-base font-bold bg-stone-900 text-white px-3 py-1 rounded-full">
+          <p className="inline-block text-sm font-semibold uppercase tracking-wider text-stone-500">
             We'd love to hear from you
           </p>
           <h2 className="mt-3 text-3xl md:text-4xl font-display font-medium leading-normal text-stone-900">
@@ -73,7 +73,7 @@ export default function ContactPage() {
             </div>
             <button
               type="button"
-              className="w-full sm:w-auto min-h-touch px-8 py-3 bg-stone-900 text-white border border-stone-900 font-display font-bold text-lg rounded-full hover:bg-black"
+              className="inline-flex items-center gap-2 w-full sm:w-auto min-h-touch px-1 py-1 text-lg font-semibold text-black hover:underline underline-offset-4"
             >
               Send message
             </button>
