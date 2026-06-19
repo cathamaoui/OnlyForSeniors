@@ -77,6 +77,24 @@ export function getBoostedEvents(): Event[] {
   return events.filter((e) => e.isBoosted && e.endDate >= new Date().toISOString().slice(0, 10));
 }
 
+/**
+ * Every event that has ANY day in the given month, sorted by start
+ * date then start time. Used to render a printable list view.
+ */
+export function getEventsForMonth(year: number, month0: number): Event[] {
+  const monthStart = `${year}-${String(month0 + 1).padStart(2, "0")}-01`;
+  // Last day of the month
+  const lastDay = new Date(year, month0 + 1, 0).getDate();
+  const monthEnd = `${year}-${String(month0 + 1).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
+  return events
+    .filter((e) => e.startDate <= monthEnd && e.endDate >= monthStart)
+    .sort((a, b) => {
+      const dc = a.startDate.localeCompare(b.startDate);
+      if (dc !== 0) return dc;
+      return a.startTime.localeCompare(b.startTime);
+    });
+}
+
 /** Lookup a single event by id. */
 export function getEventById(id: string): Event | null {
   return events.find((e) => e.id === id) ?? null;

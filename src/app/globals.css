@@ -1,37 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400;1,9..40,500&family=Atkinson+Hyperlegible:wght@400;700&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root {
   --ink: #0a0a0a;
   --dial-red: #c8102e;
-
   /* Heading font family — must match tailwind.config.ts fontFamily.display.
      Read by the h1-h6 rule below. Kept as a CSS variable so the .config.ts
-     can change the font in one place. */
+     swap propagates automatically. */
   --font-display: "DM Sans", system-ui, -apple-system, sans-serif;
-
-  /* Senior-friendly type scale (all in rem so 150% browser zoom scales cleanly).
-     Reference: 1rem = 18px (set on <html>). */
-  --fs-h1: 2.25rem;    /* 40.5px  — H1 max */
-  --fs-h2: 1.5rem;     /* 27px    — H2/H3 */
-  --fs-h3: 1.375rem;   /* 24.75px — section heads */
-  --fs-body: 1.125rem; /* 20.25px — body text & descriptions */
-  --fs-small: 1rem;    /* 18px    — form labels, captions, buttons */
+  /* Senior-friendly type scale (all in rem so 150% browser zoom scales cleanly). */
+  --fs-body: 1rem;
+  --fs-h1: 2.5rem;
+  --fs-h2: 1.875rem;
+  --fs-h3: 1.375rem;
 }
-
 html {
   font-size: 18px;
   -webkit-text-size-adjust: 100%;
 }
-
 body {
   font-family: "Atkinson Hyperlegible", system-ui, -apple-system, sans-serif;
   color: #0a0a0a;
   /* Warm cream/parchment — sampled from taste-skill's hero. Feels softer
-     and warmer than pure white, easier on aging eyes. */
+     than pure white and pairs with the Atkinson Hyperlegible body font. */
   background: #f3ede4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -39,12 +31,9 @@ body {
   font-weight: 400;
   font-size: var(--fs-body);
 }
-
-/* Senior-friendly type scale — locked in. Anything using <h1>-<h6> is sized in
    rem so 150% browser zoom scales the whole layout without breaking.
    Font family pulls from the Tailwind `font-display` token so a single
    swap in tailwind.config.ts re-skins every heading. Default weight is
-   500 (medium) — crisp without feeling bold. */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display, "DM Sans"), system-ui, sans-serif;
   font-weight: 500;
@@ -55,29 +44,20 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: var(--fs-h1); }
 h2 { font-size: var(--fs-h2); }
 h3 { font-size: var(--fs-h3); }
-h4 { font-size: 1.25rem; } /* 22.5px */
-h5 { font-size: 1.125rem; } /* 20.25px */
-h6 { font-size: 1rem; }     /* 18px */
-
 strong, b {
   font-weight: 700;
 }
-
 *:focus-visible {
   outline: 4px solid #c8102e;
   outline-offset: 3px;
 }
-
 ::selection {
   background: #c8102e;
   color: #fff;
 }
 
 /* Defeat the browser's autofill background (yellow/blue/red/etc.) on the
-   hero search input — keeps our pure-white design consistent and prevents
-   the password manager's overlay from showing through as a red box. The
-   long `-webkit-box-shadow` trick overrides the default autofill tint
-   without disabling the field. */
+   hero search input — keeps our pure-white design consistent. */
 .hero-search-input:-webkit-autofill,
 .hero-search-input:-webkit-autofill:hover,
 .hero-search-input:-webkit-autofill:focus {
@@ -88,7 +68,6 @@ strong, b {
   caret-color: #0a0a0a;
   transition: background-color 9999s ease-in-out 0s;
 }
-
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -101,8 +80,6 @@ strong, b {
   border: 2px solid #ffffff;
   border-radius: 6px;
 }
-
-/* Defang any leftover legacy yellow classes — these used to paint yellow. */
 .bg-yp-500, .bg-yp, .yp-paper {
   background-color: #ffffff !important;
   background-image: none !important;
@@ -110,14 +87,11 @@ strong, b {
 .text-yp-500, .text-yp { color: #0a0a0a !important; }
 .border-yp { border-color: #e7e5e4 !important; }
 .hover\:bg-yp:hover { background-color: #f5f5f4 !important; }
-
-/* Slow pulse used by the Boost Center "Action needed" glow. */
 @keyframes ofs-pulse-slow {
   0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.0); }
   50%      { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.18); }
 }
 .animate-pulse-slow { animation: ofs-pulse-slow 2.5s ease-in-out infinite; }
-
 @layer components {
   .btn-yp {
     @apply inline-flex items-center justify-center gap-2
@@ -166,7 +140,6 @@ strong, b {
     @apply block text-base font-semibold text-stone-800 mt-1 leading-relaxed;
   }
 }
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -175,23 +148,15 @@ strong, b {
   }
 }
 
-/* ============================================================================
-   Mobile / touch optimizations
-   ============================================================================ */
-
-/* Kill the gray flash on tap (iOS Safari + Android Chrome). */
+/* Mobile / touch optimizations */
 * {
   -webkit-tap-highlight-color: transparent;
 }
-
-/* Disable double-tap-to-zoom on buttons (300ms delay removal). */
 button,
 [role="button"],
 a {
   touch-action: manipulation;
 }
-
-/* Respect iOS safe-area notches on fixed/sticky elements. */
 @supports (padding: max(0px)) {
   .safe-x {
     padding-left: max(1rem, env(safe-area-inset-left));
@@ -204,39 +169,26 @@ a {
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
 }
-
-/* Anchor scroll offset so sticky header doesn't cover anchor targets. */
 :target {
   scroll-margin-top: 6rem;
 }
-
-/* Better text wrapping on mobile headings (prevents orphans / awkward breaks). */
 h1, h2 {
   text-wrap: balance;
 }
 p {
   text-wrap: pretty;
 }
-
-/* Smooth scroll for in-page anchors; respects reduced-motion preference. */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
 }
-
-/* Sticky-header-aware scroll on focus jumps. */
 :focus-visible {
   scroll-margin-top: 6rem;
 }
-
-/* Mobile-friendly horizontal scroll on tables and code blocks. */
 table, pre {
   -webkit-overflow-scrolling: touch;
 }
-
-/* Make sure the browser autofill background on category cards doesn't
-   leak the yellow/red flash either. */
 .bg-white:-webkit-autofill,
 input:-webkit-autofill,
 textarea:-webkit-autofill,

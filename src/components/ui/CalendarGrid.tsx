@@ -1,15 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles, Printer } from "lucide-react";
 import {
   Event,
   getEventsForDate,
+  getEventsForMonth,
   toIsoDate,
   parseLocalDate,
   getCalendarGridStart,
   daysInMonth,
   formatEventDateLong,
+  formatEventTimeRange,
 } from "@/lib/events";
 import { EventCard } from "@/components/ui/EventCard";
 
@@ -35,6 +37,8 @@ export function CalendarGrid({ events, initialDate }: Props) {
     initialDate ? new Date(initialDate) : new Date(today.getFullYear(), today.getMonth(), 1)
   );
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  /** Ref to the "selected day" container so we can scroll into view. */
+  const selectedRef = useRef<HTMLDivElement | null>(null);
 
   const year = cursor.getFullYear();
   const month0 = cursor.getMonth();
@@ -73,6 +77,16 @@ export function CalendarGrid({ events, initialDate }: Props) {
   }
 
   const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
+  // All events for the currently-displayed month (for the print view).
+  const monthEvents = getEventsForMonth(year, month0);
+  // Group consecutive events that share the same startDate into one
+  // "day" so the print view is easy to scan.
+  const monthEventsByDate: Record<string, Event[]> = {};
+  for (const e of monthEvents) {
+    if (!monthEventsByDate[e.startDate]) monthEventsByDate[e.startDate] = [];
+    monthEventsByDate[e.startDate].push(e);
+  }
+  const monthEventDates = Object.keys(monthEventsByDate).sort();
 
   return (
     <div>
@@ -99,13 +113,24 @@ export function CalendarGrid({ events, initialDate }: Props) {
             <ChevronRight className="w-5 h-5" strokeWidth={2} />
           </button>
         </div>
-        <button
-          type="button"
-          onClick={goToday}
-          className="px-4 py-2 text-base font-display font-medium bg-white border-2 border-stone-300 rounded-full hover:border-black min-h-touch"
-        >
-          Today
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={goToday}
+            className="px-4 py-2 text-base font-display font-medium bg-white border-2 border-stone-300 rounded-full hover:border-black min-h-touch"
+          >
+            Today
+          </button>
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="px-4 py-2 text-base font-display font-medium bg-white border-2 border-stone-300 rounded-full hover:border-black min-h-touch inline-flex items-center gap-2 no-print"
+            aria-label="Print this month's events"
+          >
+            <Printer className="w-4 h-4" strokeWidth={1.75} />
+            Print this month
+          </button>
+        </div>
       </div>
 
       {/* Weekday header row */}
@@ -127,7 +152,18 @@ export function CalendarGrid({ events, initialDate }: Props) {
             <button
               key={c.iso}
               type="button"
-              onClick={() => setSelectedDate(c.iso)}
+              onClick={() => {
+                setSelectedDate(c.iso);
+                // Scroll to the events-for-this-day list below the grid.
+                // requestAnimationFrame lets React paint the new state
+                // before we measure the container.
+                requestAnimationFrame(() => {
+                  selectedRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                });
+              }}
               className={[
                 "relative bg-white min-h-[88px] sm:min-h-[100px] p-2 text-left flex flex-col gap-1 transition",
                 c.inMonth ? "text-black" : "text-stone-300",
@@ -175,9 +211,11 @@ export function CalendarGrid({ events, initialDate }: Props) {
         })}
       </div>
 
-      {/* Selected-day event list */}
+      {/* Selected-day event list.
+          scroll-mt-32 leaves room for the sticky site header when the
+          page smooth-scrolls here after a calendar cell is clicked. */}
       {selectedDate && (
-        <div className="mt-8">
+        <div ref={selectedRef} className="mt-8 scroll-mt-32">
           <h3 className="text-2xl font-display font-medium text-black">
             {formatEventDateLong(selectedDate)}
           </h3>
@@ -194,6 +232,59 @@ export function CalendarGrid({ events, initialDate }: Props) {
           )}
         </div>
       )}
+
+      {/* PRINT-ONLY: full list of events for the displayed month.
+          Hidden on screen; shown by globals.css @media print rules. */}
+      <div className="print-only" aria-hidden="true">
+        <header>
+          <h1>Calendar of Events — {MONTH_NAMES[month0]} {year}</h1>
+          <p>Only For Seniors · onlyforseniors.ca</p>
+        </header>
+        {monthEventDates.length === 0 ? (
+          <p>No events scheduled this month.</p>
+        ) : (
+          <ol>
+            {monthEventDates.map((iso) => (
+              <li key={iso}>
+                <h2>{formatEventDateLong(iso)}</h2>
+                {monthEventsByDate[iso].map((e) => (
+                  <article key={e.id}>
+                    <h3>{e.title}</h3>
+                    <p>
+                      <strong>{formatEventTimeRange(e.startTime, e.endTime)}</strong>
+                      {e.endDate !== e.startDate && (
+                        <em> (multi-day event through {formatEventDateLong(e.endDate)})</em>
+                      )}
+                    </p>
+                    <p>
+                      {e.venue}, {e.address}, {e.city}, {e.province}
+                    </p>
+                    <p>
+                      {e.isFree ? "Free admission" : (e.price ?? "Ticketed event")}
+                      {e.url && (
+                        <>
+                          {" — "}
+                          <a href={e.url}>{e.url}</a>
+                        </>
+                      )}
+                    </p>
+                    <p>
+                      <em>Organized by {e.organizer}.</em>
+                    </p>
+                    <p>{e.description}</p>
+                  </article>
+                ))}
+              </li>
+            ))}
+          </ol>
+        )}
+        <footer>
+          <p>
+            Generated {formatEventDateLong(toIsoDate(new Date()))} ·
+            {" "}Visit onlyforseniors.ca/categories/news/ for the latest.
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }
