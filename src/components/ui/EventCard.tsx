@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Clock, Sparkles, Tag } from "lucide-react";
-import { Event, formatEventTimeRange } from "@/lib/events";
+import { MapPin, Clock, Sparkles, Tag, Calendar } from "lucide-react";
+import { Event, formatEventDate, formatEventTimeRange } from "@/lib/events";
 import { getSubcategory } from "@/lib/businesses";
 
 type Props = {
@@ -98,6 +98,14 @@ export function EventCard({ event, variant = "list" }: Props) {
           {event.description}
         </p>
         <div className="mt-4 space-y-1.5 text-base text-stone-700">
+          <p className="flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-black flex-shrink-0" strokeWidth={1.5} />
+            <span>
+              {event.startDate === event.endDate
+                ? formatEventDate(event.startDate)
+                : `${formatEventDate(event.startDate)} – ${formatEventDate(event.endDate)}`}
+            </span>
+          </p>
           <p className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-black flex-shrink-0" strokeWidth={1.5} />
             <span>
