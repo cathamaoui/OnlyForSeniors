@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Only For Seniors — Canada's trusted directory connecting senior citizens with local services, care providers, and products. Find home care, health, mobility, legal, and housing services across Canada." />
+  <meta name="keywords" content="seniors services Canada, senior care directory, home care, meals on wheels, mobility aids, elder care, OnlyForSeniors.ca" />
+  <meta name="author" content="Only For Seniors" />
+  <meta property="og:title" content="Only For Seniors | Canada's Senior Services Directory" />
+  <meta property="og:description" content="Find trusted local services for Canadian seniors — all in one place. Businesses welcome!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://onlyforseniors.ca" />
+  <meta name="theme-color" content="#059669" />
+  <title>Only For Seniors | Canada's Senior Services Directory</title>
+
+  <!-- Google Fonts — Nunito: clear, rounded, highly legible -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Three.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <!-- Page scripts (loaded after GSAP / Three) -->
+  <script defer src="js/three-hero.js"></script>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+
+  <!-- Accessibility skip link -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Info Banner -->
+  <div class="info-banner" role="banner" aria-label="Site notice">
+    🍁 Canada-wide senior services directory &nbsp;|&nbsp; Serving the 65+ community &nbsp;|&nbsp;
+    <a href="#list-business">List your business for $10/month →</a>
+  </div>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+
+        <!-- Logo -->
+        <a class="nav-logo" href="#hero" aria-label="Only For Seniors — home">
+          <div class="nav-logo-icon" aria-hidden="true">🍁</div>
+          <div class="nav-logo-text">
+            <span class="line1">Only For Seniors</span>
+            <span class="line2">OnlyForSeniors.ca</span>
+          </div>
+        </a>
+
+        <!-- Desktop links -->
+        <ul class="nav-links" role="list">
+          <li><a href="#categories">Services</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#list-business">For Businesses</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
+
+        <!-- Desktop CTA -->
+        <a href="#list-business" class="btn btn-amber nav-cta" aria-label="List your business — $10 per month">
+          List Your Business
+        </a>
+
+        <!-- Mobile hamburger -->
+        <button
+          class="nav-hamburger"
+          id="hamburger-btn"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Open navigation menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <nav id="mobile-menu" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+    <a href="#categories"    onclick="closeMobileMenu()">🏷️ Browse Services</a>
+    <a href="#how-it-works"  onclick="closeMobileMenu()">❓ How It Works</a>
+    <a href="#list-business" onclick="closeMobileMenu()">💼 For Businesses</a>
+    <a href="#testimonials"  onclick="closeMobileMenu()">⭐ Testimonials</a>
+    <a href="#footer"        onclick="closeMobileMenu()">📞 Contact Us</a>
+    <a href="#list-business" class="btn btn-amber" onclick="closeMobileMenu()">
+      💼 List Your Business — $10/mo
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+  <main id="main-content">
+
+    <!-- ======================================================
+         HERO
+         ====================================================== -->
+    <section id="hero" aria-labelledby="hero-heading">
+      <!-- Three.js canvas renders here -->
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+      <div class="container">
+        <div class="hero-inner">
+
+          <div class="hero-badge" aria-label="Canada's trusted senior services directory">
+            🍁 Canada's Trusted Senior Services Directory
+          </div>
+
+          <h1 class="hero-title" id="hero-heading">
+            Everything Seniors Need,
+            <span class="accent">All In One Place.</span>
+          </h1>
+
+          <p class="hero-sub">
+            Welcome to <strong>OnlyForSeniors.ca</strong> — your modern-day Yellow Pages for
+            Canadian seniors 65 and up. Browse hundreds of trusted local services including home
+            care, health support, transportation, legal help, and more.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#categories" class="btn btn-primary" aria-label="Browse all service categories">
+              🔍 Browse Services
+            </a>
+            <a href="#list-business" class="btn btn-outline-white" aria-label="List your business for 10 dollars per month">
+              💼 List Your Business
+            </a>
+          </div>
+
+          <p class="hero-hint" aria-label="Tap a button above to get started">
+            👆 Tap a button above to get started — it's easy!
+          </p>
+
+          <div class="hero-stats" aria-label="Platform statistics">
+            <div class="stat-item">
+              <span class="stat-number" data-count="500" aria-label="500 plus">500+</span>
+              <span class="stat-label">Listed Businesses</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-count="7" aria-label="7">7</span>
+              <span class="stat-label">Service Categories</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-count="10" aria-label="10 dollars">$10</span>
+              <span class="stat-label">Per Month to List</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <span>Scroll</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         SEARCH BAR
+         ====================================================== -->
+    <section id="search-section" aria-label="Search for services">
+      <div class="container">
+        <div class="search-wrap">
+          <p class="search-eyebrow">🔎 What service are you looking for today?</p>
+          <div class="search-bar" role="search">
+            <label for="service-search" class="sr-only">Search for senior services</label>
+            <input
+              type="search"
+              id="service-search"
+              name="service-search"
+              placeholder="e.g. Home care, meal delivery, transportation…"
+              autocomplete="off"
+              aria-label="Search for senior services"
+            />
+            <button class="search-btn" type="button" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CATEGORIES — Yellow-Pages style directory
+         ====================================================== -->
+    <section id="categories" aria-labelledby="categories-heading">
+      <div class="container">
+
+        <header class="categories-header reveal">
+          <span class="section-label">Service Directory</span>
+          <h2 class="section-title" id="categories-heading">
+            Browse All Senior Service Categories
+          </h2>
+          <p class="section-sub">
+            Think of this as your modern Yellow Pages — every service a Canadian senior may need,
+            organized by category and searchable in seconds.
+          </p>
+        </header>
+
+        <div class="category-grid" role="list" aria-label="Service categories">
+
+          <!-- 1. Daily In-Home Support & Personal Care -->
+          <article class="cat-card reveal" data-cat="home" role="listitem" tabindex="0"
+                   aria-label="Daily In-Home Support and Personal Care services">
+            <div class="cat-card-header">
+              <div class="cat-icon-wrap" aria-hidden="true">🏠</div>
+              <h3 class="cat-title">Daily In-Home Support &amp; Personal Care</h3>
+            </div>
+            <span class="cat-count" aria-label="Approximately 120 listings">~120 listings</span>
+            <p class="cat-desc">
+              Stay safely and comfortably at home with professional personal care, meal preparation,
+              housekeeping, and friendly companionship services tailored for seniors.
+            </p>
+            <div class="cat-tags" aria-label="Sub-categories">
+              <span class="cat-tag">Personal Care</span>
+              <span class="cat-tag">Meal Services</span>
+              <span class="cat-tag">Housekeeping</span>
+              <span class="cat-tag">Companionship</span>
+            </div>
+          </article>
+
+          <!-- 2. Home Maintenance & Safety Modifications -->
+          <article class="cat-card reveal" data-cat="maint" role="listitem" tabindex="0"
+                   aria-label="Home Maintenance and Safety Modifications services">
+            <div class="cat-card-header">
+              <div class="cat-icon-wrap" aria-hidden="true">🛠️</div>
+              <h3 class="cat-title">Home Maintenance &amp; Safety Modifications</h3>
+            </div>
+            <span class="cat-count" aria-label="Approximately 95 listings">~95 listings</span>
+            <p class="cat-desc">
+              From snow removal and lawn care to installing grab bars and wheelchair ramps — keep
+              your home safe, accessible, and well-maintained all year round.
+            </p>
+            <div class="cat-tags" aria-label="Sub-categories">
+              <span class="cat-tag">Yard Care</span>
+              <span class="cat-tag">Handyman</span>
+              <span class="cat-tag">Safety Mods</span>
+              <span class="cat-tag">Downsizing</span>
+            </div>
+          </article>
+
+          <!-- 3. Health & Wellness Management -->
+          <article class="cat-card reveal" data-cat="health" role="listitem" tabindex="0"
+                   aria-label="Health and Wellness Management services">
+            <div class="cat-card-header">
+              <div class="cat-icon-wrap" aria-hidden="true">🩺</div>
+              <h3 class="cat-title">Health &amp; Wellness Management</h3>
+            </div>
+            <span class="cat-count" aria-label="Approximately 150 listings">~150 listings</span>
+            <p class="cat-desc">
+              Medication reminders, physiotherapy, foot care clinics, dementia support, and
+              medical equipment — all the health services seniors depend on.
+            </p>
+            <div class="cat-tags" aria-label="Sub-categories">
+              <span class="cat-tag">Medication</span>
+              <span class="cat-tag">Physiotherapy</span>
+              <span class="cat-tag">Memory Care</span>
+              <span class="cat-tag">Medical Equipment</span>
+            </div>
+          </article>
+
+          <!-- 4. Mobility & Transportation -->
+          <article class="cat-card reveal" data-cat="mobility" role="listitem" tabindex="0"
+                   aria-label="Mobility and Transportation services">
+            <div class="cat-card-header">
+              <div class="cat-icon-wrap" aria-hidden="true">🚗</div>
+              <h3 class="cat-title">Mobility &amp; Transportation</h3>
+            </div>
+            <span class="cat-count" aria-label="Approximately 75 listings">~75 listings</span>
+            <p class="cat-desc">
+              Safe, reliable rides to doctor appointments, pharmacies, and errands. Wheelchair-
+              accessible vehicles and dial-a-ride services available across Canada.
+            </p>
+            <div class="cat-tags" aria-label="Sub-categories">
+              <span class="cat-tag">Medical Rides</span>
+              <span class="cat-tag">Paratransit</span>
+              <span class="cat-tag">Errand Help</span>
+            </div>
+          </article>
+
+          <!-- 5. Legal, Financial, & Government Benefits -->
+          <article class="cat-card reveal" data-cat="legal" role="listitem" tabindex="0"
+                   aria-label="Legal, Financial, and Government Benefits services">
+            <div class="cat-card-header">
+              <div class="cat-icon-wrap" aria-hidden="true">📝</div>
+              <h3 class="cat-title">Legal, Financial &amp; Government Benefits</h3>
+            </div>
+            <span class="cat-count" aria-label="Approximately 60 listings">~60 listings</span>
+            <p class="cat-desc">
+              Estate planning, Power of Attorney, CPP/OAS/GIS navigation, tax credits (DTC), and
+              protection from elder financial abuse. Your financial well-being matters.
+            </p>
+            <div class="cat-tags" aria-label="Sub-categories">
+              <span class="cat-tag">Estate Planning</span>
+              <span class="cat-tag">Tax Help</span>
+              <span class="cat-tag">Benefits (CPP/OAS)</span>
+              <span class="cat-tag">Elder Protection</span>
+            </div>
+          </article>
+
+          <!-- 6. Community, Recreation, & Caregiver Relief -->
+          <article class="cat-card reveal" data-cat="community" role="listitem" tabindex="0"
+                   aria-label="Community, Recreation, and Caregiver Relief services">
+            <div class="cat-card-header">
+              <div class="cat-icon-wrap" aria-hidden="true">🎨</div>
+              <h3 class="cat-title">Community, Recreation &amp; Caregiver Relief</h3>
+            </div>
+            <span class="cat-count" aria-label="Approximately 85 listings">~85 listings</span>
+            <p class="cat-desc">
+              Fitness classes, hobby clubs, respite care for family caregivers, and technology
+              training (smartphones, tablets) to keep seniors connected and active.
+            </p>
+            <div class="cat-tags" aria-label="Sub-categories">
+              <span class="cat-tag">Senior Centres</span>
+              <span class="cat-tag">Respite Care</span>
+              <span class="cat-tag">Tech Training</span>
+              <span class="cat-tag">Social Activities</span>
+            </div>
+          </article>
+
+          <!-- 7. Alternative Housing & Residential Care -->
+          <article class="cat-card reveal" data-cat="housing" role="listitem" tabindex="0"
+                   aria-label="Alternative Housing and Residential Care services">
+            <div class="cat-card-header">
+              <div class="cat-icon-wrap" aria-hidden="true">🏢</div>
+              <h3 class="cat-title">Alternative Housing &amp; Residential Care</h3>
+            </div>
+            <span class="cat-count" aria-label="Approximately 110 listings">~110 listings</span>
+            <p class="cat-desc">
+              Independent living communities, assisted living / special care homes, and nursing
+              facilities — when the right home means more support and peace of mind.
+            </p>
+            <div class="cat-tags" aria-label="Sub-categories">
+              <span class="cat-tag">Independent Living</span>
+              <span class="cat-tag">Assisted Living</span>
+              <span class="cat-tag">Nursing Homes</span>
+            </div>
+          </article>
+
+        </div><!-- /.category-grid -->
+      </div>
+    </section>
+
+    <!-- ======================================================
+         HOW IT WORKS
+         ====================================================== -->
+    <section id="how-it-works" aria-labelledby="hiw-heading">
+      <div class="container">
+
+        <div class="text-center reveal">
+          <span class="section-label" style="background:rgba(255,255,255,.1);color:var(--amber-400);">How It Works</span>
+          <h2 class="section-title" style="color:var(--white);" id="hiw-heading">
+            Finding Help Has Never Been Easier
+          </h2>
+          <p class="section-sub" style="color:rgba(255,255,255,.75);margin-inline:auto;">
+            Four simple steps — whether you're a senior looking for services or a business ready to reach Canada's growing senior community.
+          </p>
+        </div>
+
+        <div class="hiw-grid">
+
+          <div class="hiw-step reveal" aria-label="Step 1: Search">
+            <div class="hiw-num" aria-hidden="true">1</div>
+            <h3 class="hiw-title">Search</h3>
+            <p class="hiw-body">
+              Type what you need into the search bar — home care, meal delivery, transportation — or browse by category below.
+            </p>
+          </div>
+
+          <div class="hiw-step reveal" aria-label="Step 2: Compare">
+            <div class="hiw-num" aria-hidden="true">2</div>
+            <h3 class="hiw-title">Compare</h3>
+            <p class="hiw-body">
+              Read business profiles, reviews, and contact details. All providers are senior-friendly and Canada-based.
+            </p>
+          </div>
+
+          <div class="hiw-step reveal" aria-label="Step 3: Connect">
+            <div class="hiw-num" aria-hidden="true">3</div>
+            <h3 class="hiw-title">Connect</h3>
+            <p class="hiw-body">
+              Call, email, or message a provider directly — no middleman, no hidden fees.
+            </p>
+          </div>
+
+          <div class="hiw-step reveal" aria-label="Step 4: Get Help">
+            <div class="hiw-num" aria-hidden="true">4</div>
+            <h3 class="hiw-title">Get Help</h3>
+            <p class="hiw-body">
+              Receive the care or service you need, right in your home or community — at a time that works for you.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         LIST YOUR BUSINESS
+         ====================================================== -->
+    <section id="list-business" aria-labelledby="biz-heading">
+      <div class="container">
+        <div class="list-biz-inner">
+
+          <!-- Left: copy -->
+          <div class="list-biz-copy reveal">
+            <div class="list-biz-badge">💼 For Business Owners</div>
+            <h2 class="list-biz-title" id="biz-heading">
+              Reach Thousands of Canadian Seniors Every Month
+            </h2>
+            <p class="list-biz-body">
+              Are you a business owner that works with seniors — or wants to? Join
+              <strong>OnlyForSeniors.ca</strong> and list your services in front of the fastest-growing
+              demographic in Canada. It's just <strong>$10 per month</strong>. Simple. No contracts.
+              Cancel any time.
+            </p>
+
+            <ul class="feature-list" role="list" aria-label="Benefits of listing your business">
+              <li class="feature-item">
+                <div class="feature-icon" aria-hidden="true">✅</div>
+                <span>Appear in our searchable, mobile-friendly directory</span>
+              </li>
+              <li class="feature-item">
+                <div class="feature-icon" aria-hidden="true">✅</div>
+                <span>Add your logo, description, photos, and contact info</span>
+              </li>
+              <li class="feature-item">
+                <div class="feature-icon" aria-hidden="true">✅</div>
+                <span>Receive direct inquiries from seniors and their families</span>
+              </li>
+              <li class="feature-item">
+                <div class="feature-icon" aria-hidden="true">✅</div>
+                <span>Collect star ratings and reviews to build trust</span>
+              </li>
+              <li class="feature-item">
+                <div class="feature-icon" aria-hidden="true">✅</div>
+                <span>$10/month — no setup fees, no long-term contracts</span>
+              </li>
+              <li class="feature-item">
+                <div class="feature-icon" aria-hidden="true">✅</div>
+                <span>Dedicated support from our friendly Canadian team</span>
+              </li>
+            </ul>
+
+            <a href="#" class="btn btn-primary" aria-label="Get started and list your business for 10 dollars per month">
+              🚀 Get Started — $10/Month
+            </a>
+            <p style="font-size:var(--text-xs);color:var(--gray-500);margin-top:.75rem;">
+              👆 Tap the button above to create your listing — it only takes a few minutes!
+            </p>
+          </div>
+
+          <!-- Right: pricing card -->
+          <div class="reveal">
+            <div class="pricing-card" aria-label="Monthly subscription plan — $10 per month">
+              <p class="pricing-name">Monthly Listing Plan</p>
+              <p class="pricing-price" aria-label="10 dollars">$10</p>
+              <p class="pricing-period">per month · cancel anytime</p>
+
+              <ul class="pricing-features" role="list" aria-label="Plan features">
+                <li class="pricing-feature">
+                  <span class="check" aria-hidden="true">✔</span>
+                  Full business profile listing
+                </li>
+                <li class="pricing-feature">
+                  <span class="check" aria-hidden="true">✔</span>
+                  Searchable by category &amp; location
+                </li>
+                <li class="pricing-feature">
+                  <span class="check" aria-hidden="true">✔</span>
+                  Direct contact from seniors
+                </li>
+                <li class="pricing-feature">
+                  <span class="check" aria-hidden="true">✔</span>
+                  Reviews &amp; star ratings
+                </li>
+                <li class="pricing-feature">
+                  <span class="check" aria-hidden="true">✔</span>
+                  Mobile &amp; tablet optimized
+                </li>
+                <li class="pricing-feature">
+                  <span class="check" aria-hidden="true">✔</span>
+                  Canadian customer support
+                </li>
+                <li class="pricing-feature">
+                  <span class="check" aria-hidden="true">✔</span>
+                  No setup fee — start today
+                </li>
+              </ul>
+
+              <a href="#" class="btn btn-primary" style="width:100%;"
+                 aria-label="Subscribe now for 10 dollars per month">
+                Subscribe Now — $10/Month
+              </a>
+              <p class="pricing-hint">No credit card tricks. No hidden fees. Just $10/month.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         TRUST STATS
+         ====================================================== -->
+    <section id="trust-band" aria-label="Platform statistics">
+      <div class="container">
+        <div class="trust-grid">
+
+          <div class="trust-item">
+            <p class="trust-num" data-count="500" aria-live="polite">500+</p>
+            <p class="trust-label">Businesses Listed</p>
+          </div>
+
+          <div class="trust-item">
+            <p class="trust-num" data-count="7" aria-live="polite">7</p>
+            <p class="trust-label">Service Categories</p>
+          </div>
+
+          <div class="trust-item">
+            <p class="trust-num" data-count="10" aria-live="polite">$10</p>
+            <p class="trust-label">Per Month to List</p>
+          </div>
+
+          <div class="trust-item">
+            <p class="trust-num" aria-live="polite">🍁 CA</p>
+            <p class="trust-label">Canada-Wide Coverage</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         TESTIMONIALS
+         ====================================================== -->
+    <section id="testimonials" aria-labelledby="testi-heading">
+      <div class="container">
+
+        <div class="text-center reveal">
+          <span class="section-label">Testimonials</span>
+          <h2 class="section-title" id="testi-heading">What Seniors &amp; Families Are Saying</h2>
+          <p class="section-sub">Real stories from real Canadians who found help through Only For Seniors.</p>
+        </div>
+
+        <div class="testi-grid">
+
+          <div class="testi-card reveal">
+            <div class="testi-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testi-quote" aria-hidden="true">"</p>
+            <p class="testi-body">
+              I found a wonderful meal delivery service in my area within minutes. The website is so
+              easy to read and the buttons are big enough for my old fingers! I've recommended it to
+              everyone at my bridge club.
+            </p>
+            <div class="testi-author">
+              <div class="testi-avatar" aria-hidden="true">👵</div>
+              <div>
+                <p class="testi-name">Margaret T.</p>
+                <p class="testi-role">Retired, Moncton NB</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card reveal">
+            <div class="testi-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testi-quote" aria-hidden="true">"</p>
+            <p class="testi-body">
+              As a home care provider in Ontario, listing on Only For Seniors has brought us 12 new
+              clients in our first month. Best $10 I've ever spent on marketing. Seniors and their
+              families find us easily.
+            </p>
+            <div class="testi-author">
+              <div class="testi-avatar" aria-hidden="true">👨‍⚕️</div>
+              <div>
+                <p class="testi-name">David M.</p>
+                <p class="testi-role">Home Care Agency Owner, Ottawa ON</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testi-card reveal">
+            <div class="testi-stars" aria-label="5 stars">★★★★★</div>
+            <p class="testi-quote" aria-hidden="true">"</p>
+            <p class="testi-body">
+              My father needed wheelchair-accessible transportation and I found three vetted providers
+              in his city within two minutes. This site is a lifesaver for families trying to help
+              their aging parents from a distance.
+            </p>
+            <div class="testi-author">
+              <div class="testi-avatar" aria-hidden="true">👩</div>
+              <div>
+                <p class="testi-name">Sarah K.</p>
+                <p class="testi-role">Caregiver, Calgary AB</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CTA BAND
+         ====================================================== -->
+    <section id="cta-band" aria-label="Call to action">
+      <div class="container" style="position:relative;z-index:1;">
+        <h2 class="cta-title reveal">Ready to Find the Help You Deserve?</h2>
+        <p class="cta-sub reveal">
+          Whether you're a senior looking for trusted services or a business ready to grow,
+          <strong>Only For Seniors</strong> connects you with the right people — Canada-wide.
+        </p>
+        <div class="cta-actions reveal">
+          <a href="#categories" class="btn btn-secondary" aria-label="Browse all service categories now">
+            🔍 Browse Services
+          </a>
+          <a href="#list-business" class="btn btn-amber" aria-label="List your business for 10 dollars per month">
+            💼 List Your Business — $10/Month
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- /#main-content -->
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer id="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Brand -->
+        <div class="footer-brand">
+          <a class="nav-logo" href="#hero" aria-label="Only For Seniors — back to top">
+            <div class="nav-logo-icon" aria-hidden="true">🍁</div>
+            <div class="nav-logo-text">
+              <span class="line1">Only For Seniors</span>
+              <span class="line2">OnlyForSeniors.ca</span>
+            </div>
+          </a>
+          <p class="footer-tagline">
+            Canada's trusted directory connecting seniors 65+ with local services, care, and products.
+            Your modern Yellow Pages — always nearby, always helpful.
+          </p>
+        </div>
+
+        <!-- Services -->
+        <div>
+          <p class="footer-col-title">Service Categories</p>
+          <ul class="footer-links" role="list">
+            <li><a href="#categories">🏠 In-Home Support</a></li>
+            <li><a href="#categories">🛠️ Home Maintenance</a></li>
+            <li><a href="#categories">🩺 Health &amp; Wellness</a></li>
+            <li><a href="#categories">🚗 Transportation</a></li>
+            <li><a href="#categories">📝 Legal &amp; Financial</a></li>
+            <li><a href="#categories">🎨 Community &amp; Recreation</a></li>
+            <li><a href="#categories">🏢 Housing &amp; Care Homes</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <p class="footer-col-title">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#list-business">List Your Business</a></li>
+            <li><a href="#">Advertise</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Help -->
+        <div>
+          <p class="footer-col-title">Support</p>
+          <ul class="footer-links" role="list">
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Accessibility</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+          </ul>
+          <div class="footer-social" style="margin-top:1.5rem;" aria-label="Social media links">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Twitter / X">🐦</a>
+            <a href="#" aria-label="Instagram">📷</a>
+          </div>
+        </div>
+
+      </div><!-- /.footer-grid -->
+
+      <div class="footer-bottom">
+        <p class="footer-domain">OnlyForSeniors.ca</p>
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2025</span> Only For Seniors. All rights reserved.
+          Proudly serving Canadian seniors 65+ from coast to coast. 🍁
+        </p>
+        <p class="footer-copy" style="font-size:.75rem;">
+          This website is designed with senior accessibility in mind. If you need assistance,
+          please call us or ask a family member for help.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
